@@ -94,21 +94,30 @@
 			$stage.on('click', function () { $gallery.toggleClass('pd-has-stage'); $stage.toggleClass('is-collapsed'); });
 		}
 		function moulding(W, H, f, colour, kind) {
-			var base = colour, hi = shade(base, kind === 'box' ? 0.18 : 0.42), mid = shade(base, 0.08), lo = shade(base, -0.35), lip = shade(base, -0.55), edge = shade(base, 0.25);
+			var base = colour, flat = kind === 'float';
 			var metal = colour === FRAME.gold || colour === FRAME.silver, wood = colour === FRAME.natural || colour === FRAME.brown;
-			var stops = kind === 'box' ? [[0, hi], [0.06, base], [0.85, base], [0.93, lo], [1, lip]] : metal ? [[0, edge], [0.15, hi], [0.3, base], [0.5, hi], [0.65, base], [0.8, lo], [0.9, mid], [1, lip]] : [[0, edge], [0.12, hi], [0.3, base], [0.55, mid], [0.75, lo], [0.88, base], [1, lip]];
+			var hi = shade(base, flat ? (metal ? 0.3 : 0.14) : (kind === 'box' ? 0.18 : 0.42)), mid = shade(base, 0.08), lo = shade(base, flat ? -0.12 : -0.35), lip = shade(base, -0.55), edge = shade(base, 0.25);
+			/* Float is a flat tray face — no bevel, so a soft two-tone tilt is all it gets. Classic/box keep the fuller bevel profile. */
+			var stops = flat ? [[0, hi], [0.5, base], [1, lo]] : kind === 'box' ? [[0, hi], [0.06, base], [0.85, base], [0.93, lo], [1, lip]] : metal ? [[0, edge], [0.15, hi], [0.3, base], [0.5, hi], [0.65, base], [0.8, lo], [0.9, mid], [1, lip]] : [[0, edge], [0.12, hi], [0.3, base], [0.55, mid], [0.75, lo], [0.88, base], [1, lip]];
 			function grad(id, x1, y1, x2, y2) { return '<linearGradient id="' + id + '" x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '">' + stops.map(function (st) { return '<stop offset="' + st[0] + '" stop-color="' + st[1] + '"/>'; }).join('') + '</linearGradient>'; }
 			var id = 'pdm' + Math.random().toString(36).slice(2, 7);
 			var defs = grad(id + 't', 0, 0, 0, 1) + grad(id + 'l', 0, 0, 1, 0) + grad(id + 'b', 0, 1, 0, 0) + grad(id + 'r', 1, 0, 0, 0);
 			if (wood) {
-				defs += '<pattern id="' + id + 'gh" patternUnits="userSpaceOnUse" width="0.9" height="0.13"><path d="M0 0.03 H0.9 M0 0.09 H0.6" stroke="rgba(0,0,0,.10)" stroke-width="0.012"/></pattern>';
-				defs += '<pattern id="' + id + 'gv" patternUnits="userSpaceOnUse" width="0.13" height="0.9"><path d="M0.03 0 V0.9 M0.09 0 V0.6" stroke="rgba(0,0,0,.10)" stroke-width="0.012"/></pattern>';
+				defs += '<pattern id="' + id + 'gh" patternUnits="userSpaceOnUse" width="0.9" height="0.13"><path d="M0 0.03 H0.9 M0 0.09 H0.6" stroke="rgba(0,0,0,' + (flat ? '.14' : '.10') + ')" stroke-width="0.012"/></pattern>';
+				defs += '<pattern id="' + id + 'gv" patternUnits="userSpaceOnUse" width="0.13" height="0.9"><path d="M0.03 0 V0.9 M0.09 0 V0.6" stroke="rgba(0,0,0,' + (flat ? '.14' : '.10') + ')" stroke-width="0.012"/></pattern>';
 			}
 			var top = '0,0 ' + W + ',0 ' + (W - f) + ',' + f + ' ' + f + ',' + f, left = '0,0 ' + f + ',' + f + ' ' + f + ',' + (H - f) + ' 0,' + H, bottom = '0,' + H + ' ' + f + ',' + (H - f) + ' ' + (W - f) + ',' + (H - f) + ' ' + W + ',' + H, right = W + ',0 ' + W + ',' + H + ' ' + (W - f) + ',' + (H - f) + ' ' + (W - f) + ',' + f;
 			var g = function (pts, gid, pat) { return '<polygon points="' + pts + '" fill="url(#' + gid + ')"/>' + (pat ? '<polygon points="' + pts + '" fill="url(#' + pat + ')"/>' : ''); };
-			return '<defs>' + defs + '</defs>' + g(top, id + 't', wood ? id + 'gh' : '') + g(bottom, id + 'b', wood ? id + 'gh' : '') + g(left, id + 'l', wood ? id + 'gv' : '') + g(right, id + 'r', wood ? id + 'gv' : '') +
-				'<path d="M' + f + ',' + f + ' L' + (W - f) + ',' + f + ' L' + (W - f) + ',' + (H - f) + ' L' + f + ',' + (H - f) + ' Z" fill="none" stroke="rgba(0,0,0,.45)" stroke-width="' + (f * 0.06) + '"/>' +
-				'<path d="M0,0 L' + f + ',' + f + ' M' + W + ',0 L' + (W - f) + ',' + f + ' M0,' + H + ' L' + f + ',' + (H - f) + ' M' + W + ',' + H + ' L' + (W - f) + ',' + (H - f) + '" stroke="rgba(0,0,0,.18)" stroke-width="' + (f * 0.04) + '"/>';
+			var body = '<defs>' + defs + '</defs>' + g(top, id + 't', wood ? id + 'gh' : '') + g(bottom, id + 'b', wood ? id + 'gh' : '') + g(left, id + 'l', wood ? id + 'gv' : '') + g(right, id + 'r', wood ? id + 'gv' : '');
+			/* Inner rabbet/lip line — real on classic and box mouldings, absent on a float tray face. */
+			if (!flat) {
+				body += '<path d="M' + f + ',' + f + ' L' + (W - f) + ',' + f + ' L' + (W - f) + ',' + (H - f) + ' L' + f + ',' + (H - f) + ' Z" fill="none" stroke="rgba(0,0,0,.45)" stroke-width="' + (f * 0.06) + '"/>';
+			}
+			body += '<path d="M0,0 L' + f + ',' + f + ' M' + W + ',0 L' + (W - f) + ',' + f + ' M0,' + H + ' L' + f + ',' + (H - f) + ' M' + W + ',' + H + ' L' + (W - f) + ',' + (H - f) + '" stroke="rgba(0,0,0,' + (flat ? '.28' : '.18') + ')" stroke-width="' + (f * 0.04) + '"/>';
+			if (flat) {
+				body += '<path d="M' + f + ',' + f + ' L' + (W - f) + ',' + f + ' M' + f + ',' + f + ' L' + f + ',' + (H - f) + '" stroke="rgba(255,255,255,.22)" stroke-width="' + (f * 0.05) + '"/>';
+			}
+			return body;
 		}
 		function renderStage(o) {
 			if (!$stage) { return; }
@@ -116,7 +125,7 @@
 			$stage.attr('data-kind', o ? o.kind : 'none');
 			if (!o || !o.w_in) { $f.css({ padding: 0, boxShadow: 'none' }); $svg.hide(); $m.css({ padding: 0, boxShadow: 'none' }); $p.css({ aspectRatio: 'auto', padding: 0, boxShadow: 'none' }); $p.find('.pd-edge').hide(); $stage.find('.pd-stage-cap').text(''); return; }
 			var W = o.w_in, H = o.h_in;
-			var frameIn = { classic: 0.79, box: 0.79, float: 0.6 }[o.kind] || 0, matIn = o.mat_in || 0, gapIn = { float: 0.2, box: 0.31 }[o.kind] || 0;
+			var frameIn = { classic: 0.79, box: 0.79, float: 0.47 }[o.kind] || 0, matIn = o.mat_in || 0, gapIn = { float: 0.2, box: 0.31 }[o.kind] || 0;
 			var outerW = W + 2 * (frameIn + gapIn), outerH = H + 2 * (frameIn + gapIn), pct = function (inches) { return (inches / outerW * 100) + '%'; };
 			var colour = FRAME[o.choice] || '#333';
 			$f.css({ padding: pct(frameIn), boxShadow: frameIn ? '0 18px 40px -12px rgba(0,0,0,.45), 0 4px 10px rgba(0,0,0,.15)' : (o.kind === 'wrap' ? '9px 9px 0 -1px rgba(0,0,0,.16), 0 14px 32px rgba(0,0,0,.28)' : '0 8px 24px rgba(0,0,0,.18)') });
