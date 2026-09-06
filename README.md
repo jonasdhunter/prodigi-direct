@@ -15,6 +15,13 @@ Prodigi's own WooCommerce connector needs each product variant mapped one at a t
 - **Catalogue check** every night: every SKU in use is re-verified at Prodigi and re-quoted. A retired SKU hides its variations; a cost move over 5% is reported by email and on the Prints page.
 - **Sandbox first**: a persistent banner while in test mode, and real orders are never sent automatically in test mode.
 
+## The product page (storefront module, on by default)
+
+- **Material → size → frame picker** replaces the single variation dropdown: material cards with a one-line description (and a real photo of each material if the artist adds one, shown on hover or tap), size chips with prices, frame-colour swatches for framed choices. It drives WooCommerce's own variation select underneath, so price, stock and add-to-cart stay stock WooCommerce, and the plain dropdown remains for no-JS visitors.
+- **Artist's recommendation**: on the Prints tab, tick ★ on one size and optionally write one sentence. The product page features it above the picker with a "Choose this" button and pre-selects it.
+- **The story + details**: the product's normal description becomes "The story" (so the artist edits it where she already edits), signed with the artist's name; beside it a details panel lists the materials offered (with descriptions), the sizes, and how printing works. WooCommerce's Description / Additional information tabs are removed on print products. Style hooks: `--pd-story-font`, `--pd-story-size`.
+- Settings: switch the module off, set the artist's name, add material photos (WooCommerce → Prints).
+
 ## Catalogue
 
 `catalogue/prodigi.json` holds eight families and 124 SKUs, every one verified against Prodigi's API on 2026-09-06 with a live US quote. Each family links to its Prodigi product page, shown in the admin:
