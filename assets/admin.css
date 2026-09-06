@@ -1,0 +1,33 @@
+.prodigi-panel h3{margin:14px 12px 6px;font-size:13px}
+.prodigi-block{margin:0 12px 12px;padding:10px 12px;background:#fafafa;border:1px solid #e5e5e5;border-radius:4px}
+.prodigi-master{display:flex;gap:12px;align-items:center}
+.prodigi-thumb{width:64px;height:64px;object-fit:cover;border-radius:3px;background:#eee}
+.prodigi-offer{display:flex;gap:32px}
+.prodigi-col{display:flex;flex-direction:column;gap:3px;min-width:220px}
+.prodigi-check{display:block;margin:0!important;padding:0!important;font-weight:normal!important;width:auto!important}
+.prodigi-sub{margin-left:22px!important;color:#555}
+.prodigi-choices{margin:2px 0 6px}
+.prodigi-table{margin:0 12px 8px;width:calc(100% - 24px)}
+.prodigi-table th,.prodigi-book th{font-weight:600}
+.prodigi-details{color:#888}
+.prodigi-warn{color:#b32d2e}
+.prodigi-loss td{background:#fff3f3}
+.prodigi-tag{display:inline-block;background:#f0b849;color:#333;font-size:10px;padding:1px 6px;border-radius:9px;vertical-align:middle}
+.prodigi-dot{display:inline-block;width:10px;height:10px;border-radius:50%;vertical-align:middle;background:#ccc}
+.prodigi-clean{background:#46b450}.prodigi-ok{background:#f0b849}.prodigi-low{background:#dc3232}
+.prodigi-pill{display:inline-block;padding:2px 8px;border-radius:10px;font-size:12px;background:#eee;color:#333;white-space:nowrap}
+.prodigi-waiting{background:#f0b849}.prodigi-sent{background:#c8e1ff}.prodigi-printing{background:#c8e1ff}.prodigi-shipped{background:#c6f0c6}
+.prodigi-problem{background:#f8c9c9;color:#8a1f1f}.prodigi-cancelled{background:#e5e5e5}.prodigi-manual{background:#e5e5e5}.prodigi-none{background:transparent;color:#999}
+.prodigi-box p{margin:6px 0}.prodigi-lines{margin:0 0 6px 0;padding-left:16px;list-style:disc}
+.prodigi-problem{color:#8a1f1f;background:#fff3f3;padding:6px 8px;border-radius:3px}
+.prodigi-actions .button{margin:2px 4px 2px 0}
+.prodigi-wrap .prodigi-card{background:#fff;border:1px solid #dcdcde;border-radius:4px;padding:14px 18px;margin:14px 0;max-width:1200px}
+.prodigi-wrap h1 small{font-size:12px;color:#888;font-weight:normal}
+.prodigi-checks{margin:0;list-style:none}.prodigi-checks li{padding:4px 0 4px 24px;position:relative}
+.prodigi-checks li::before{content:"";position:absolute;left:4px;top:9px;width:10px;height:10px;border-radius:50%;background:#ccc}
+.prodigi-checks li.ok::before{background:#46b450}.prodigi-checks li.bad::before{background:#dc3232}.prodigi-checks li.warn::before{background:#f0b849}
+.prodigi-checks form.inline{display:inline;margin-left:8px}
+.prodigi-scroll{overflow-x:auto}.prodigi-book td{vertical-align:top;white-space:nowrap}.prodigi-book input{width:70px}.prodigi-book small{display:block;color:#666;line-height:1.3}
+.prodigi-activity{margin:0;list-style:none}.prodigi-activity li{padding:3px 0;border-bottom:1px solid #f0f0f0}.prodigi-activity li small{color:#888;margin-right:6px}
+.prodigi-activity li.warning{color:#7a5a00}.prodigi-activity li.error{color:#8a1f1f}
+details.prodigi-card summary{cursor:pointer;list-style:none}details.prodigi-card summary h2{display:inline-block;margin:0}

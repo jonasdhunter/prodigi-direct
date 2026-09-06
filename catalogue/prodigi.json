@@ -1,0 +1,1661 @@
+{
+ "version": "2026-09-06",
+ "verified_at": "2026-09-06",
+ "basis": "US, Budget shipping, USD, one item",
+ "families": [
+  {
+   "key": "paper",
+   "label": "Fine Art Paper",
+   "short": "Paper",
+   "group": "print",
+   "sku_pattern": "GLOBAL-FAP-{WxH}",
+   "required_attributes": [],
+   "fixed_attributes": {},
+   "sizing": "fitPrintArea",
+   "print_area": "default",
+   "sizes": [
+    {
+     "key": "8x8",
+     "sku": "GLOBAL-FAP-8x8",
+     "width_in": 8,
+     "height_in": 8,
+     "print_area_px": [
+      2400,
+      2400
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 8.0,
+      "ship": 6.85
+     }
+    },
+    {
+     "key": "8x10",
+     "sku": "GLOBAL-FAP-8x10",
+     "width_in": 8,
+     "height_in": 10,
+     "print_area_px": [
+      2400,
+      3000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 9.0,
+      "ship": 6.85
+     }
+    },
+    {
+     "key": "12x12",
+     "sku": "GLOBAL-FAP-12x12",
+     "width_in": 12,
+     "height_in": 12,
+     "print_area_px": [
+      3600,
+      3600
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 13.0,
+      "ship": 6.85
+     }
+    },
+    {
+     "key": "11x14",
+     "sku": "GLOBAL-FAP-11x14",
+     "width_in": 11,
+     "height_in": 14,
+     "print_area_px": [
+      3307,
+      4192
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 14.0,
+      "ship": 7.1
+     }
+    },
+    {
+     "key": "16x16",
+     "sku": "GLOBAL-FAP-16x16",
+     "width_in": 16,
+     "height_in": 16,
+     "print_area_px": [
+      4800,
+      4800
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 14.0,
+      "ship": 7.1
+     }
+    },
+    {
+     "key": "16x20",
+     "sku": "GLOBAL-FAP-16x20",
+     "width_in": 16,
+     "height_in": 20,
+     "print_area_px": [
+      4800,
+      6000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 15.0,
+      "ship": 7.1
+     }
+    },
+    {
+     "key": "20x20",
+     "sku": "GLOBAL-FAP-20x20",
+     "width_in": 20,
+     "height_in": 20,
+     "print_area_px": [
+      6000,
+      6000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 16.0,
+      "ship": 7.1
+     }
+    },
+    {
+     "key": "24x24",
+     "sku": "GLOBAL-FAP-24x24",
+     "width_in": 24,
+     "height_in": 24,
+     "print_area_px": [
+      7200,
+      7200
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 20.0,
+      "ship": 7.1
+     }
+    },
+    {
+     "key": "24x30",
+     "sku": "GLOBAL-FAP-24x30",
+     "width_in": 24,
+     "height_in": 30,
+     "print_area_px": [
+      7200,
+      9000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 20.0,
+      "ship": 12.65
+     }
+    },
+    {
+     "key": "30x30",
+     "sku": "GLOBAL-FAP-30x30",
+     "width_in": 30,
+     "height_in": 30,
+     "print_area_px": [
+      9000,
+      9000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 23.0,
+      "ship": 12.65
+     }
+    },
+    {
+     "key": "30x40",
+     "sku": "GLOBAL-FAP-30x40",
+     "width_in": 30,
+     "height_in": 40,
+     "print_area_px": [
+      9000,
+      12000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 28.0,
+      "ship": 14.65
+     }
+    }
+   ]
+  },
+  {
+   "key": "canvas-rolled",
+   "label": "Rolled Canvas",
+   "short": "Rolled Canvas",
+   "group": "canvas",
+   "sku_pattern": "GLOBAL-CAN-ROL-SC-{WxH}",
+   "required_attributes": [],
+   "fixed_attributes": {},
+   "sizing": "fitPrintArea",
+   "print_area": "default",
+   "sizes": [
+    {
+     "key": "12x12",
+     "sku": "GLOBAL-CAN-ROL-SC-12x12",
+     "width_in": 12,
+     "height_in": 12,
+     "print_area_px": [
+      3600,
+      3600
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 9.0,
+      "ship": 6.85
+     }
+    },
+    {
+     "key": "11x14",
+     "sku": "GLOBAL-CAN-ROL-SC-11x14",
+     "width_in": 11,
+     "height_in": 14,
+     "print_area_px": [
+      3300,
+      4200
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 10.0,
+      "ship": 7.1
+     }
+    },
+    {
+     "key": "16x16",
+     "sku": "GLOBAL-CAN-ROL-SC-16x16",
+     "width_in": 16,
+     "height_in": 16,
+     "print_area_px": [
+      4800,
+      4800
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 11.0,
+      "ship": 7.1
+     }
+    },
+    {
+     "key": "16x20",
+     "sku": "GLOBAL-CAN-ROL-SC-16x20",
+     "width_in": 16,
+     "height_in": 20,
+     "print_area_px": [
+      4800,
+      6000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 12.0,
+      "ship": 7.1
+     }
+    },
+    {
+     "key": "20x20",
+     "sku": "GLOBAL-CAN-ROL-SC-20x20",
+     "width_in": 20,
+     "height_in": 20,
+     "print_area_px": [
+      6000,
+      6000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 14.0,
+      "ship": 7.1
+     }
+    },
+    {
+     "key": "24x24",
+     "sku": "GLOBAL-CAN-ROL-SC-24x24",
+     "width_in": 24,
+     "height_in": 24,
+     "print_area_px": [
+      7200,
+      7200
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 17.0,
+      "ship": 7.1
+     }
+    },
+    {
+     "key": "24x30",
+     "sku": "GLOBAL-CAN-ROL-SC-24x30",
+     "width_in": 24,
+     "height_in": 30,
+     "print_area_px": [
+      7200,
+      9000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 15.0,
+      "ship": 12.65
+     }
+    },
+    {
+     "key": "30x30",
+     "sku": "GLOBAL-CAN-ROL-SC-30x30",
+     "width_in": 30,
+     "height_in": 30,
+     "print_area_px": [
+      9000,
+      9000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 26.0,
+      "ship": 12.65
+     }
+    },
+    {
+     "key": "30x40",
+     "sku": "GLOBAL-CAN-ROL-SC-30x40",
+     "width_in": 30,
+     "height_in": 40,
+     "print_area_px": [
+      9000,
+      12000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 32.0,
+      "ship": 14.65
+     }
+    }
+   ]
+  },
+  {
+   "key": "canvas-gallery-wrap",
+   "label": "Gallery Wrapped Canvas",
+   "short": "Gallery Wrapped",
+   "group": "canvas",
+   "sku_pattern": "GLOBAL-CAN-{WxH}",
+   "required_attributes": [
+    "wrap"
+   ],
+   "fixed_attributes": {
+    "wrap": "White"
+   },
+   "sizing": "fitPrintArea",
+   "print_area": "default",
+   "sizes": [
+    {
+     "key": "12x12",
+     "sku": "GLOBAL-CAN-12x12",
+     "width_in": 12,
+     "height_in": 12,
+     "print_area_px": [
+      4800,
+      4800
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 24.0,
+      "ship": 24.8
+     }
+    },
+    {
+     "key": "11x14",
+     "sku": "GLOBAL-CAN-11x14",
+     "width_in": 11,
+     "height_in": 14,
+     "print_area_px": [
+      4500,
+      5400
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 25.0,
+      "ship": 24.8
+     }
+    },
+    {
+     "key": "16x16",
+     "sku": "GLOBAL-CAN-16x16",
+     "width_in": 16,
+     "height_in": 16,
+     "print_area_px": [
+      6000,
+      6000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 32.0,
+      "ship": 24.8
+     }
+    },
+    {
+     "key": "16x20",
+     "sku": "GLOBAL-CAN-16x20",
+     "width_in": 16,
+     "height_in": 20,
+     "print_area_px": [
+      6000,
+      7200
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 35.0,
+      "ship": 25.9
+     }
+    },
+    {
+     "key": "20x20",
+     "sku": "GLOBAL-CAN-20x20",
+     "width_in": 20,
+     "height_in": 20,
+     "print_area_px": [
+      7200,
+      7200
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 42.0,
+      "ship": 25.9
+     }
+    },
+    {
+     "key": "24x24",
+     "sku": "GLOBAL-CAN-24x24",
+     "width_in": 24,
+     "height_in": 24,
+     "print_area_px": [
+      8400,
+      8400
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 48.0,
+      "ship": 25.9
+     }
+    },
+    {
+     "key": "24x30",
+     "sku": "GLOBAL-CAN-24x30",
+     "width_in": 24,
+     "height_in": 30,
+     "print_area_px": [
+      8400,
+      10200
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 52.0,
+      "ship": 32.35
+     }
+    },
+    {
+     "key": "30x30",
+     "sku": "GLOBAL-CAN-30x30",
+     "width_in": 30,
+     "height_in": 30,
+     "print_area_px": [
+      9054,
+      9054
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 60.0,
+      "ship": 32.35
+     }
+    },
+    {
+     "key": "30x40",
+     "sku": "GLOBAL-CAN-30x40",
+     "width_in": 30,
+     "height_in": 40,
+     "print_area_px": [
+      9054,
+      12054
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 75.0,
+      "ship": 50.75
+     }
+    }
+   ]
+  },
+  {
+   "key": "framed-print-classic",
+   "label": "Classic Framed Print",
+   "short": "Classic Frame",
+   "group": "framed",
+   "sku_pattern": "GLOBAL-CFP-{WxH}",
+   "required_attributes": [
+    "color"
+   ],
+   "fixed_attributes": {},
+   "sizing": "fitPrintArea",
+   "print_area": "default",
+   "choice_attribute": "color",
+   "choices": {
+    "black": "Black",
+    "brown": "Brown",
+    "dark grey": "Dark Grey",
+    "gold": "Antique Gold",
+    "light grey": "Light Grey",
+    "natural": "Natural",
+    "silver": "Antique Silver",
+    "white": "White"
+   },
+   "sizes": [
+    {
+     "key": "8x8",
+     "sku": "GLOBAL-CFP-8x8",
+     "width_in": 8,
+     "height_in": 8,
+     "print_area_px": [
+      2400,
+      2400
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 35.0,
+      "ship": 14.0
+     }
+    },
+    {
+     "key": "8x10",
+     "sku": "GLOBAL-CFP-8x10",
+     "width_in": 8,
+     "height_in": 10,
+     "print_area_px": [
+      2400,
+      3000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 35.0,
+      "ship": 24.8
+     }
+    },
+    {
+     "key": "12x12",
+     "sku": "GLOBAL-CFP-12x12",
+     "width_in": 12,
+     "height_in": 12,
+     "print_area_px": [
+      3600,
+      3600
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 38.0,
+      "ship": 24.8
+     }
+    },
+    {
+     "key": "11x14",
+     "sku": "GLOBAL-CFP-11x14",
+     "width_in": 11,
+     "height_in": 14,
+     "print_area_px": [
+      3307,
+      4192
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 38.0,
+      "ship": 24.8
+     }
+    },
+    {
+     "key": "16x16",
+     "sku": "GLOBAL-CFP-16x16",
+     "width_in": 16,
+     "height_in": 16,
+     "print_area_px": [
+      4800,
+      4800
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 46.0,
+      "ship": 24.8
+     }
+    },
+    {
+     "key": "16x20",
+     "sku": "GLOBAL-CFP-16x20",
+     "width_in": 16,
+     "height_in": 20,
+     "print_area_px": [
+      4800,
+      6000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 48.0,
+      "ship": 25.9
+     }
+    },
+    {
+     "key": "20x20",
+     "sku": "GLOBAL-CFP-20x20",
+     "width_in": 20,
+     "height_in": 20,
+     "print_area_px": [
+      6000,
+      6000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 52.0,
+      "ship": 25.9
+     }
+    },
+    {
+     "key": "18x24",
+     "sku": "GLOBAL-CFP-18x24",
+     "width_in": 18,
+     "height_in": 24,
+     "print_area_px": [
+      5400,
+      7200
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 55.0,
+      "ship": 25.9
+     }
+    },
+    {
+     "key": "24x24",
+     "sku": "GLOBAL-CFP-24x24",
+     "width_in": 24,
+     "height_in": 24,
+     "print_area_px": [
+      7200,
+      7200
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 65.0,
+      "ship": 25.9
+     }
+    },
+    {
+     "key": "24x30",
+     "sku": "GLOBAL-CFP-24x30",
+     "width_in": 24,
+     "height_in": 30,
+     "print_area_px": [
+      7200,
+      9000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 70.0,
+      "ship": 32.35
+     }
+    },
+    {
+     "key": "24x36",
+     "sku": "GLOBAL-CFP-24x36",
+     "width_in": 24,
+     "height_in": 36,
+     "print_area_px": [
+      7200,
+      10800
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 80.0,
+      "ship": 34.55
+     }
+    },
+    {
+     "key": "30x30",
+     "sku": "GLOBAL-CFP-30x30",
+     "width_in": 30,
+     "height_in": 30,
+     "print_area_px": [
+      9000,
+      9000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 80.0,
+      "ship": 32.35
+     }
+    },
+    {
+     "key": "30x40",
+     "sku": "GLOBAL-CFP-30x40",
+     "width_in": 30,
+     "height_in": 40,
+     "print_area_px": [
+      9000,
+      12000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 90.0,
+      "ship": 50.75
+     }
+    }
+   ]
+  },
+  {
+   "key": "framed-print-classic-mounted",
+   "label": "Classic Framed Print, matted",
+   "short": "Classic Frame, matted",
+   "group": "framed",
+   "sku_pattern": "GLOBAL-CFPM-{WxH}",
+   "required_attributes": [
+    "color"
+   ],
+   "fixed_attributes": {},
+   "sizing": "fitPrintArea",
+   "print_area": "default",
+   "choice_attribute": "color",
+   "choices": {
+    "black": "Black",
+    "brown": "Brown",
+    "dark grey": "Dark Grey",
+    "gold": "Antique Gold",
+    "light grey": "Light Grey",
+    "natural": "Natural",
+    "silver": "Antique Silver",
+    "white": "White"
+   },
+   "sizes": [
+    {
+     "key": "8x8",
+     "sku": "GLOBAL-CFPM-8x8",
+     "width_in": 8,
+     "height_in": 8,
+     "print_area_px": [
+      1800,
+      1800
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 38.0,
+      "ship": 14.0
+     }
+    },
+    {
+     "key": "8x10",
+     "sku": "GLOBAL-CFPM-8x10",
+     "width_in": 8,
+     "height_in": 10,
+     "print_area_px": [
+      1800,
+      2400
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 40.0,
+      "ship": 24.8
+     }
+    },
+    {
+     "key": "12x12",
+     "sku": "GLOBAL-CFPM-12x12",
+     "width_in": 12,
+     "height_in": 12,
+     "print_area_px": [
+      2700,
+      2700
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 44.0,
+      "ship": 24.8
+     }
+    },
+    {
+     "key": "11x14",
+     "sku": "GLOBAL-CFPM-11x14",
+     "width_in": 11,
+     "height_in": 14,
+     "print_area_px": [
+      2409,
+      3295
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 44.0,
+      "ship": 24.8
+     }
+    },
+    {
+     "key": "16x16",
+     "sku": "GLOBAL-CFPM-16x16",
+     "width_in": 16,
+     "height_in": 16,
+     "print_area_px": [
+      3600,
+      3600
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 50.0,
+      "ship": 24.8
+     }
+    },
+    {
+     "key": "16x20",
+     "sku": "GLOBAL-CFPM-16x20",
+     "width_in": 16,
+     "height_in": 20,
+     "print_area_px": [
+      3600,
+      4800
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 55.0,
+      "ship": 25.9
+     }
+    },
+    {
+     "key": "20x20",
+     "sku": "GLOBAL-CFPM-20x20",
+     "width_in": 20,
+     "height_in": 20,
+     "print_area_px": [
+      4800,
+      4800
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 60.0,
+      "ship": 25.9
+     }
+    },
+    {
+     "key": "18x24",
+     "sku": "GLOBAL-CFPM-18x24",
+     "width_in": 18,
+     "height_in": 24,
+     "print_area_px": [
+      4200,
+      6000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 60.0,
+      "ship": 25.9
+     }
+    },
+    {
+     "key": "24x24",
+     "sku": "GLOBAL-CFPM-24x24",
+     "width_in": 24,
+     "height_in": 24,
+     "print_area_px": [
+      6000,
+      6000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 70.0,
+      "ship": 25.9
+     }
+    },
+    {
+     "key": "20x30",
+     "sku": "GLOBAL-CFPM-20x30",
+     "width_in": 20,
+     "height_in": 30,
+     "print_area_px": [
+      4800,
+      7800
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 70.0,
+      "ship": 32.35
+     }
+    },
+    {
+     "key": "24x30",
+     "sku": "GLOBAL-CFPM-24x30",
+     "width_in": 24,
+     "height_in": 30,
+     "print_area_px": [
+      6000,
+      7800
+     ],
+     "orderable": false,
+     "cost": null,
+     "alternatives": [
+      "GLOBAL-CFPM-20x30",
+      "GLOBAL-CFPM-24x32",
+      "GLOBAL-CFP-24x30"
+     ]
+    },
+    {
+     "key": "24x32",
+     "sku": "GLOBAL-CFPM-24x32",
+     "width_in": 24,
+     "height_in": 32,
+     "print_area_px": [
+      6000,
+      8400
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 80.0,
+      "ship": 32.35
+     }
+    },
+    {
+     "key": "24x36",
+     "sku": "GLOBAL-CFPM-24x36",
+     "width_in": 24,
+     "height_in": 36,
+     "print_area_px": [
+      6000,
+      9600
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 90.0,
+      "ship": 34.55
+     }
+    },
+    {
+     "key": "30x30",
+     "sku": "GLOBAL-CFPM-30x30",
+     "width_in": 30,
+     "height_in": 30,
+     "print_area_px": [
+      7800,
+      7800
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 95.0,
+      "ship": 32.35
+     }
+    },
+    {
+     "key": "30x40",
+     "sku": "GLOBAL-CFPM-30x40",
+     "width_in": 30,
+     "height_in": 40,
+     "print_area_px": [
+      7800,
+      10800
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 110.0,
+      "ship": 50.75
+     }
+    }
+   ]
+  },
+  {
+   "key": "framed-print-box",
+   "label": "Box Framed Print",
+   "short": "Box Frame",
+   "group": "framed",
+   "sku_pattern": "GLOBAL-BOX-{WxH}",
+   "required_attributes": [
+    "color"
+   ],
+   "fixed_attributes": {},
+   "sizing": "fitPrintArea",
+   "print_area": "default",
+   "choice_attribute": "color",
+   "choices": {
+    "black": "Black",
+    "natural": "Natural",
+    "white": "White"
+   },
+   "sizes": [
+    {
+     "key": "8x8",
+     "sku": "GLOBAL-BOX-8x8",
+     "width_in": 8,
+     "height_in": 8,
+     "print_area_px": [
+      2400,
+      2400
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 29.0,
+      "ship": 14.0
+     }
+    },
+    {
+     "key": "8x10",
+     "sku": "GLOBAL-BOX-8x10",
+     "width_in": 8,
+     "height_in": 10,
+     "print_area_px": [
+      4800,
+      6000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 30.0,
+      "ship": 24.8
+     }
+    },
+    {
+     "key": "12x12",
+     "sku": "GLOBAL-BOX-12x12",
+     "width_in": 12,
+     "height_in": 12,
+     "print_area_px": [
+      3600,
+      3600
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 37.0,
+      "ship": 24.8
+     }
+    },
+    {
+     "key": "11x14",
+     "sku": "GLOBAL-BOX-11x14",
+     "width_in": 11,
+     "height_in": 14,
+     "print_area_px": [
+      3307,
+      4192
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 40.0,
+      "ship": 24.8
+     }
+    },
+    {
+     "key": "16x16",
+     "sku": "GLOBAL-BOX-16x16",
+     "width_in": 16,
+     "height_in": 16,
+     "print_area_px": [
+      4800,
+      4800
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 47.0,
+      "ship": 24.8
+     }
+    },
+    {
+     "key": "16x20",
+     "sku": "GLOBAL-BOX-16x20",
+     "width_in": 16,
+     "height_in": 20,
+     "print_area_px": [
+      4800,
+      6000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 53.0,
+      "ship": 25.9
+     }
+    },
+    {
+     "key": "20x20",
+     "sku": "GLOBAL-BOX-20x20",
+     "width_in": 20,
+     "height_in": 20,
+     "print_area_px": [
+      6000,
+      6000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 58.0,
+      "ship": 25.9
+     }
+    },
+    {
+     "key": "18x24",
+     "sku": "GLOBAL-BOX-18x24",
+     "width_in": 18,
+     "height_in": 24,
+     "print_area_px": [
+      5400,
+      7200
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 58.0,
+      "ship": 25.9
+     }
+    },
+    {
+     "key": "24x24",
+     "sku": "GLOBAL-BOX-24x24",
+     "width_in": 24,
+     "height_in": 24,
+     "print_area_px": [
+      7200,
+      7200
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 65.0,
+      "ship": 25.9
+     }
+    },
+    {
+     "key": "24x30",
+     "sku": "GLOBAL-BOX-24x30",
+     "width_in": 24,
+     "height_in": 30,
+     "print_area_px": [
+      7204,
+      9000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 72.0,
+      "ship": 32.35
+     }
+    },
+    {
+     "key": "24x36",
+     "sku": "GLOBAL-BOX-24x36",
+     "width_in": 24,
+     "height_in": 36,
+     "print_area_px": [
+      7200,
+      10800
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 85.0,
+      "ship": 34.55
+     }
+    },
+    {
+     "key": "30x30",
+     "sku": "GLOBAL-BOX-30x30",
+     "width_in": 30,
+     "height_in": 30,
+     "print_area_px": [
+      9000,
+      9000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 85.0,
+      "ship": 32.35
+     }
+    },
+    {
+     "key": "30x40",
+     "sku": "GLOBAL-BOX-30x40",
+     "width_in": 30,
+     "height_in": 40,
+     "print_area_px": [
+      9000,
+      12000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 100.0,
+      "ship": 50.75
+     }
+    }
+   ]
+  },
+  {
+   "key": "framed-print-box-mounted",
+   "label": "Box Framed Print, matted",
+   "short": "Box Frame, matted",
+   "group": "framed",
+   "sku_pattern": "GLOBAL-BOXM-{WxH}",
+   "required_attributes": [
+    "color"
+   ],
+   "fixed_attributes": {},
+   "sizing": "fitPrintArea",
+   "print_area": "default",
+   "choice_attribute": "color",
+   "choices": {
+    "black": "Black",
+    "natural": "Natural",
+    "white": "White"
+   },
+   "sizes": [
+    {
+     "key": "8x8",
+     "sku": "GLOBAL-BOXM-8x8",
+     "width_in": 8,
+     "height_in": 8,
+     "print_area_px": [
+      1200,
+      1200
+     ],
+     "orderable": false,
+     "cost": null,
+     "alternatives": [
+      "GLOBAL-BOXM-10x10",
+      "GLOBAL-BOX-8x8"
+     ]
+    },
+    {
+     "key": "8x10",
+     "sku": "GLOBAL-BOXM-8x10",
+     "width_in": 8,
+     "height_in": 10,
+     "print_area_px": [
+      1800,
+      2400
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 40.0,
+      "ship": 24.8
+     }
+    },
+    {
+     "key": "10x10",
+     "sku": "GLOBAL-BOXM-10x10",
+     "width_in": 10,
+     "height_in": 10,
+     "print_area_px": [
+      2400,
+      2400
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 40.0,
+      "ship": 24.8
+     }
+    },
+    {
+     "key": "12x12",
+     "sku": "GLOBAL-BOXM-12x12",
+     "width_in": 12,
+     "height_in": 12,
+     "print_area_px": [
+      2700,
+      2700
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 44.0,
+      "ship": 24.8
+     }
+    },
+    {
+     "key": "11x14",
+     "sku": "GLOBAL-BOXM-11x14",
+     "width_in": 11,
+     "height_in": 14,
+     "print_area_px": [
+      2421,
+      3307
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 45.0,
+      "ship": 24.8
+     }
+    },
+    {
+     "key": "16x16",
+     "sku": "GLOBAL-BOXM-16x16",
+     "width_in": 16,
+     "height_in": 16,
+     "print_area_px": [
+      3600,
+      3600
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 54.0,
+      "ship": 24.8
+     }
+    },
+    {
+     "key": "16x20",
+     "sku": "GLOBAL-BOXM-16x20",
+     "width_in": 16,
+     "height_in": 20,
+     "print_area_px": [
+      3600,
+      4800
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 60.0,
+      "ship": 25.9
+     }
+    },
+    {
+     "key": "20x20",
+     "sku": "GLOBAL-BOXM-20x20",
+     "width_in": 20,
+     "height_in": 20,
+     "print_area_px": [
+      4800,
+      4800
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 64.0,
+      "ship": 25.9
+     }
+    },
+    {
+     "key": "18x24",
+     "sku": "GLOBAL-BOXM-18x24",
+     "width_in": 18,
+     "height_in": 24,
+     "print_area_px": [
+      4200,
+      6000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 66.0,
+      "ship": 25.9
+     }
+    },
+    {
+     "key": "24x24",
+     "sku": "GLOBAL-BOXM-24x24",
+     "width_in": 24,
+     "height_in": 24,
+     "print_area_px": [
+      6000,
+      6000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 76.0,
+      "ship": 25.9
+     }
+    },
+    {
+     "key": "24x30",
+     "sku": "GLOBAL-BOXM-24x30",
+     "width_in": 24,
+     "height_in": 30,
+     "print_area_px": [
+      6354,
+      8114
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 75.0,
+      "ship": 32.35
+     }
+    },
+    {
+     "key": "28x28",
+     "sku": "GLOBAL-BOXM-28x28",
+     "width_in": 28,
+     "height_in": 28,
+     "print_area_px": [
+      7200,
+      7200
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 90.0,
+      "ship": 32.35
+     }
+    },
+    {
+     "key": "24x36",
+     "sku": "GLOBAL-BOXM-24x36",
+     "width_in": 24,
+     "height_in": 36,
+     "print_area_px": [
+      6000,
+      9600
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 98.0,
+      "ship": 34.55
+     }
+    },
+    {
+     "key": "30x30",
+     "sku": "GLOBAL-BOXM-30x30",
+     "width_in": 30,
+     "height_in": 30,
+     "print_area_px": [
+      7800,
+      7800
+     ],
+     "orderable": false,
+     "cost": null,
+     "alternatives": [
+      "GLOBAL-BOXM-28x28",
+      "GLOBAL-BOXM-32x32",
+      "GLOBAL-BOX-30x30"
+     ]
+    },
+    {
+     "key": "32x32",
+     "sku": "GLOBAL-BOXM-32x32",
+     "width_in": 32,
+     "height_in": 32,
+     "print_area_px": [
+      8400,
+      8400
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 108.0,
+      "ship": 32.35
+     }
+    },
+    {
+     "key": "30x40",
+     "sku": "GLOBAL-BOXM-30x40",
+     "width_in": 30,
+     "height_in": 40,
+     "print_area_px": [
+      7800,
+      10800
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 114.0,
+      "ship": 50.75
+     }
+    }
+   ]
+  },
+  {
+   "key": "framed-canvas-float",
+   "label": "Float Framed Canvas",
+   "short": "Float Frame Canvas",
+   "group": "framed",
+   "sku_pattern": "GLOBAL-FRA-CAN-{WxH}",
+   "required_attributes": [
+    "color",
+    "wrap"
+   ],
+   "fixed_attributes": {
+    "wrap": "White"
+   },
+   "sizing": "fitPrintArea",
+   "print_area": "default",
+   "choice_attribute": "color",
+   "choices": {
+    "black": "Black",
+    "brown": "Brown",
+    "gold": "Antique Gold",
+    "natural": "Natural",
+    "silver": "Antique Silver",
+    "white": "White"
+   },
+   "sizes": [
+    {
+     "key": "8x8",
+     "sku": "GLOBAL-FRA-CAN-8x8",
+     "width_in": 8,
+     "height_in": 8,
+     "print_area_px": [
+      3600,
+      3600
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 30.0,
+      "ship": 14.0
+     }
+    },
+    {
+     "key": "8x10",
+     "sku": "GLOBAL-FRA-CAN-8x10",
+     "width_in": 8,
+     "height_in": 10,
+     "print_area_px": [
+      4200,
+      3600
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 32.0,
+      "ship": 24.8
+     }
+    },
+    {
+     "key": "12x12",
+     "sku": "GLOBAL-FRA-CAN-12x12",
+     "width_in": 12,
+     "height_in": 12,
+     "print_area_px": [
+      4800,
+      4800
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 40.0,
+      "ship": 24.8
+     }
+    },
+    {
+     "key": "11x14",
+     "sku": "GLOBAL-FRA-CAN-11x14",
+     "width_in": 11,
+     "height_in": 14,
+     "print_area_px": [
+      4500,
+      5400
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 40.0,
+      "ship": 24.8
+     }
+    },
+    {
+     "key": "16x16",
+     "sku": "GLOBAL-FRA-CAN-16x16",
+     "width_in": 16,
+     "height_in": 16,
+     "print_area_px": [
+      6000,
+      6000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 52.0,
+      "ship": 24.8
+     }
+    },
+    {
+     "key": "16x20",
+     "sku": "GLOBAL-FRA-CAN-16x20",
+     "width_in": 16,
+     "height_in": 20,
+     "print_area_px": [
+      6000,
+      7200
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 60.0,
+      "ship": 25.9
+     }
+    },
+    {
+     "key": "20x20",
+     "sku": "GLOBAL-FRA-CAN-20x20",
+     "width_in": 20,
+     "height_in": 20,
+     "print_area_px": [
+      7200,
+      7200
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 70.0,
+      "ship": 25.9
+     }
+    },
+    {
+     "key": "18x24",
+     "sku": "GLOBAL-FRA-CAN-18x24",
+     "width_in": 18,
+     "height_in": 24,
+     "print_area_px": [
+      6600,
+      8400
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 72.0,
+      "ship": 25.9
+     }
+    },
+    {
+     "key": "24x24",
+     "sku": "GLOBAL-FRA-CAN-24x24",
+     "width_in": 24,
+     "height_in": 24,
+     "print_area_px": [
+      8400,
+      8400
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 82.0,
+      "ship": 25.9
+     }
+    },
+    {
+     "key": "24x30",
+     "sku": "GLOBAL-FRA-CAN-24x30",
+     "width_in": 24,
+     "height_in": 30,
+     "print_area_px": [
+      8400,
+      10200
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 92.0,
+      "ship": 32.35
+     }
+    },
+    {
+     "key": "24x36",
+     "sku": "GLOBAL-FRA-CAN-24x36",
+     "width_in": 24,
+     "height_in": 36,
+     "print_area_px": [
+      8400,
+      12000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 104.0,
+      "ship": 34.55
+     }
+    },
+    {
+     "key": "30x30",
+     "sku": "GLOBAL-FRA-CAN-30x30",
+     "width_in": 30,
+     "height_in": 30,
+     "print_area_px": [
+      9054,
+      9054
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 109.0,
+      "ship": 32.35
+     }
+    },
+    {
+     "key": "30x40",
+     "sku": "GLOBAL-FRA-CAN-30x40",
+     "width_in": 30,
+     "height_in": 40,
+     "print_area_px": [
+      9054,
+      12054
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 121.0,
+      "ship": 50.75
+     }
+    }
+   ]
+  }
+ ]
+}

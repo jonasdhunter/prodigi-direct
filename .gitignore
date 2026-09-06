@@ -1,0 +1,4 @@
+bin/phpunit.phar
+.DS_Store
+*.log
+node_modules/
