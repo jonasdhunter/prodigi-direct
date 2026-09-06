@@ -39,6 +39,7 @@
 		function apply() {
 			var o = current();
 			$picker.find('.pd-card').each(function () { $(this).toggleClass('is-active', $(this).data('family') === state.family); });
+			var $active = $picker.find('.pd-card.is-active'); if ($active.length) { showPreview($active); }
 			if (o) {
 				$select.val(o.label).trigger('change');
 				$chosen.prop('hidden', false).html('<span class="pd-chosen-label">' + o.size.replace('x', ' × ') + '" ' + o.material + (o.choice_l ? ', ' + o.choice_l : '') + '</span>' + (o.id === pick ? ' <span class="pd-badge">' + ($picker.find('.pd-pick-head').text() || 'Recommended') + '</span>' : ''));
@@ -47,6 +48,16 @@
 				$chosen.prop('hidden', true).empty();
 			}
 		}
+		var $preview = $picker.find('.pd-preview');
+		function showPreview($card) {
+			var src = $card.data('image');
+			if (!src) { $preview.removeClass('is-on'); return; }
+			$preview.find('img').attr('src', src).attr('alt', $card.find('.pd-card-title').text());
+			$preview.find('.pd-preview-cap').text($card.data('caption'));
+			$preview.addClass('is-on');
+		}
+		$picker.on('mouseenter focus', '.pd-card', function () { showPreview($(this)); });
+		$picker.on('mouseleave', '.pd-cards', function () { var $a = $picker.find('.pd-card.is-active'); if ($a.length) { showPreview($a); } });
 		$picker.on('click', '.pd-card', function () {
 			state.family = $(this).data('family'); state.size = null; state.choice = null;
 			renderSizes(); renderFrames(); apply();

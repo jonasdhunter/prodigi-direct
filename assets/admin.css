@@ -39,3 +39,4 @@ details.prodigi-card summary{cursor:pointer;list-style:none}details.prodigi-card
 #prodigi-suggest{margin:2px 0 6px;align-self:flex-start}
 .prodigi-hidden-sizes{margin:6px 12px}.prodigi-hidden-sizes summary{cursor:pointer;color:#666;padding:4px 0}.prodigi-hidden-sizes .prodigi-table{margin:6px 0 0;width:100%;opacity:.85}
 .pd-pick-col{width:28px;text-align:center}.prodigi-pick-block{margin-top:10px}
+.prodigi-photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}.prodigi-photo{border:1px solid #e5e5e5;border-radius:4px;padding:8px;text-align:center}.prodigi-photo-img{height:110px;display:flex;align-items:center;justify-content:center;background:#fafafa;margin-bottom:6px;overflow:hidden}.prodigi-photo-img img{max-height:110px;width:auto}.prodigi-photo strong{display:block;margin:4px 0 6px;font-size:12px}

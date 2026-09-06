@@ -35,6 +35,9 @@ final class Notices {
 		if ( ! $on ) {
 			return;
 		}
+		if ( str_contains( $screen->id, 'prodigi' ) ) {
+			wp_enqueue_media();
+		}
 		wp_enqueue_style( 'prodigi-direct-admin', PRODIGI_DIRECT_URL . 'assets/admin.css', [], PRODIGI_DIRECT_VERSION );
 		wp_enqueue_script( 'prodigi-direct-admin', PRODIGI_DIRECT_URL . 'assets/admin.js', [ 'jquery' ], PRODIGI_DIRECT_VERSION, true );
 		wp_localize_script( 'prodigi-direct-admin', 'ProdigiDirect', [ 'nonce' => wp_create_nonce( 'prodigi_direct_ajax' ), 'ajax' => admin_url( 'admin-ajax.php' ) ] );

@@ -1,5 +1,18 @@
 (function ($) {
 	$(function () {
+		// Material photos (Prints page): WordPress media picker per family.
+		$('#prodigi-material-photos').on('click', '.prodigi-photo-pick', function () {
+			var $row = $(this).closest('.prodigi-photo');
+			var frame = wp.media({ title: 'Choose a photo of this material', multiple: false, library: { type: 'image' } });
+			frame.on('select', function () {
+				var a = frame.state().get('selection').first().toJSON();
+				$row.find('input[type=hidden]').val(a.id);
+				$row.find('.prodigi-photo-img').html('<img src="' + (a.sizes && a.sizes.medium ? a.sizes.medium.url : a.url) + '" alt="" />');
+			});
+			frame.open();
+		}).on('click', '.prodigi-photo-clear', function () {
+			var $row = $(this).closest('.prodigi-photo'); $row.find('input[type=hidden]').val(0); $row.find('.prodigi-photo-img').html('<span class="description">no photo</span>');
+		});
 		var $panel = $('#prodigi_direct_panel');
 		if (!$panel.length) { return; }
 		if (location.hash === '#prodigi') { $('.prodigi_direct_options, a[href="#prodigi_direct_panel"]').trigger('click'); }

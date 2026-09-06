@@ -102,6 +102,26 @@ final class Settings {
 				</form>
 			</div>
 
+			<div class="prodigi-card" id="material-photos">
+				<h2><?php esc_html_e( 'Material photos', 'prodigi-direct' ); ?></h2>
+				<p class="description"><?php esc_html_e( 'A real photograph of each material — a print on paper, a stretched canvas, a framed print. Shown on the product page when a customer hovers or taps a material. Use your own photos of your own prints; leave blank to show none.', 'prodigi-direct' ); ?></p>
+				<form method="post" action="<?php echo esc_url( $action ); ?>" id="prodigi-material-photos">
+					<input type="hidden" name="action" value="prodigi_direct_settings" /><input type="hidden" name="do" value="family_images" /><input type="hidden" name="_wpnonce" value="<?php echo esc_attr( $nonce ); ?>" />
+					<div class="prodigi-photos">
+					<?php $imgs = (array) $s['family_images']; foreach ( $cat->families() as $key => $fam ) : $id = (int) ( $imgs[ $key ] ?? 0 ); ?>
+						<div class="prodigi-photo" data-family="<?php echo esc_attr( $key ); ?>">
+							<div class="prodigi-photo-img"><?php echo $id ? wp_get_attachment_image( $id, 'medium' ) : '<span class="description">' . esc_html__( 'no photo', 'prodigi-direct' ) . '</span>'; ?></div>
+							<strong><?php echo esc_html( $fam['label'] ); ?></strong>
+							<input type="hidden" name="family_images[<?php echo esc_attr( $key ); ?>]" value="<?php echo esc_attr( $id ); ?>" />
+							<button type="button" class="button prodigi-photo-pick"><?php esc_html_e( 'Choose photo', 'prodigi-direct' ); ?></button>
+							<button type="button" class="button-link prodigi-photo-clear"><?php esc_html_e( 'remove', 'prodigi-direct' ); ?></button>
+						</div>
+					<?php endforeach; ?>
+					</div>
+					<p><button class="button button-primary"><?php esc_html_e( 'Save material photos', 'prodigi-direct' ); ?></button></p>
+				</form>
+			</div>
+
 			<div class="prodigi-card" id="reference">
 				<h2><?php esc_html_e( 'Prodigi reference', 'prodigi-direct' ); ?></h2>
 				<ul class="prodigi-reflinks">
@@ -195,6 +215,16 @@ final class Settings {
 				Price_Book::replace( (array) ( $_POST['book'] ?? [] ) );
 				Activity_Log::add( 'Price book saved.' );
 				$anchor = '#price-book';
+				break;
+			case 'family_images':
+				$clean = [];
+				foreach ( (array) ( $_POST['family_images'] ?? [] ) as $fam => $id ) {
+					if ( (int) $id > 0 ) {
+						$clean[ sanitize_key( $fam ) ] = (int) $id;
+					}
+				}
+				$plugin->update_settings( [ 'family_images' => $clean ] );
+				$anchor = '#material-photos';
 				break;
 			case 'learn_prices':
 				$n   = Price_Book::learn_from_shop( $plugin->catalogue() );

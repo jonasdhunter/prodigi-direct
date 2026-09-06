@@ -98,8 +98,16 @@ final class Storefront {
 		$artist = (string) ( Plugin::instance()->setting( 'artist_name' ) ?: get_bloginfo( 'name' ) );
 		$note   = (string) $product->get_meta( self::META_PICK_NOTE );
 		$families = [];
+		$images   = (array) Plugin::instance()->setting( 'family_images' );
 		foreach ( $data['options'] as $o ) {
-			$families[ $o['family'] ] = [ 'label' => $o['material'], 'group' => $o['group'], 'desc' => $cat->description( $o['family'] ) ];
+			$img_id = (int) ( $images[ $o['family'] ] ?? 0 );
+			$families[ $o['family'] ] = [
+				'label' => $o['material'],
+				'group' => $o['group'],
+				'desc'  => $cat->description( $o['family'] ),
+				'thumb' => $img_id ? (string) wp_get_attachment_image_url( $img_id, 'medium' ) : '',
+				'large' => $img_id ? (string) wp_get_attachment_image_url( $img_id, 'large' ) : '',
+			];
 		}
 		?>
 		<div class="pd-picker" data-attr="<?php echo esc_attr( $data['attr'] ); ?>" data-options="<?php echo esc_attr( wp_json_encode( $data['options'] ) ); ?>" data-pick="<?php echo esc_attr( $pick_id ); ?>">
@@ -114,10 +122,11 @@ final class Storefront {
 			</div>
 			<?php endif; ?>
 			<div class="pd-step pd-step-material">
-				<div class="pd-step-title"><?php esc_html_e( 'Material', 'prodigi-direct' ); ?></div>
+				<div class="pd-step-title"><?php esc_html_e( 'Material', 'prodigi-direct' ); ?> <small class="pd-step-hint"><?php esc_html_e( 'hover or tap to see it', 'prodigi-direct' ); ?></small></div>
+				<div class="pd-preview" aria-live="polite"><img src="" alt="" /><div class="pd-preview-cap"></div></div>
 				<div class="pd-cards">
 					<?php foreach ( $families as $key => $f ) : ?>
-						<button type="button" class="pd-card" data-family="<?php echo esc_attr( $key ); ?>"><span class="pd-card-title"><?php echo esc_html( $f['label'] ); ?></span><span class="pd-card-desc"><?php echo esc_html( $f['desc'] ); ?></span></button>
+						<button type="button" class="pd-card" data-family="<?php echo esc_attr( $key ); ?>" data-image="<?php echo esc_url( $f['large'] ); ?>" data-caption="<?php echo esc_attr( $f['label'] . ' — ' . $f['desc'] ); ?>"><?php if ( $f['thumb'] ) : ?><img class="pd-card-thumb" src="<?php echo esc_url( $f['thumb'] ); ?>" alt="" loading="lazy" /><?php endif; ?><span class="pd-card-title"><?php echo esc_html( $f['label'] ); ?></span><span class="pd-card-desc"><?php echo esc_html( $f['desc'] ); ?></span></button>
 					<?php endforeach; ?>
 				</div>
 			</div>
