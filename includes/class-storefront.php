@@ -144,22 +144,35 @@ final class Storefront {
 				</div>
 			</div>
 			<?php endif; ?>
-			<div class="pd-step pd-step-material">
-				<div class="pd-step-title"><?php esc_html_e( 'Material', 'prodigi-direct' ); ?></div>
-				<div class="pd-cards">
-					<?php foreach ( $groups as $key => $g ) : ?>
-						<button type="button" class="pd-card" data-group="<?php echo esc_attr( $key ); ?>"><?php if ( $g['thumb'] ) : ?><img class="pd-card-thumb" src="<?php echo esc_url( $g['thumb'] ); ?>" alt="" loading="lazy" /><?php endif; ?><span class="pd-card-title"><?php echo esc_html( $g['label'] ); ?></span><span class="pd-card-desc"><?php echo esc_html( $g['desc'] ); ?></span></button>
-					<?php endforeach; ?>
+			<?php
+			// Art-free line icons for the media (a sheet, a rolled tube, a wrapped canvas corner).
+			$icons = [
+				'paper'  => '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M14 10h26l10 10v34H14z"/><path d="M40 10v10h10"/><path d="M20 30h24M20 38h24M20 46h16" stroke-opacity=".5"/></svg>',
+				'rolled' => '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M10 24c0-4 3-7 7-7h30a7 7 0 0 1 0 14H17c-4 0-7-3-7-7z"/><ellipse cx="47" cy="24" rx="7" ry="7"/><path d="M17 31v18c0 3 2 5 5 5h26" stroke-opacity=".6"/><path d="M47 24c-2 0-3 3-3 7" stroke-opacity=".5"/></svg>',
+				'wrap'   => '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 16h34v34H12z"/><path d="M46 16l6 6v34l-6-6"/><path d="M12 50l6 6h34"/><path d="M46 50l6 6"/></svg>',
+			];
+			$steps = [ 'material' => __( 'Medium', 'prodigi-direct' ), 'size' => __( 'Size', 'prodigi-direct' ), 'frame' => __( 'Frame', 'prodigi-direct' ) ];
+			$n = 0;
+			foreach ( $steps as $key => $label ) : ++$n; ?>
+			<div class="pd-acc pd-step-<?php echo esc_attr( $key ); ?>" data-step="<?php echo esc_attr( $key ); ?>" <?php echo 'material' === $key ? '' : 'hidden'; ?>>
+				<button type="button" class="pd-acc-head" aria-expanded="<?php echo 'material' === $key ? 'true' : 'false'; ?>"><span class="pd-acc-num"><?php echo esc_html( $n . ' ' . $label ); ?></span><span class="pd-acc-val"></span><span class="pd-acc-chev" aria-hidden="true"></span></button>
+				<div class="pd-acc-body" <?php echo 'material' === $key ? '' : 'hidden'; ?>>
+					<?php if ( 'material' === $key ) : ?>
+					<div class="pd-tiles pd-tiles-media">
+						<?php foreach ( $groups as $gkey => $g ) : ?>
+							<button type="button" class="pd-tile pd-tile-medium" data-group="<?php echo esc_attr( $gkey ); ?>"><?php if ( $g['thumb'] ) : ?><span class="pd-tile-img"><img src="<?php echo esc_url( $g['thumb'] ); ?>" alt="" /></span><?php else : ?><span class="pd-tile-img pd-tile-icon"><?php echo $icons[ $gkey ] ?? $icons['paper']; // phpcs:ignore ?></span><?php endif; ?><span class="pd-tile-title"><?php echo esc_html( $g['label'] ); ?></span></button>
+						<?php endforeach; ?>
+					</div>
+					<div class="pd-medium-desc"><?php foreach ( $groups as $gkey => $g ) : ?><p data-group="<?php echo esc_attr( $gkey ); ?>" hidden><?php echo esc_html( $g['desc'] ); ?></p><?php endforeach; ?></div>
+					<?php elseif ( 'size' === $key ) : ?>
+					<div class="pd-chips"></div>
+					<p class="pd-step-hint"><?php esc_html_e( 'Inches, width × height. Prices are for the plain print; frames add to it.', 'prodigi-direct' ); ?></p>
+					<?php else : ?>
+					<div class="pd-tiles-groups"></div>
+					<?php endif; ?>
 				</div>
 			</div>
-			<div class="pd-step pd-step-size" hidden>
-				<div class="pd-step-title"><?php esc_html_e( 'Size', 'prodigi-direct' ); ?> <small class="pd-step-hint"><?php esc_html_e( 'inches, width × height', 'prodigi-direct' ); ?></small></div>
-				<div class="pd-chips"></div>
-			</div>
-			<div class="pd-acc pd-step-frame" data-step="frame" hidden>
-				<button type="button" class="pd-acc-head" aria-expanded="true"><span class="pd-acc-num"><?php esc_html_e( 'Frame', 'prodigi-direct' ); ?></span><span class="pd-acc-val"></span><span class="pd-acc-chev" aria-hidden="true"></span></button>
-				<div class="pd-acc-body"><div class="pd-tiles"></div></div>
-			</div>
+			<?php endforeach; ?>
 			<div class="pd-chosen" hidden></div>
 		</div>
 		<?php
