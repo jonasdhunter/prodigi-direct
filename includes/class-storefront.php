@@ -83,6 +83,8 @@ final class Storefront {
 				'material' => $fam['short'],
 				'group'    => $fam['group'],
 				'medium'   => (string) ( $fam['medium'] ?? 'paper' ),
+				'grp'      => (string) ( $fam['group_key'] ?? 'paper' ),
+				'frame'    => trim( (string) ( $fam['frame_label'] ?? '' ) . ( $choice_l ? ' — ' . $choice_l : '' ) ),
 				'style'    => (string) ( $fam['style'] ?? $fam['short'] ) . ( $choice_l ? ' — ' . $choice_l : '' ),
 				'style_k'  => $p['family'] . '|' . (string) $p['choice'],
 				'desc'     => $cat->description( $p['family'] ),
@@ -117,14 +119,19 @@ final class Storefront {
 		}
 		$artist = (string) ( Plugin::instance()->setting( 'artist_name' ) ?: get_bloginfo( 'name' ) );
 		$note   = (string) $product->get_meta( self::META_PICK_NOTE );
-		$media = [];
-		foreach ( $cat->media() as $key => $m ) {
-			$own = (int) ( ( (array) Plugin::instance()->setting( 'family_images' ) )[ 'medium-' . $key ] ?? 0 );
-			$media[ $key ] = [ 'label' => $m['label'], 'image' => $own ? (string) wp_get_attachment_image_url( $own, 'medium' ) : (string) $m['image'] ];
+		$groups = [];
+		$images = (array) Plugin::instance()->setting( 'family_images' );
+		foreach ( $data['options'] as $o ) {
+			if ( isset( $groups[ $o['grp'] ] ) ) {
+				continue;
+			}
+			$g   = $cat->groups()[ $o['grp'] ] ?? [ 'label' => $o['material'], 'desc' => $o['desc'] ];
+			$own = (int) ( $images[ 'group-' . $o['grp'] ] ?? $images[ $o['family'] ] ?? 0 );
+			$groups[ $o['grp'] ] = [ 'label' => $g['label'], 'desc' => $g['desc'], 'thumb' => $own ? (string) wp_get_attachment_image_url( $own, 'medium' ) : '' ];
 		}
+		$art = (string) wp_get_attachment_image_url( (int) $product->get_image_id(), 'large' );
 		?>
-		<?php $art = (string) wp_get_attachment_image_url( (int) $product->get_image_id(), 'large' ); ?>
-		<div class="pd-picker" data-attr="<?php echo esc_attr( $data['attr'] ); ?>" data-options="<?php echo esc_attr( wp_json_encode( $data['options'] ) ); ?>" data-media="<?php echo esc_attr( wp_json_encode( $media ) ); ?>" data-pick="<?php echo esc_attr( $pick_id ); ?>" data-art="<?php echo esc_url( $art ); ?>" data-stage="<?php echo esc_attr( Plugin::instance()->setting( 'stage' ) ); ?>">
+		<div class="pd-picker" data-attr="<?php echo esc_attr( $data['attr'] ); ?>" data-options="<?php echo esc_attr( wp_json_encode( $data['options'] ) ); ?>" data-groups="<?php echo esc_attr( wp_json_encode( $groups ) ); ?>" data-pick="<?php echo esc_attr( $pick_id ); ?>" data-art="<?php echo esc_url( $art ); ?>" data-stage="<?php echo esc_attr( Plugin::instance()->setting( 'stage' ) ); ?>">
 			<?php if ( $pick ) : ?>
 			<div class="pd-pick">
 				<div class="pd-pick-head"><?php echo esc_html( sprintf( __( "%s's recommendation", 'prodigi-direct' ), $artist ) ); ?></div>
@@ -135,12 +142,22 @@ final class Storefront {
 				</div>
 			</div>
 			<?php endif; ?>
-			<?php foreach ( [ 'medium' => __( 'Medium', 'prodigi-direct' ), 'size' => __( 'Size', 'prodigi-direct' ), 'style' => __( 'Style', 'prodigi-direct' ) ] as $i => $label ) : static $n = 0; ++$n; ?>
-			<div class="pd-acc" data-step="<?php echo esc_attr( $i ); ?>">
-				<button type="button" class="pd-acc-head" aria-expanded="false"><span class="pd-acc-num"><?php echo esc_html( $n . ' ' . $label ); ?></span><span class="pd-acc-val"></span><span class="pd-acc-chev" aria-hidden="true"></span></button>
-				<div class="pd-acc-body" hidden><div class="pd-tiles"></div></div>
+			<div class="pd-step pd-step-material">
+				<div class="pd-step-title"><?php esc_html_e( 'Material', 'prodigi-direct' ); ?></div>
+				<div class="pd-cards">
+					<?php foreach ( $groups as $key => $g ) : ?>
+						<button type="button" class="pd-card" data-group="<?php echo esc_attr( $key ); ?>"><?php if ( $g['thumb'] ) : ?><img class="pd-card-thumb" src="<?php echo esc_url( $g['thumb'] ); ?>" alt="" loading="lazy" /><?php endif; ?><span class="pd-card-title"><?php echo esc_html( $g['label'] ); ?></span><span class="pd-card-desc"><?php echo esc_html( $g['desc'] ); ?></span></button>
+					<?php endforeach; ?>
+				</div>
 			</div>
-			<?php endforeach; ?>
+			<div class="pd-step pd-step-size" hidden>
+				<div class="pd-step-title"><?php esc_html_e( 'Size', 'prodigi-direct' ); ?> <small class="pd-step-hint"><?php esc_html_e( 'inches, width × height', 'prodigi-direct' ); ?></small></div>
+				<div class="pd-chips"></div>
+			</div>
+			<div class="pd-acc pd-step-frame" data-step="frame" hidden>
+				<button type="button" class="pd-acc-head" aria-expanded="true"><span class="pd-acc-num"><?php esc_html_e( 'Frame', 'prodigi-direct' ); ?></span><span class="pd-acc-val"></span><span class="pd-acc-chev" aria-hidden="true"></span></button>
+				<div class="pd-acc-body"><div class="pd-tiles"></div></div>
+			</div>
 			<div class="pd-chosen" hidden></div>
 		</div>
 		<?php

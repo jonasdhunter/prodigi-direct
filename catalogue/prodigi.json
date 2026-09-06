@@ -289,7 +289,9 @@
    "description": "Gicl\u00e9e print on enhanced matte fine art paper, 200 gsm, archival pigment inks.",
    "image": "",
    "medium": "paper",
-   "style": "Just the print"
+   "style": "Just the print",
+   "group_key": "paper",
+   "frame_label": ""
   },
   {
    "key": "canvas-rolled",
@@ -577,7 +579,9 @@
    "description": "Printed on 400 gsm artist canvas and shipped rolled in a tube, ready for stretching or framing.",
    "image": "",
    "medium": "canvas",
-   "style": "Rolled canvas"
+   "style": "Rolled canvas",
+   "group_key": "rolled",
+   "frame_label": ""
   },
   {
    "key": "canvas-gallery-wrap",
@@ -869,7 +873,9 @@
    "description": "Stretched on 38 mm (1.5\") wooden bars with white sides, ready to hang.",
    "image": "",
    "medium": "canvas",
-   "style": "Gallery wrapped"
+   "style": "Gallery wrapped",
+   "group_key": "wrap",
+   "frame_label": ""
   },
   {
    "key": "framed-print-classic",
@@ -1105,7 +1111,9 @@
     "gold": "https://www.prodigi.com/img/products/chevrons/classic-antique-gold.png",
     "silver": "https://www.prodigi.com/img/products/chevrons/classic-antique-silver.png"
    },
-   "style": "Classic frame"
+   "style": "Classic frame",
+   "group_key": "framed",
+   "frame_label": "Classic"
   },
   {
    "key": "framed-print-classic-mounted",
@@ -1373,7 +1381,9 @@
     "gold": "https://www.prodigi.com/img/products/chevrons/classic-antique-gold.png",
     "silver": "https://www.prodigi.com/img/products/chevrons/classic-antique-silver.png"
    },
-   "style": "Classic frame, matted"
+   "style": "Classic frame, matted",
+   "group_key": "framed",
+   "frame_label": "Classic, matted"
   },
   {
    "key": "framed-print-box",
@@ -1599,7 +1609,9 @@
     "white": "https://www.prodigi.com/img/products/chevrons/box-white.png",
     "natural": "https://www.prodigi.com/img/products/chevrons/box-natural.png"
    },
-   "style": "Box frame"
+   "style": "Box frame",
+   "group_key": "framed",
+   "frame_label": "Box"
   },
   {
    "key": "framed-print-box-mounted",
@@ -1873,7 +1885,9 @@
     "white": "https://www.prodigi.com/img/products/chevrons/box-white.png",
     "natural": "https://www.prodigi.com/img/products/chevrons/box-natural.png"
    },
-   "style": "Box frame, matted"
+   "style": "Box frame, matted",
+   "group_key": "framed",
+   "frame_label": "Box, matted"
   },
   {
    "key": "framed-canvas-float",
@@ -2108,7 +2122,9 @@
     "gold": "https://www.prodigi.com/img/products/swatches/frame-classic-antique-gold.jpg",
     "silver": "https://www.prodigi.com/img/products/swatches/frame-classic-antique-silver.jpg"
    },
-   "style": "Float frame"
+   "style": "Float frame",
+   "group_key": "float",
+   "frame_label": "Float"
   }
  ],
  "links": {
@@ -2128,5 +2144,27 @@
    "image": ""
   }
  },
- "image_credit": "Frame-corner photographs \u00a9 Prodigi (prodigi.com/img/products/chevrons, swatches). Paper/canvas photos are the artist's own or none."
+ "image_credit": "Frame-corner photographs \u00a9 Prodigi (prodigi.com/img/products/chevrons, swatches). Paper/canvas photos are the artist's own or none.",
+ "groups": {
+  "paper": {
+   "label": "Fine Art Paper",
+   "desc": "Gicl\u00e9e print on enhanced matte fine art paper, 200 gsm, archival pigment inks."
+  },
+  "rolled": {
+   "label": "Rolled Canvas",
+   "desc": "Printed on 400 gsm artist canvas, shipped rolled in a tube for stretching or framing."
+  },
+  "wrap": {
+   "label": "Gallery Wrapped Canvas",
+   "desc": "Stretched on 38 mm (1.5\") wooden bars with white sides, ready to hang."
+  },
+  "framed": {
+   "label": "Framed Print",
+   "desc": "Fine art paper print in a solid wood frame with acrylic glazing, ready to hang. Choose the frame next."
+  },
+  "float": {
+   "label": "Float Framed Canvas",
+   "desc": "Stretched canvas set inside a float frame, ready to hang. Choose the frame next."
+  }
+ }
 }
