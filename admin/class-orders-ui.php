@@ -98,7 +98,7 @@ final class Orders_UI {
 
 			<p class="prodigi-actions">
 			<?php if ( in_array( $state, [ 'waiting', 'problem' ], true ) && ! $pid ) : ?>
-				<a class="button button-primary" href="<?php echo esc_url( $act( 'approve' ) ); ?>"><?php echo $plugin->is_sandbox() ? esc_html__( 'Send to Prodigi (test)', 'prodigi-direct' ) : esc_html__( 'Approve and send to Prodigi', 'prodigi-direct' ); ?></a>
+				<a class="button button-primary" href="<?php echo esc_url( $act( 'approve' ) ); ?>"><?php echo 'problem' === $state ? esc_html__( 'Try again', 'prodigi-direct' ) : ( $plugin->is_sandbox() ? esc_html__( 'Send to Prodigi (test)', 'prodigi-direct' ) : esc_html__( 'Approve and send to Prodigi', 'prodigi-direct' ) ); ?></a>
 				<a class="button" href="<?php echo esc_url( $act( 'manual' ) ); ?>"><?php esc_html_e( "I'll fulfil this myself", 'prodigi-direct' ); ?></a>
 			<?php elseif ( 'manual' === $state ) : ?>
 				<a class="button" href="<?php echo esc_url( $act( 'reset' ) ); ?>"><?php esc_html_e( 'Send to Prodigi after all', 'prodigi-direct' ); ?></a>

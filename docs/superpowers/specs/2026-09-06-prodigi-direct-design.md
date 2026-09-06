@@ -85,6 +85,15 @@ prodigi-direct/
 - Local WordPress (brew php + mariadb + wp-cli) with WooCommerce, the plugin, and Prodigi sandbox for an end-to-end order.
 - Staging clone of her real shop on her own server (staging.tiffanyloveart.com, noindex, Stripe test mode, Prodigi connector NOT connected) for the final run with her 11 products and real masters.
 
-### Out of scope
+### Decisions made during the build (2026-09-06)
+
+- **Approval gate by default.** Every paid order waits for "Approve and send"; automatic sending is a setting and never applies in sandbox mode. (Operating principle: judgment gates stay.)
+- **The GitHub repo holds the plugin only** (Jonas): no artwork, no masters, no shop data. The example seed is generic.
+- **Print files** live in `wp-content/uploads/prodigi-private/` by default (nginx deny rule in the README); `PRODIGI_DIRECT_PRIVATE_DIR` moves them outside the web root. Admin previews use a 320 px thumbnail (vips when present, WordPress's editor under 30 MP, otherwise none) so a 1 GB box never loads a 180 MP file.
+- **One custom attribute, "Print Options"**, with the shop's existing labels, so the 146 live variations are adopted rather than recreated.
+- **Callbacks are untrusted**: token in the URL, payload ignored, order re-fetched; a 6-hourly poll covers missed callbacks.
+- **Catalogue file, not API discovery**: Prodigi has no product list endpoint, so `catalogue/prodigi.json` (99 verified SKUs, 8 families) is the source of truth and the nightly check keeps it honest for everything in use.
+
+## Out of scope
 
 Mockup images, non-Prodigi POD providers, multi-currency, Prodigi's product range beyond paper / canvas / framed, retail sync back to Prodigi's dashboard.
