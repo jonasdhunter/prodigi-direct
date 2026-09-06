@@ -113,16 +113,17 @@
 			$stage.attr('data-kind', o ? o.kind : 'none');
 			if (!o || !o.w_in) { $f.css({ padding: 0, boxShadow: 'none' }); $svg.hide(); $m.css({ padding: 0, boxShadow: 'none' }); $p.css({ aspectRatio: 'auto', padding: 0, boxShadow: 'none' }); $stage.find('.pd-stage-cap').text(''); return; }
 			var W = o.w_in, H = o.h_in;
-			var frameIn = { classic: 0.75, box: 1.0, float: 0.55 }[o.kind] || 0, matIn = o.mat_in || 0, gapIn = o.kind === 'float' ? 0.3 : 0;
+			// Prodigi's published mouldings: classic 20 mm face / 22 mm deep; box 20 mm face / 33 mm deep with an 8 mm shadow-line; float-framed canvas ≈ 15 mm face with a small gap.
+			var frameIn = { classic: 0.79, box: 0.79, float: 0.6 }[o.kind] || 0, matIn = o.mat_in || 0, gapIn = { float: 0.2, box: 0.31 }[o.kind] || 0;
 			var outerW = W + 2 * (frameIn + gapIn), outerH = H + 2 * (frameIn + gapIn), pct = function (inches) { return (inches / outerW * 100) + '%'; };
 			var colour = FRAME[o.choice] || '#333';
 			$f.css({ padding: pct(frameIn), boxShadow: frameIn ? '0 18px 40px -12px rgba(0,0,0,.45), 0 4px 10px rgba(0,0,0,.15)' : (o.kind === 'wrap' ? '9px 9px 0 -1px rgba(0,0,0,.16), 0 14px 32px rgba(0,0,0,.28)' : '0 8px 24px rgba(0,0,0,.18)') });
 			if (frameIn) { $svg.show().attr('viewBox', '0 0 ' + outerW + ' ' + outerH).attr('preserveAspectRatio', 'none').html(moulding(outerW, outerH, frameIn, colour, o.kind)); } else { $svg.hide(); }
 			// the frame's rebate casts a soft shadow onto whatever sits inside it
 			var innerShadow = frameIn ? 'inset 0 0 ' + (o.kind === 'box' ? '18px 2px' : '10px 1px') + ' rgba(0,0,0,.28)' : 'none';
-			$m.css({ padding: pct(gapIn), background: o.kind === 'float' ? '#faf9f6' : 'transparent', boxShadow: o.kind === 'float' ? innerShadow : 'none' });
+			$m.css({ padding: pct(gapIn), background: o.kind === 'float' ? '#faf9f6' : (o.kind === 'box' ? '#f6f4ef' : 'transparent'), boxShadow: gapIn ? innerShadow : 'none' });
 			var bevel = matIn ? ', inset 0 0 0 1px rgba(0,0,0,.08), inset 0 0 0 3px rgba(255,255,255,.9), inset 0 0 0 4px rgba(0,0,0,.06)' : '';
-			$p.css({ aspectRatio: W + ' / ' + H, padding: pct(matIn), background: matIn ? '#fbfaf7' : '#fff', boxShadow: (frameIn && o.kind !== 'float' ? innerShadow : 'none') + (matIn ? bevel : '') });
+			$p.css({ aspectRatio: W + ' / ' + H, padding: pct(matIn), background: matIn ? '#fbfaf7' : '#fff', boxShadow: (frameIn && !gapIn ? innerShadow : (gapIn ? '0 2px 6px rgba(0,0,0,.25)' : 'none')) + (matIn ? bevel : '') });
 			$p.find('img').css({ objectFit: o.sizing === 'fillPrintArea' ? 'cover' : 'contain', boxShadow: matIn ? '0 0 0 1px rgba(0,0,0,.12), inset 0 0 6px rgba(0,0,0,.2)' : 'none' });
 			$stage.find('.pd-stage-cap').text(W + ' × ' + H + '" ' + (groups[o.grp] || {}).label + (o.frame ? ' · ' + o.frame : '') + (matIn ? ' · ' + matIn + '" mat' : ''));
 		}
