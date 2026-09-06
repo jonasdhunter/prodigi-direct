@@ -121,17 +121,19 @@
 			if (frameIn) { $svg.show().attr('viewBox', '0 0 ' + outerW + ' ' + outerH).attr('preserveAspectRatio', 'none').html(moulding(outerW, outerH, frameIn, colour, o.kind)); } else { $svg.hide(); }
 			// the frame's rebate casts a soft shadow onto whatever sits inside it
 			var innerShadow = frameIn ? 'inset 0 0 ' + (o.kind === 'box' ? '18px 2px' : '10px 1px') + ' rgba(0,0,0,.28)' : 'none';
-			$m.css({ padding: pct(gapIn), background: o.kind === 'float' ? '#faf9f6' : (o.kind === 'box' ? '#f6f4ef' : 'transparent'), boxShadow: gapIn ? innerShadow : 'none' });
+			// A float frame's gap shows the frame's inner base, in the frame colour and in shadow; a box frame's shadow-line is a pale spacer.
+			$m.css({ padding: pct(gapIn), background: o.kind === 'float' ? shade(colour, -0.45) : (o.kind === 'box' ? '#f6f4ef' : 'transparent'), boxShadow: gapIn ? (o.kind === 'float' ? 'inset 0 0 14px 2px rgba(0,0,0,.55)' : innerShadow) : 'none' });
 			var bevel = matIn ? ', inset 0 0 0 1px rgba(0,0,0,.08), inset 0 0 0 3px rgba(255,255,255,.9), inset 0 0 0 4px rgba(0,0,0,.06)' : '';
 			$p.css({ aspectRatio: W + ' / ' + H, padding: pct(matIn), background: matIn ? '#fbfaf7' : '#fff', boxShadow: (frameIn && !gapIn ? innerShadow : (gapIn ? '0 2px 6px rgba(0,0,0,.25)' : 'none')) + (matIn ? bevel : '') });
 			$p.find('img').css({ objectFit: o.sizing === 'fillPrintArea' ? 'cover' : 'contain', boxShadow: matIn ? '0 0 0 1px rgba(0,0,0,.12), inset 0 0 6px rgba(0,0,0,.2)' : 'none' });
 			// Mirror-wrapped canvas: a 1.5" edge showing the painting's own border, mirrored, on the right and bottom.
-			var edge = (o.kind === 'wrap' || o.kind === 'float') ? 1.5 : 0;
+			// Seen slightly from the front-left, a 1.5" wrapped edge shows at about a third of its width.
+			var edge = (o.kind === 'wrap') ? 1.5 : 0, seen = 0.36;
 			$p.find('.pd-edge').toggle(!!edge);
 			if (edge) {
-				var er = (edge / W * 100) + '%', eb = (edge / H * 100) + '%';
-				$p.find('.pd-edge-r').css({ width: er }).find('img').css({ width: (W / edge * 100) + '%' });
-				$p.find('.pd-edge-b').css({ height: eb }).find('img').css({ height: (H / edge * 100) + '%' });
+				var er = (edge * seen / W * 100) + '%', eb = (edge * seen / H * 100) + '%';
+				$p.find('.pd-edge-r').css({ width: er }).find('img').css({ width: (W / (edge * seen) * 100) + '%' });
+				$p.find('.pd-edge-b').css({ height: eb }).find('img').css({ height: (H / (edge * seen) * 100) + '%' });
 			}
 			$stage.find('.pd-stage-cap').text(W + ' × ' + H + '" ' + (groups[o.grp] || {}).label + (o.frame ? ' · ' + o.frame : '') + (matIn ? ' · ' + matIn + '" mat' : '') + (edge ? ' · mirrored edges' : ''));
 		}

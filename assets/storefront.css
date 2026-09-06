@@ -81,7 +81,8 @@
 .pd-edge img{display:block;object-fit:cover;max-width:none;position:absolute}
 .pd-edge-r{top:0;left:100%;height:100%}.pd-edge-r img{height:100%;right:0;transform:scaleX(-1);transform-origin:center;object-position:right}
 .pd-edge-b{left:0;top:100%;width:100%}.pd-edge-b img{width:100%;bottom:0;transform:scaleY(-1);transform-origin:center;object-position:bottom}
-.pd-edge::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.28)}
-.pd-edge-b::after{background:rgba(0,0,0,.4)}
+.pd-edge::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.22),rgba(0,0,0,.42))}
+.pd-edge-b::after{background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.55))}
+.pd-edge-r{transform:skewY(0deg)}
 .pd-stage[data-kind=wrap] .pd-stage-frame,.pd-stage[data-kind=float] .pd-stage-mat{overflow:visible}
-.pd-stage[data-kind=wrap] .pd-stage-paper{overflow:visible;margin-right:4%;margin-bottom:4%}
+.pd-stage[data-kind=wrap] .pd-stage-paper{overflow:visible;margin-right:3.5%;margin-bottom:3.5%}
