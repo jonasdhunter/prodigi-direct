@@ -45,8 +45,13 @@ final class Price_Book {
 		$ids     = wc_get_products( [ 'type' => 'variation', 'limit' => -1, 'return' => 'ids', 'status' => [ 'publish', 'private' ] ] );
 		foreach ( $ids as $vid ) {
 			$v      = wc_get_product( $vid );
-			$label  = (string) $v->get_attribute( 'print-options' );
-			$parsed = $catalogue->parse_label( $label );
+			$parsed = null;
+			foreach ( $v->get_attributes() as $val ) {
+				$parsed = $catalogue->parse_label( (string) $val );
+				if ( $parsed ) {
+					break;
+				}
+			}
 			$price  = $v->get_regular_price();
 			if ( $parsed && '' !== $price && ! isset( $book[ $parsed['family'] ][ $parsed['size'] ] ) ) {
 				$book[ $parsed['family'] ][ $parsed['size'] ] = (float) $price;

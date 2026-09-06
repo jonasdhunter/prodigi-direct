@@ -49,7 +49,7 @@ Adding a family or size is a JSON edit plus a run of `wp prodigi-direct check-ca
 
 ## Labels
 
-Variations use one custom attribute, **Print Options**, with values like:
+Variations use one custom attribute — whichever one already carries print labels (e.g. **Size / Material** or **Print Options**), created as **Size / Material** on a new product — with values like:
 
 ```
 8x10" Paper · 16x20" Rolled Canvas · 16x20" Gallery Wrapped · 16x20" Classic Frame, Black · 24x30" Float Frame Canvas, Natural

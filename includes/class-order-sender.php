@@ -62,7 +62,7 @@ final class Order_Sender {
 				'item_id'    => (int) $item_id,
 				'product_id' => $pid,
 				'name'       => $item->get_name(),
-				'label'      => (string) $v->get_attribute( Product_Builder::ATTR_KEY ),
+				'label'      => ( new Product_Builder( Plugin::instance()->catalogue() ) )->label_of( $v ),
 				'sku'        => $sku,
 				'sizing'     => (string) ( $v->get_meta( Product_Builder::META_SIZING ) ?: 'fitPrintArea' ),
 				'attributes' => (array) json_decode( (string) $v->get_meta( Product_Builder::META_ATTRS ), true ),

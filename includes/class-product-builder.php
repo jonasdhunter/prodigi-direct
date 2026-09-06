@@ -12,8 +12,8 @@ use WC_Product_Variation;
  * whose values are the labels the shop already uses ('16x20" Paper').
  */
 final class Product_Builder {
-	public const ATTR        = 'Print Options';
-	public const ATTR_KEY    = 'print-options';
+	public const ATTR        = 'Size / Material'; // created when a product has no print attribute yet
+	public const ATTR_KEY    = 'size-material';
 	public const META_FAM    = '_prodigi_family';
 	public const META_SIZE   = '_prodigi_size';
 	public const META_CHOICE = '_prodigi_choice';
@@ -29,6 +29,35 @@ final class Product_Builder {
 	public function __construct( private Catalogue $catalogue ) {}
 
 	/**
+	 * The custom attribute that carries the print labels on this product: whichever existing attribute
+	 * has values the catalogue understands ("Print Options", "Size / Material", …), else the default.
+	 */
+	public function attr_key( WC_Product $product ): string {
+		foreach ( $product->get_attributes() as $key => $attr ) {
+			if ( ! $attr instanceof WC_Product_Attribute || $attr->is_taxonomy() ) {
+				continue;
+			}
+			foreach ( $attr->get_options() as $opt ) {
+				if ( $this->catalogue->parse_label( (string) $opt ) ) {
+					return (string) $key;
+				}
+			}
+		}
+		return self::ATTR_KEY;
+	}
+
+	/** The print label of a variation, whatever the attribute is called. */
+	public function label_of( WC_Product $variation ): string {
+		$attrs = $variation->get_attributes();
+		foreach ( $attrs as $val ) {
+			if ( $this->catalogue->parse_label( (string) $val ) ) {
+				return (string) $val;
+			}
+		}
+		return (string) ( reset( $attrs ) ?: '' );
+	}
+
+	/**
 	 * @param string[] $families
 	 * @param string[] $sizes
 	 * @param array<string, string[]> $choices  family => colours
@@ -39,8 +68,9 @@ final class Product_Builder {
 		if ( ! $product instanceof WC_Product_Variable ) {
 			throw new \RuntimeException( 'Only variable products can carry prints.' );
 		}
-		$master = Assets::info( $product_id );
-		$wanted  = []; // label => [family, size, choice]
+		$master   = Assets::info( $product_id );
+		$attr_key = $this->attr_key( $product );
+		$wanted   = []; // label => [family, size, choice]
 		$skipped = []; // plain-language reasons a tick produced nothing
 		foreach ( $families as $family ) {
 			if ( ! $this->catalogue->family( $family ) ) {
@@ -66,14 +96,14 @@ final class Product_Builder {
 		foreach ( $product->get_children() as $vid ) {
 			$v = wc_get_product( $vid );
 			if ( $v ) {
-				$existing[ (string) $v->get_attribute( self::ATTR_KEY ) ] = $v;
+				$existing[ $this->label_of( $v ) ] = $v;
 			}
 		}
 
 		// The parent attribute must list every option the variations reference (keep any foreign labels).
 		$all_labels = array_values( array_unique( array_merge( array_keys( $existing ), array_keys( $wanted ) ) ) );
 		usort( $all_labels, [ $this, 'sort_labels' ] );
-		$this->set_parent_attribute( $product, $all_labels );
+		$this->set_parent_attribute( $product, $attr_key, $all_labels );
 
 		$stats = [ 'created' => 0, 'adopted' => 0, 'hidden' => 0, 'unpriced' => 0, 'low_dpi' => 0, 'skipped' => $skipped ];
 		foreach ( $wanted as $label => [ $family, $size, $choice ] ) {
@@ -81,7 +111,7 @@ final class Product_Builder {
 			if ( ! $v ) {
 				$v = new WC_Product_Variation();
 				$v->set_parent_id( $product_id );
-				$v->set_attributes( [ self::ATTR_KEY => $label ] );
+				$v->set_attributes( [ $attr_key => $label ] );
 				++$stats['created'];
 			} else {
 				++$stats['adopted'];
@@ -190,7 +220,7 @@ final class Product_Builder {
 				if ( ! $v || 'publish' !== $v->get_status() ) {
 					continue;
 				}
-				$p = $this->catalogue->parse_label( (string) $v->get_attribute( self::ATTR_KEY ) );
+				$p = $this->catalogue->parse_label( $this->label_of( $v ) );
 				if ( $p ) {
 					$families[ $p['family'] ] = true;
 					$sizes[ $p['size'] ]      = true;
@@ -217,7 +247,7 @@ final class Product_Builder {
 		$master = Assets::info( $product_id );
 		foreach ( $product->get_children() as $vid ) {
 			$v      = wc_get_product( $vid );
-			$label  = (string) $v->get_attribute( self::ATTR_KEY );
+			$label  = $this->label_of( $v );
 			$family = (string) $v->get_meta( self::META_FAM );
 			$size   = (string) $v->get_meta( self::META_SIZE );
 			if ( ! $family ) {
@@ -256,16 +286,18 @@ final class Product_Builder {
 		return $rows;
 	}
 
-	private function set_parent_attribute( WC_Product $product, array $labels ): void {
+	private function set_parent_attribute( WC_Product $product, string $attr_key, array $labels ): void {
 		$attrs = $product->get_attributes();
-		$attr  = $attrs[ self::ATTR_KEY ] ?? new WC_Product_Attribute();
+		$attr  = $attrs[ $attr_key ] ?? new WC_Product_Attribute();
 		$attr->set_id( 0 );
-		$attr->set_name( self::ATTR );
+		if ( ! $attr->get_name() ) {
+			$attr->set_name( self::ATTR );
+		}
 		$attr->set_options( $labels );
 		$attr->set_position( 0 );
 		$attr->set_visible( true );
 		$attr->set_variation( true );
-		$attrs[ self::ATTR_KEY ] = $attr;
+		$attrs[ $attr_key ] = $attr;
 		$product->set_attributes( $attrs );
 		$product->save();
 	}
