@@ -64,16 +64,24 @@ final class Storefront {
 			if ( ! $p ) {
 				continue;
 			}
-			$fam   = $cat->family( $p['family'] );
-			$out[] = [
+			$fam      = $cat->family( $p['family'] );
+			$own      = (int) ( ( (array) Plugin::instance()->setting( 'family_images' ) )[ $p['family'] ] ?? 0 );
+			$fam_img  = $own ? (string) wp_get_attachment_image_url( $own, 'large' ) : (string) ( $fam['image'] ?? '' );
+			$choice_l = $p['choice'] ? ( $cat->choices( $p['family'] )[ $p['choice'] ] ?? $p['choice'] ) : '';
+			$out[]    = [
 				'id'       => $v->get_id(),
 				'label'    => $label,
 				'family'   => $p['family'],
 				'material' => $fam['short'],
 				'group'    => $fam['group'],
+				'medium'   => (string) ( $fam['medium'] ?? 'paper' ),
+				'style'    => (string) ( $fam['style'] ?? $fam['short'] ) . ( $choice_l ? ' — ' . $choice_l : '' ),
+				'style_k'  => $p['family'] . '|' . (string) $p['choice'],
+				'desc'     => $cat->description( $p['family'] ),
+				'image'    => (string) ( $p['choice'] ? ( $fam['choice_images'][ $p['choice'] ] ?? $fam_img ) : $fam_img ),
 				'size'     => $p['size'],
 				'choice'   => (string) $p['choice'],
-				'choice_l' => $p['choice'] ? ( $cat->choices( $p['family'] )[ $p['choice'] ] ?? $p['choice'] ) : '',
+				'choice_l' => $choice_l,
 				'price'    => wc_get_price_to_display( $v ),
 				'price_h'  => wp_strip_all_tags( wc_price( wc_get_price_to_display( $v ) ) ),
 			];
@@ -97,47 +105,30 @@ final class Storefront {
 		}
 		$artist = (string) ( Plugin::instance()->setting( 'artist_name' ) ?: get_bloginfo( 'name' ) );
 		$note   = (string) $product->get_meta( self::META_PICK_NOTE );
-		$families = [];
-		$images   = (array) Plugin::instance()->setting( 'family_images' );
-		foreach ( $data['options'] as $o ) {
-			$img_id = (int) ( $images[ $o['family'] ] ?? 0 );
-			$families[ $o['family'] ] = [
-				'label' => $o['material'],
-				'group' => $o['group'],
-				'desc'  => $cat->description( $o['family'] ),
-				'thumb' => $img_id ? (string) wp_get_attachment_image_url( $img_id, 'medium' ) : '',
-				'large' => $img_id ? (string) wp_get_attachment_image_url( $img_id, 'large' ) : '',
-			];
+		$media = [];
+		foreach ( $cat->media() as $key => $m ) {
+			$own = (int) ( ( (array) Plugin::instance()->setting( 'family_images' ) )[ 'medium-' . $key ] ?? 0 );
+			$media[ $key ] = [ 'label' => $m['label'], 'image' => $own ? (string) wp_get_attachment_image_url( $own, 'medium' ) : (string) $m['image'] ];
 		}
 		?>
-		<div class="pd-picker" data-attr="<?php echo esc_attr( $data['attr'] ); ?>" data-options="<?php echo esc_attr( wp_json_encode( $data['options'] ) ); ?>" data-pick="<?php echo esc_attr( $pick_id ); ?>">
+		<div class="pd-picker" data-attr="<?php echo esc_attr( $data['attr'] ); ?>" data-options="<?php echo esc_attr( wp_json_encode( $data['options'] ) ); ?>" data-media="<?php echo esc_attr( wp_json_encode( $media ) ); ?>" data-pick="<?php echo esc_attr( $pick_id ); ?>">
 			<?php if ( $pick ) : ?>
 			<div class="pd-pick">
 				<div class="pd-pick-head"><?php echo esc_html( sprintf( __( "%s's recommendation", 'prodigi-direct' ), $artist ) ); ?></div>
 				<div class="pd-pick-body">
 					<div class="pd-pick-what"><strong><?php echo esc_html( $pick['size'] . '" ' . $pick['material'] . ( $pick['choice_l'] ? ', ' . $pick['choice_l'] : '' ) ); ?></strong> <span class="pd-pick-price"><?php echo esc_html( $pick['price_h'] ); ?></span></div>
 					<?php if ( $note ) : ?><p class="pd-pick-note"><?php echo esc_html( $note ); ?></p><?php endif; ?>
-					<button type="button" class="button pd-pick-choose" data-id="<?php echo esc_attr( $pick['id'] ); ?>"><?php esc_html_e( 'Choose this', 'prodigi-direct' ); ?></button>
+					<button type="button" class="pd-pick-choose" data-id="<?php echo esc_attr( $pick['id'] ); ?>"><?php esc_html_e( 'Choose this', 'prodigi-direct' ); ?></button>
 				</div>
 			</div>
 			<?php endif; ?>
-			<div class="pd-step pd-step-material">
-				<div class="pd-step-title"><?php esc_html_e( 'Material', 'prodigi-direct' ); ?> <small class="pd-step-hint"><?php esc_html_e( 'hover or tap to see it', 'prodigi-direct' ); ?></small></div>
-				<div class="pd-preview" aria-live="polite"><img src="" alt="" /><div class="pd-preview-cap"></div></div>
-				<div class="pd-cards">
-					<?php foreach ( $families as $key => $f ) : ?>
-						<button type="button" class="pd-card" data-family="<?php echo esc_attr( $key ); ?>" data-image="<?php echo esc_url( $f['large'] ); ?>" data-caption="<?php echo esc_attr( $f['label'] . ' — ' . $f['desc'] ); ?>"><?php if ( $f['thumb'] ) : ?><img class="pd-card-thumb" src="<?php echo esc_url( $f['thumb'] ); ?>" alt="" loading="lazy" /><?php endif; ?><span class="pd-card-title"><?php echo esc_html( $f['label'] ); ?></span><span class="pd-card-desc"><?php echo esc_html( $f['desc'] ); ?></span></button>
-					<?php endforeach; ?>
-				</div>
+			<div class="pd-preview" aria-live="polite"><img src="" alt="" /><div class="pd-preview-cap"></div></div>
+			<?php foreach ( [ 'medium' => __( 'Medium', 'prodigi-direct' ), 'size' => __( 'Size', 'prodigi-direct' ), 'style' => __( 'Style', 'prodigi-direct' ) ] as $i => $label ) : static $n = 0; ++$n; ?>
+			<div class="pd-acc" data-step="<?php echo esc_attr( $i ); ?>">
+				<button type="button" class="pd-acc-head" aria-expanded="false"><span class="pd-acc-num"><?php echo esc_html( $n . ' ' . $label ); ?></span><span class="pd-acc-val"></span><span class="pd-acc-chev" aria-hidden="true"></span></button>
+				<div class="pd-acc-body" hidden><div class="pd-tiles"></div></div>
 			</div>
-			<div class="pd-step pd-step-size" hidden>
-				<div class="pd-step-title"><?php esc_html_e( 'Size', 'prodigi-direct' ); ?> <small class="pd-step-hint"><?php esc_html_e( 'inches, width × height', 'prodigi-direct' ); ?></small></div>
-				<div class="pd-chips"></div>
-			</div>
-			<div class="pd-step pd-step-frame" hidden>
-				<div class="pd-step-title"><?php esc_html_e( 'Frame colour', 'prodigi-direct' ); ?></div>
-				<div class="pd-chips"></div>
-			</div>
+			<?php endforeach; ?>
 			<div class="pd-chosen" hidden></div>
 		</div>
 		<?php
@@ -149,7 +140,7 @@ final class Storefront {
 		if ( ! $this->managed( $product ) ) {
 			return;
 		}
-		$story = $product->get_description();
+		$story = 'yes' === Plugin::instance()->setting( 'story' ) ? $product->get_description() : '';
 		$data  = $this->options( $product );
 		$cat   = Plugin::instance()->catalogue();
 		$fams  = [];

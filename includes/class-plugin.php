@@ -38,7 +38,8 @@ final class Plugin {
 			'catalogue_checked'   => '',
 			'storefront'          => 'yes',   // picker + recommendation + story on the product page
 			'artist_name'         => '',      // "<name>'s recommendation"; empty = site title
-			'family_images'       => [],      // family key => attachment id (real photos of each material)
+			'family_images'       => [],
+			'story'               => 'yes',   // "The story" under the product (some artists sell better without it)      // family key => attachment id (real photos of each material)
 		];
 	}
 

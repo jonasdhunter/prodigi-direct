@@ -163,7 +163,8 @@ final class Settings {
 						<tr><th><label for="notify_email"><?php esc_html_e( 'Email problems to', 'prodigi-direct' ); ?></label></th><td><input type="email" id="notify_email" name="notify_email" class="regular-text" value="<?php echo esc_attr( $s['notify_email'] ); ?>" /></td></tr>
 						<tr><th><?php esc_html_e( 'When everything ships', 'prodigi-direct' ); ?></th><td><label><input type="checkbox" name="complete_on_ship" value="yes" <?php checked( 'yes', $s['complete_on_ship'] ); ?> /> <?php esc_html_e( 'Mark the WooCommerce order Completed (sends the customer the completed-order email)', 'prodigi-direct' ); ?></label></td></tr>
 						<tr><th><?php esc_html_e( 'Product page', 'prodigi-direct' ); ?></th><td>
-							<label><input type="checkbox" name="storefront" value="yes" <?php checked( 'yes', $s['storefront'] ); ?> /> <?php esc_html_e( 'Show the material / size / frame picker, the artist’s recommendation, and the story + details section on print products', 'prodigi-direct' ); ?></label><br />
+							<label><input type="checkbox" name="storefront" value="yes" <?php checked( 'yes', $s['storefront'] ); ?> /> <?php esc_html_e( 'Show the medium / size / style picker, the artist’s recommendation, and the details section on print products', 'prodigi-direct' ); ?></label><br />
+							<label><input type="checkbox" name="story" value="yes" <?php checked( 'yes', $s['story'] ); ?> /> <?php esc_html_e( 'Show “The story” (the product description) under the product — try it both ways; some artists sell more without it', 'prodigi-direct' ); ?></label><br />
 							<label for="artist_name"><?php esc_html_e( 'Artist’s name', 'prodigi-direct' ); ?></label> <input type="text" id="artist_name" name="artist_name" class="regular-text" value="<?php echo esc_attr( $s['artist_name'] ); ?>" placeholder="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" /> <span class="description"><?php esc_html_e( 'Used as “<name>’s recommendation” and to sign the story.', 'prodigi-direct' ); ?></span></td></tr>
 						<tr><th><?php esc_html_e( 'Setup checks', 'prodigi-direct' ); ?></th><td>
 							<label><input type="checkbox" name="setup_card_ok" value="yes" <?php checked( 'yes', $s['setup_card_ok'] ); ?> /> <?php esc_html_e( 'A card is registered on the Prodigi account', 'prodigi-direct' ); ?></label><br />
@@ -206,6 +207,7 @@ final class Settings {
 					'setup_card_ok'     => isset( $_POST['setup_card_ok'] ) ? 'yes' : 'no',
 					'setup_channel_off' => isset( $_POST['setup_channel_off'] ) ? 'yes' : 'no',
 					'storefront'        => isset( $_POST['storefront'] ) ? 'yes' : 'no',
+					'story'             => isset( $_POST['story'] ) ? 'yes' : 'no',
 					'artist_name'       => sanitize_text_field( wp_unslash( $_POST['artist_name'] ?? '' ) ),
 				] );
 				Activity_Log::add( sprintf( 'Settings saved (%s mode).', $plugin->mode() ) );

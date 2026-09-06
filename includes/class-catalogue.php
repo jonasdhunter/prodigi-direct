@@ -12,6 +12,7 @@ final class Catalogue {
 	private string $version = '';
 	/** @var array<string,string> */
 	private array $links = [];
+	private array $media_data = [];
 
 	public static function load( ?string $file = null ): self {
 		$file = $file ?: PRODIGI_DIRECT_DIR . 'catalogue/prodigi.json';
@@ -22,6 +23,7 @@ final class Catalogue {
 		$self          = new self();
 		$self->version = (string) ( $data['version'] ?? '' );
 		$self->links   = (array) ( $data['links'] ?? [] );
+		$self->media_data = (array) ( $data['media'] ?? [] );
 		foreach ( $data['families'] as $fam ) {
 			$fam['sizes_by_key'] = [];
 			foreach ( $fam['sizes'] as $size ) {
@@ -36,6 +38,9 @@ final class Catalogue {
 
 	/** Prodigi reference links: product_range, portfolio_pdf, api_reference, dashboard, sandbox_dashboard. @return array<string,string> */
 	public function links(): array { return $this->links; }
+
+	/** Media (paper / canvas) with label + image. @return array<string,array{label:string,image:string}> */
+	public function media(): array { return $this->media_data; }
 
 	/** One plain sentence describing the family, for the shop's details panel. */
 	public function description( string $family ): string { return (string) ( $this->families[ $family ]['description'] ?? '' ); }
