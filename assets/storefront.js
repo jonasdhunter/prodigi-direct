@@ -35,7 +35,7 @@
 			list.forEach(function (o) {
 				if (seen[o.style_k]) { return; } seen[o.style_k] = 1;
 				var $t = $('<button type="button" class="pd-tile"/>').attr('data-frame', o.frame ? o.style_k : '').toggleClass('is-active', !!cur && o.style_k === cur.style_k);
-				$t.append(o.image ? $('<span class="pd-tile-img"/>').append($('<img alt="" loading="lazy"/>').attr('src', o.image)) : $('<span class="pd-tile-img pd-tile-img-empty" aria-hidden="true"><span></span></span>'));
+				$t.append(o.image ? $('<span class="pd-tile-img"/>').append($('<img alt="" decoding="async"/>').attr('src', o.image)) : $('<span class="pd-tile-img pd-tile-img-empty" aria-hidden="true"><span></span></span>'));
 				$t.append($('<span class="pd-tile-title"/>').text(o.frame || 'No frame')).append($('<span class="pd-tile-sub"/>').text(o.price_h)).appendTo($c);
 			});
 			$frame.find('.pd-acc-val').text(cur ? (cur.frame || 'No frame') : '');
