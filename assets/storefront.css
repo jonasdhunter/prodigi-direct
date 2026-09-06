@@ -40,3 +40,4 @@
 .pd-preview.is-on{display:block}
 .pd-preview img{display:block;width:100%;height:auto;max-height:180px;object-fit:cover}
 .pd-preview-cap{font-size:.8em;opacity:.75;padding:.4em .6em}
+.pd-tile-img-empty{display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid rgba(0,0,0,.12)}.pd-tile-img-empty span{width:55%;height:55%;border:1px solid rgba(0,0,0,.35);background:#fff;box-shadow:2px 2px 0 rgba(0,0,0,.08)}

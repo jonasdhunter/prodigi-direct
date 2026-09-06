@@ -33,6 +33,7 @@
 			var $t = $('<button type="button" class="pd-tile"/>').addClass(cls || '');
 			Object.keys(data).forEach(function (k) { $t.attr('data-' + k, data[k]); });
 			if (img) { $t.append($('<span class="pd-tile-img"/>').append($('<img alt="" loading="lazy"/>').attr('src', img))); }
+			else if (cls !== 'pd-tile-text') { $t.append($('<span class="pd-tile-img pd-tile-img-empty" aria-hidden="true"><span></span></span>')); }
 			$t.append($('<span class="pd-tile-title"/>').text(title));
 			if (sub) { $t.append($('<span class="pd-tile-sub"/>').text(sub)); }
 			return $t;
@@ -49,7 +50,7 @@
 			var $c = $acc.size.find('.pd-tiles').empty().addClass('pd-tiles-sizes');
 			uniq(byMedium().map(function (o) { return o.size; })).sort(sizeOrder).forEach(function (s) {
 				var from = Math.min.apply(null, byMedium().filter(function (o) { return o.size === s; }).map(function (o) { return o.price; }));
-				tile(s === st.size ? 'is-active' : '', { size: s }, '', s.replace('x', ' × ') + '"', 'from ' + money(from)).appendTo($c);
+				tile(s === st.size ? 'is-active pd-tile-text' : 'pd-tile-text', { size: s }, '', s.replace('x', ' × ') + '"', 'from ' + money(from)).appendTo($c);
 			});
 			$acc.size.find('.pd-acc-val').text(st.size ? st.size.replace('x', ' × ') + '"' : '');
 			$acc.size.toggleClass('is-disabled', !st.medium);
