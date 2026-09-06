@@ -2148,7 +2148,7 @@
  "groups": {
   "paper": {
    "label": "Fine Art Paper",
-   "desc": "Gicl\u00e9e print on enhanced matte fine art paper, 200 gsm, archival pigment inks. Frame it, or not."
+   "desc": "Gicl\u00e9e print on enhanced matte fine art paper, 200 gsm, archival pigment inks."
   },
   "rolled": {
    "label": "Rolled Canvas",
@@ -2156,7 +2156,7 @@
   },
   "wrap": {
    "label": "Gallery Wrapped Canvas",
-   "desc": "Stretched on 38 mm (1.5\") wooden bars, the painting mirrored around the edges, ready to hang. Float frame optional."
+   "desc": "Stretched on 38 mm (1.5\") wooden bars, the painting mirrored around the edges, ready to hang."
   }
  }
 }
