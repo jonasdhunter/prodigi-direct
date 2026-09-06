@@ -287,7 +287,7 @@
    ],
    "url": "https://www.prodigi.com/products/prints-and-posters/art-prints/",
    "description": "Gicl\u00e9e print on enhanced matte fine art paper, 200 gsm, archival pigment inks.",
-   "image": "https://www.prodigi.com/img/products/card/enhanced-matte-art.jpg",
+   "image": "",
    "medium": "paper",
    "style": "Just the print"
   },
@@ -575,7 +575,7 @@
    ],
    "url": "https://www.prodigi.com/products/wall-art/canvas/rolled-canvas/",
    "description": "Printed on 400 gsm artist canvas and shipped rolled in a tube, ready for stretching or framing.",
-   "image": "https://www.prodigi.com/img/products/card/rolled-canvas.webp",
+   "image": "",
    "medium": "canvas",
    "style": "Rolled canvas"
   },
@@ -867,7 +867,7 @@
    ],
    "url": "https://www.prodigi.com/products/wall-art/canvas/stretched-canvas/",
    "description": "Stretched on 38 mm (1.5\") wooden bars with white sides, ready to hang.",
-   "image": "https://www.prodigi.com/img/products/card/stretched-canvas.webp",
+   "image": "",
    "medium": "canvas",
    "style": "Gallery wrapped"
   },
@@ -1093,7 +1093,7 @@
    ],
    "url": "https://www.prodigi.com/products/wall-art/framed-prints/classic-frames/",
    "description": "Fine art paper print in a solid wood classic frame with acrylic glazing, ready to hang.",
-   "image": "https://www.prodigi.com/img/products/additional/classic-frames/classic-frames-group_4.webp",
+   "image": "",
    "medium": "paper",
    "choice_images": {
     "black": "https://www.prodigi.com/img/products/chevrons/classic-black.png",
@@ -1361,7 +1361,7 @@
    ],
    "url": "https://www.prodigi.com/products/wall-art/framed-prints/classic-frames/",
    "description": "Fine art paper print behind a snow-white mat in a solid wood classic frame with acrylic glazing.",
-   "image": "https://www.prodigi.com/img/products/additional/classic-frames/classic-frame-prints-mounts.webp",
+   "image": "",
    "medium": "paper",
    "choice_images": {
     "black": "https://www.prodigi.com/img/products/chevrons/classic-black.png",
@@ -1592,7 +1592,7 @@
    ],
    "url": "https://www.prodigi.com/products/wall-art/framed-prints/box-frames/",
    "description": "Fine art paper print in a deep box frame with acrylic glazing, ready to hang.",
-   "image": "https://www.prodigi.com/img/products/additional/box-frames/box-frame-corner.webp",
+   "image": "",
    "medium": "paper",
    "choice_images": {
     "black": "https://www.prodigi.com/img/products/chevrons/box-black.png",
@@ -1866,7 +1866,7 @@
    ],
    "url": "https://www.prodigi.com/products/wall-art/framed-prints/box-frames/",
    "description": "Fine art paper print behind a snow-white mat in a deep box frame with acrylic glazing.",
-   "image": "https://www.prodigi.com/img/products/additional/box-frames/box-frame---face-on.webp",
+   "image": "",
    "medium": "paper",
    "choice_images": {
     "black": "https://www.prodigi.com/img/products/chevrons/box-black.png",
@@ -2098,7 +2098,7 @@
    ],
    "url": "https://www.prodigi.com/products/wall-art/canvas/framed-canvas/",
    "description": "Stretched canvas set inside a float frame, ready to hang.",
-   "image": "https://www.prodigi.com/img/products/card/framed-canvas.webp",
+   "image": "",
    "medium": "canvas",
    "choice_images": {
     "black": "https://www.prodigi.com/img/products/swatches/frame-classic-black.png",
@@ -2121,12 +2121,12 @@
  "media": {
   "paper": {
    "label": "Fine Art Paper",
-   "image": "https://www.prodigi.com/img/products/card/enhanced-matte-art.jpg"
+   "image": ""
   },
   "canvas": {
    "label": "Canvas",
-   "image": "https://www.prodigi.com/img/products/card/stretched-canvas.webp"
+   "image": ""
   }
  },
- "image_credit": "Product and frame photographs \u00a9 Prodigi, used from prodigi.com product pages."
+ "image_credit": "Frame-corner photographs \u00a9 Prodigi (prodigi.com/img/products/chevrons, swatches). Paper/canvas photos are the artist's own or none."
 }
