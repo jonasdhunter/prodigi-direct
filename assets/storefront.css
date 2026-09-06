@@ -67,3 +67,10 @@
 .pd-picker button.pd-chip.is-active{border-color:currentColor;box-shadow:inset 0 0 0 1px currentColor}
 .pd-chip-price{opacity:.65;font-size:.85em}
 .pd-step-frame{margin-top:.4em}
+
+/* Aeron order inside the form: price + add-to-cart first, then the steps */
+.woocommerce div.product form.cart.variations_form{display:flex;flex-direction:column}
+.woocommerce div.product form.cart.variations_form .single_variation_wrap{order:-1;margin-bottom:1.2em}
+.woocommerce div.product form.cart.variations_form .pd-picker{order:1}
+.woocommerce div.product form.cart.variations_form .pd-hidden-table{order:0}
+.woocommerce div.product .woocommerce-product-details__short-description{margin-top:1.5em;font-size:.95em;opacity:.85}

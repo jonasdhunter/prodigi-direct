@@ -18,6 +18,7 @@ final class Storefront {
 		}
 		add_action( 'wp_enqueue_scripts', [ $this, 'assets' ] );
 		add_action( 'woocommerce_before_variations_form', [ $this, 'picker' ] );
+		add_action( 'wp', [ $this, 'reorder_summary' ] );
 		add_action( 'woocommerce_after_single_product_summary', [ $this, 'story' ], 12 );
 		add_filter( 'woocommerce_product_tabs', [ $this, 'tabs' ], 98 );
 		add_filter( 'woocommerce_variation_option_name', [ $this, 'option_name' ], 10, 1 );
@@ -203,6 +204,19 @@ final class Storefront {
 			</aside>
 		</section>
 		<?php
+	}
+
+	/** Aeron-style order: title, price, add-to-cart + steps, and only then the descriptive text. */
+	public function reorder_summary(): void {
+		if ( ! is_product() ) {
+			return;
+		}
+		global $post;
+		if ( ! $this->managed( wc_get_product( $post->ID ) ) ) {
+			return;
+		}
+		remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_excerpt', 20 );
+		add_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_excerpt', 35 );
 	}
 
 	/** The story section replaces WooCommerce's Description and Additional information tabs. */
