@@ -293,7 +293,9 @@ final class Product_Builder {
 
 	private function set_parent_attribute( WC_Product $product, string $attr_key, array $labels ): void {
 		$attrs = $product->get_attributes();
-		$attr  = $attrs[ $attr_key ] ?? new WC_Product_Attribute();
+		// Clone: WooCommerce only records a change when the attributes array differs, and mutating
+		// the fetched object in place leaves it identical — the options would never be saved.
+		$attr = isset( $attrs[ $attr_key ] ) ? clone $attrs[ $attr_key ] : new WC_Product_Attribute();
 		$attr->set_id( 0 );
 		if ( ! $attr->get_name() ) {
 			$attr->set_name( self::ATTR );
