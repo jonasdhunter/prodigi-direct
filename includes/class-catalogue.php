@@ -37,6 +37,9 @@ final class Catalogue {
 	/** Prodigi reference links: product_range, portfolio_pdf, api_reference, dashboard, sandbox_dashboard. @return array<string,string> */
 	public function links(): array { return $this->links; }
 
+	/** One plain sentence describing the family, for the shop's details panel. */
+	public function description( string $family ): string { return (string) ( $this->families[ $family ]['description'] ?? '' ); }
+
 	/** Prodigi's product page for a family. */
 	public function url( string $family ): string { return (string) ( $this->families[ $family ]['url'] ?? $this->links['product_range'] ?? '' ); }
 

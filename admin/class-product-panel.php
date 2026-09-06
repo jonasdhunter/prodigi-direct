@@ -15,6 +15,7 @@ final class Product_Panel {
 		add_action( 'admin_post_prodigi_direct_upload_master', [ $this, 'upload_master' ] );
 		add_action( 'wp_ajax_prodigi_direct_build', [ $this, 'ajax_build' ] );
 		add_action( 'wp_ajax_prodigi_direct_set_price', [ $this, 'ajax_set_price' ] );
+		add_action( 'wp_ajax_prodigi_direct_set_pick', [ $this, 'ajax_set_pick' ] );
 		add_action( 'woocommerce_variation_options_pricing', [ $this, 'variation_details' ], 10, 3 );
 		add_filter( 'post_edit_form_tag', [ $this, 'multipart' ] );
 	}
@@ -116,8 +117,9 @@ final class Product_Panel {
 			<?php
 			$shown  = array_filter( $rows, static fn( $r ) => 'publish' === $r['status'] );
 			$hidden = array_filter( $rows, static fn( $r ) => 'publish' !== $r['status'] );
-			$row_html = function ( array $r ): void { ?>
+			$row_html = function ( array $r ) use ( &$pick_id ): void { ?>
 					<tr class="<?php echo $r['margin'] && $r['margin']['loss'] ? 'prodigi-loss' : ''; ?>">
+						<td class="pd-pick-col"><input type="radio" name="prodigi_pick" class="prodigi-pick" value="<?php echo esc_attr( $r['variation_id'] ); ?>" <?php checked( $pick_id, $r['variation_id'] ); ?> <?php disabled( 'publish' !== $r['status'] ); ?> title="<?php esc_attr_e( 'Recommend this one', 'prodigi-direct' ); ?>" /></td>
 						<td><?php echo esc_html( $r['label'] ); ?><?php if ( ! $r['mapped'] ) : ?> <span class="prodigi-tag"><?php esc_html_e( 'not set up', 'prodigi-direct' ); ?></span><?php endif; ?><br /><small class="prodigi-details"><?php echo esc_html( $r['sku'] ); ?></small></td>
 						<td><input type="number" step="0.01" min="0" class="prodigi-price small-text" data-variation="<?php echo esc_attr( $r['variation_id'] ); ?>" value="<?php echo esc_attr( null === $r['price'] ? '' : $r['price'] ); ?>" /></td>
 						<td><?php echo $r['cost'] ? wp_kses_post( wc_price( $r['cost']['print'] + $r['cost']['ship'] ) ) . '<br /><small>' . esc_html( sprintf( __( 'print %1$s + shipping %2$s', 'prodigi-direct' ), wp_strip_all_tags( wc_price( $r['cost']['print'] ) ), wp_strip_all_tags( wc_price( $r['cost']['ship'] ) ) ) ) . '</small>' : '—'; ?></td>
@@ -126,7 +128,8 @@ final class Product_Panel {
 						<td><?php echo 'publish' === $r['status'] ? esc_html__( 'Yes', 'prodigi-direct' ) : esc_html__( 'Hidden', 'prodigi-direct' ); ?></td>
 					</tr>
 			<?php };
-			$head = '<thead><tr><th>' . esc_html__( 'Size', 'prodigi-direct' ) . '</th><th>' . esc_html__( 'Your price', 'prodigi-direct' ) . '</th><th>' . esc_html__( 'Prodigi cost', 'prodigi-direct' ) . '</th><th>' . esc_html__( 'You keep', 'prodigi-direct' ) . '</th><th>' . esc_html__( 'File quality', 'prodigi-direct' ) . '</th><th>' . esc_html__( 'In the shop', 'prodigi-direct' ) . '</th></tr></thead>';
+			$pick_id = (int) $product->get_meta( \ProdigiDirect\Storefront::META_PICK );
+			$head = '<thead><tr><th class="pd-pick-col" title="' . esc_attr__( 'Artist’s recommendation', 'prodigi-direct' ) . '">★</th><th>' . esc_html__( 'Size', 'prodigi-direct' ) . '</th><th>' . esc_html__( 'Your price', 'prodigi-direct' ) . '</th><th>' . esc_html__( 'Prodigi cost', 'prodigi-direct' ) . '</th><th>' . esc_html__( 'You keep', 'prodigi-direct' ) . '</th><th>' . esc_html__( 'File quality', 'prodigi-direct' ) . '</th><th>' . esc_html__( 'In the shop', 'prodigi-direct' ) . '</th></tr></thead>';
 			?>
 			<h3><?php echo esc_html( sprintf( __( 'Sizes in the shop (%d)', 'prodigi-direct' ), count( $shown ) ) ); ?></h3>
 			<?php if ( ! $rows ) : ?>
@@ -139,6 +142,12 @@ final class Product_Panel {
 				<table class="widefat striped prodigi-table"><?php echo $head; // phpcs:ignore ?><tbody><?php array_map( $row_html, $hidden ); ?></tbody></table>
 			</details>
 			<?php endif; ?>
+			<div class="prodigi-block prodigi-pick-block">
+				<strong><?php esc_html_e( 'Artist’s recommendation', 'prodigi-direct' ); ?></strong>
+				<p class="description"><?php esc_html_e( 'Tick ★ on one size above to feature it on the product page. Optional: one sentence, in your own words, on why.', 'prodigi-direct' ); ?></p>
+				<textarea id="prodigi-pick-note" rows="2" class="large-text" placeholder="<?php esc_attr_e( 'e.g. Gallery wrapped is how I see this one — the colours carry around the edge.', 'prodigi-direct' ); ?>"><?php echo esc_textarea( (string) $product->get_meta( \ProdigiDirect\Storefront::META_PICK_NOTE ) ); ?></textarea>
+				<span id="prodigi-pick-result" class="description"></span>
+			</div>
 			<p class="description"><?php esc_html_e( 'Cost = print + shipping to a US address on the shipping level in settings. Change a price here and it saves straight away.', 'prodigi-direct' ); ?></p>
 			<?php endif; ?>
 		</div>
@@ -229,6 +238,28 @@ final class Product_Panel {
 			}
 		}
 		wp_send_json_success( [] );
+	}
+
+	public function ajax_set_pick(): void {
+		check_ajax_referer( 'prodigi_direct_ajax', 'nonce' );
+		$pid = (int) ( $_POST['product'] ?? 0 );
+		if ( ! current_user_can( 'edit_product', $pid ) ) {
+			wp_send_json_error( [ 'message' => __( 'Not allowed.', 'prodigi-direct' ) ] );
+		}
+		$product = wc_get_product( $pid );
+		if ( isset( $_POST['variation'] ) ) {
+			$vid = (int) $_POST['variation'];
+			$v   = $vid ? wc_get_product( $vid ) : null;
+			if ( $vid && ( ! $v || (int) $v->get_parent_id() !== $pid ) ) {
+				wp_send_json_error( [ 'message' => __( 'That size is not on this product.', 'prodigi-direct' ) ] );
+			}
+			$product->update_meta_data( \ProdigiDirect\Storefront::META_PICK, $vid );
+		}
+		if ( isset( $_POST['note'] ) ) {
+			$product->update_meta_data( \ProdigiDirect\Storefront::META_PICK_NOTE, sanitize_textarea_field( wp_unslash( $_POST['note'] ) ) );
+		}
+		$product->save_meta_data();
+		wp_send_json_success( [ 'message' => __( 'Saved.', 'prodigi-direct' ) ] );
 	}
 
 	/** Read-only details on each variation row for whoever opens the Variations tab. */

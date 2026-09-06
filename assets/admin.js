@@ -25,6 +25,18 @@
 				if (r.success) { setTimeout(function () { location.href = location.pathname + location.search + '#prodigi'; location.reload(); }, r.data.message.indexOf('Skipped') !== -1 ? 6000 : 800); }
 			}).fail(function () { $('#prodigi-build-result').text('Something went wrong.'); }).always(function () { $btn.prop('disabled', false); });
 		});
+		$panel.on('change', '.prodigi-pick', function () {
+			$.post(ProdigiDirect.ajax, { action: 'prodigi_direct_set_pick', nonce: ProdigiDirect.nonce, product: $panel.data('product'), variation: this.value })
+				.done(function (r) { $('#prodigi-pick-result').text(r.success ? 'Recommendation saved.' : (r.data && r.data.message) || 'Could not save.'); });
+		});
+		var noteTimer;
+		$panel.on('input', '#prodigi-pick-note', function () {
+			clearTimeout(noteTimer); var note = this.value;
+			noteTimer = setTimeout(function () {
+				$.post(ProdigiDirect.ajax, { action: 'prodigi_direct_set_pick', nonce: ProdigiDirect.nonce, product: $panel.data('product'), note: note })
+					.done(function (r) { $('#prodigi-pick-result').text(r.success ? 'Note saved.' : 'Could not save.'); });
+			}, 800);
+		});
 		$panel.on('change', '.prodigi-price', function () {
 			var $in = $(this), $row = $in.closest('tr');
 			$.post(ProdigiDirect.ajax, { action: 'prodigi_direct_set_price', nonce: ProdigiDirect.nonce, variation: $in.data('variation'), price: $in.val() })

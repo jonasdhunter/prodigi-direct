@@ -36,6 +36,8 @@ final class Plugin {
 			'setup_card_ok'       => 'no',
 			'setup_channel_off'   => 'no',
 			'catalogue_checked'   => '',
+			'storefront'          => 'yes',   // picker + recommendation + story on the product page
+			'artist_name'         => '',      // "<name>'s recommendation"; empty = site title
 		];
 	}
 
@@ -78,6 +80,7 @@ final class Plugin {
 		( new Order_Sender() )->hooks();
 		( new Order_Status() )->hooks();
 		( new Catalogue_Check() )->hooks();
+		( new Storefront() )->hooks();
 
 		if ( is_admin() ) {
 			( new Admin\Settings() )->hooks();
