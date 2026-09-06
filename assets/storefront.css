@@ -43,8 +43,8 @@
 .pd-tile-img-empty{display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid rgba(0,0,0,.12)}.pd-tile-img-empty span{width:55%;height:55%;border:1px solid rgba(0,0,0,.35);background:#fff;box-shadow:2px 2px 0 rgba(0,0,0,.08)}
 
 /* The stage */
-.pd-gallery-hidden{display:none!important}
-.pd-stage{margin:0 0 1em;padding:6% 8%;background:radial-gradient(ellipse at 50% 30%,#fbfaf7,#ebe8e2);cursor:zoom-in}
+.pd-has-stage .woocommerce-product-gallery__wrapper,.pd-has-stage .flex-control-thumbs,.pd-has-stage .woocommerce-product-gallery__trigger{display:none!important}
+.pd-stage{margin:0 0 1em;padding:7% 9%;box-sizing:border-box;width:100%;background:radial-gradient(ellipse at 50% 30%,#fbfaf7,#ebe8e2);cursor:zoom-in}
 .pd-stage.is-collapsed{padding:0;background:transparent}.pd-stage.is-collapsed .pd-stage-frame{display:none}
 .pd-stage-frame{box-sizing:border-box;position:relative;transition:padding .25s,background .25s}
 .pd-stage-frame.is-wood{background-image:repeating-linear-gradient(90deg,rgba(0,0,0,.05) 0 2px,transparent 2px 7px)}

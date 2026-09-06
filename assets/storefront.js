@@ -82,8 +82,8 @@
 			if (!useStage || !$gallery.length || $stage) { return; }
 			$stage = $('<div class="pd-stage"><div class="pd-stage-frame"><div class="pd-stage-mat"><div class="pd-stage-paper"><img alt="" /></div></div></div><div class="pd-stage-cap"></div></div>');
 			$stage.find('img').attr('src', art).on('load', function () { artW = this.naturalWidth; artH = this.naturalHeight; renderStage(current()); });
-			$gallery.before($stage).addClass('pd-gallery-hidden');
-			$stage.on('click', function () { $gallery.toggleClass('pd-gallery-hidden'); $stage.toggleClass('is-collapsed'); });
+			$gallery.prepend($stage).addClass('pd-has-stage');
+			$stage.on('click', function () { $gallery.toggleClass('pd-has-stage'); $stage.toggleClass('is-collapsed'); });
 		}
 		function renderStage(o) {
 			if (!$stage) { return; }
