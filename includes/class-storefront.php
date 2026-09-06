@@ -65,6 +65,14 @@ final class Storefront {
 				continue;
 			}
 			$fam      = $cat->family( $p['family'] );
+			$size_row = $cat->size( $p['family'], $p['size'] );
+			$px       = $size_row['print_area_px'] ?? [ 0, 0 ];
+			$w_in     = (float) ( $size_row['width_in'] ?? 0 );
+			$h_in     = (float) ( $size_row['height_in'] ?? 0 );
+			$mounted  = str_ends_with( $p['family'], '-mounted' );
+			$mat_in   = ( $mounted && $px[0] && $w_in ) ? round( ( $w_in - $px[0] / 300 ) / 2, 2 ) : 0; // mount window from Prodigi's print-area pixels
+			$kind     = 'paper';
+			if ( 'canvas-rolled' === $p['family'] ) { $kind = 'rolled'; } elseif ( 'canvas-gallery-wrap' === $p['family'] ) { $kind = 'wrap'; } elseif ( 'framed-canvas-float' === $p['family'] ) { $kind = 'float'; } elseif ( str_starts_with( $p['family'], 'framed-print-box' ) ) { $kind = 'box'; } elseif ( str_starts_with( $p['family'], 'framed-print' ) ) { $kind = 'classic'; }
 			$own      = (int) ( ( (array) Plugin::instance()->setting( 'family_images' ) )[ $p['family'] ] ?? 0 );
 			$fam_img  = $own ? (string) wp_get_attachment_image_url( $own, 'large' ) : (string) ( $fam['image'] ?? '' );
 			$choice_l = $p['choice'] ? ( $cat->choices( $p['family'] )[ $p['choice'] ] ?? $p['choice'] ) : '';
@@ -80,6 +88,10 @@ final class Storefront {
 				'desc'     => $cat->description( $p['family'] ),
 				'image'    => (string) ( $p['choice'] ? ( $fam['choice_images'][ $p['choice'] ] ?? $fam_img ) : $fam_img ),
 				'size'     => $p['size'],
+				'w_in'     => $w_in,
+				'h_in'     => $h_in,
+				'kind'     => $kind,
+				'mat_in'   => $mat_in,
 				'choice'   => (string) $p['choice'],
 				'choice_l' => $choice_l,
 				'price'    => wc_get_price_to_display( $v ),
@@ -111,7 +123,8 @@ final class Storefront {
 			$media[ $key ] = [ 'label' => $m['label'], 'image' => $own ? (string) wp_get_attachment_image_url( $own, 'medium' ) : (string) $m['image'] ];
 		}
 		?>
-		<div class="pd-picker" data-attr="<?php echo esc_attr( $data['attr'] ); ?>" data-options="<?php echo esc_attr( wp_json_encode( $data['options'] ) ); ?>" data-media="<?php echo esc_attr( wp_json_encode( $media ) ); ?>" data-pick="<?php echo esc_attr( $pick_id ); ?>">
+		<?php $art = (string) wp_get_attachment_image_url( (int) $product->get_image_id(), 'large' ); ?>
+		<div class="pd-picker" data-attr="<?php echo esc_attr( $data['attr'] ); ?>" data-options="<?php echo esc_attr( wp_json_encode( $data['options'] ) ); ?>" data-media="<?php echo esc_attr( wp_json_encode( $media ) ); ?>" data-pick="<?php echo esc_attr( $pick_id ); ?>" data-art="<?php echo esc_url( $art ); ?>" data-stage="<?php echo esc_attr( Plugin::instance()->setting( 'stage' ) ); ?>">
 			<?php if ( $pick ) : ?>
 			<div class="pd-pick">
 				<div class="pd-pick-head"><?php echo esc_html( sprintf( __( "%s's recommendation", 'prodigi-direct' ), $artist ) ); ?></div>

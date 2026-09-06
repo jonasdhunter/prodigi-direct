@@ -75,7 +75,37 @@
 				$select.val('').trigger('change'); $chosen.prop('hidden', true).empty();
 			}
 		}
-		function renderAll() { renderMedium(); renderSize(); renderStyle(); apply(); }
+		/* ---- The stage: the real product photo, framed in CSS to match the choice. ---- */
+		var art = $picker.data('art'), useStage = $picker.data('stage') === 'yes' && art, $gallery = $('.woocommerce-product-gallery').first(), $stage = null, artW = 0, artH = 0;
+		var FRAME = { black: '#1c1c1c', white: '#f3f1ec', natural: '#c8a874', brown: '#5b3a22', gold: '#b8912e', silver: '#b4b4b4', 'dark grey': '#4b4b4b', 'light grey': '#c2c2c2' };
+		function buildStage() {
+			if (!useStage || !$gallery.length || $stage) { return; }
+			$stage = $('<div class="pd-stage"><div class="pd-stage-frame"><div class="pd-stage-mat"><div class="pd-stage-paper"><img alt="" /></div></div></div><div class="pd-stage-cap"></div></div>');
+			$stage.find('img').attr('src', art).on('load', function () { artW = this.naturalWidth; artH = this.naturalHeight; renderStage(current()); });
+			$gallery.before($stage).addClass('pd-gallery-hidden');
+			$stage.on('click', function () { $gallery.toggleClass('pd-gallery-hidden'); $stage.toggleClass('is-collapsed'); });
+		}
+		function renderStage(o) {
+			if (!$stage) { return; }
+			var $f = $stage.find('.pd-stage-frame'), $m = $stage.find('.pd-stage-mat'), $p = $stage.find('.pd-stage-paper'), $img = $stage.find('img');
+			$stage.attr('data-kind', o ? o.kind : 'none');
+			if (!o || !o.w_in) { $f.css({ padding: 0, background: 'transparent', boxShadow: 'none' }); $m.css({ padding: 0 }); $p.css({ aspectRatio: 'auto', padding: 0 }); $stage.find('.pd-stage-cap').text(''); return; }
+			// Everything is a fraction of the print's width so the preview keeps the true proportions.
+			var W = o.w_in, H = o.h_in, base = Math.min(W, H);
+			var frameIn = { classic: 0.75, box: 1.0, float: 0.6, wrap: 0, rolled: 0, paper: 0 }[o.kind] || 0;
+			var matIn = o.mat_in || 0, gapIn = o.kind === 'float' ? 0.3 : 0;
+			var outerW = W + 2 * (frameIn + gapIn), pct = function (inches) { return (inches / outerW * 100) + '%'; };
+			var colour = FRAME[o.choice] || '#333';
+			$f.css({ padding: pct(frameIn), background: frameIn ? colour : 'transparent', boxShadow: frameIn ? '0 10px 30px rgba(0,0,0,.25), inset 0 0 0 1px rgba(0,0,0,.15)' : (o.kind === 'wrap' ? '8px 8px 0 rgba(0,0,0,.18), 0 12px 30px rgba(0,0,0,.25)' : '0 8px 24px rgba(0,0,0,.18)') });
+			$f.toggleClass('is-wood', o.choice === 'natural' || o.choice === 'brown').toggleClass('is-metal', o.choice === 'gold' || o.choice === 'silver');
+			$m.css({ padding: pct(gapIn), background: o.kind === 'float' ? '#fff' : 'transparent' });
+			$p.css({ aspectRatio: W + ' / ' + H, padding: pct(matIn), background: '#fff', boxShadow: matIn ? 'inset 0 0 0 1px rgba(0,0,0,.06)' : 'none' });
+			// fitPrintArea: the whole image inside the print area; the leftover is paper (or mat window) white.
+			$img.css({ objectFit: 'contain' });
+			$stage.find('.pd-stage-cap').text(W + ' × ' + H + '" ' + (media[o.medium] || {}).label + ' · ' + o.style + (matIn ? ' · ' + matIn + '" mat' : ''));
+		}
+		function renderAll() { renderMedium(); renderSize(); renderStyle(); apply(); renderStage(current()); }
+		buildStage();
 
 		$picker.on('click', '.pd-acc-head', function () { var $a = $(this).closest('.pd-acc'); if ($a.hasClass('is-disabled')) { return; } open($a.hasClass('is-open') ? null : $a.data('step')); });
 		$acc.medium.on('click', '.pd-tile', function () { st.medium = $(this).data('medium'); st.size = null; st.style = null; renderAll(); open('size'); });
