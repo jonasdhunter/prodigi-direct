@@ -16,7 +16,8 @@
 		function inGroup() { return opts.filter(function (o) { return o.grp === st.grp; }); }
 		function inSize() { return inGroup().filter(function (o) { return o.size === st.size; }); }
 		function framed() { return inGroup().some(function (o) { return o.frame; }); }
-		function current() { var c = inSize(); return framed() ? c.filter(function (o) { return o.style_k === st.frame; })[0] : c[0]; }
+		function unframed(list) { return list.filter(function (o) { return !o.frame; })[0]; }
+		function current() { var c = inSize(); if (!framed()) { return c[0]; } return st.frame ? c.filter(function (o) { return o.style_k === st.frame; })[0] : unframed(c); }
 
 		function renderSizes() {
 			var $c = $size.find('.pd-chips').empty();
@@ -29,18 +30,19 @@
 		}
 		function renderFrames() {
 			if (!framed() || !st.size) { $frame.prop('hidden', true); return; }
-			var $c = $frame.find('.pd-tiles').empty(), seen = {};
-			inSize().forEach(function (o) {
-				if (seen[o.style_k]) { return; } seen[o.style_k] = 1;
-				var $t = $('<button type="button" class="pd-tile"/>').attr('data-frame', o.style_k).toggleClass('is-active', o.style_k === st.frame);
-				$t.append(o.image ? $('<span class="pd-tile-img"/>').append($('<img alt="" loading="lazy"/>').attr('src', o.image)) : $('<span class="pd-tile-img pd-tile-img-empty" aria-hidden="true"><span></span></span>'));
-				$t.append($('<span class="pd-tile-title"/>').text(o.frame)).append($('<span class="pd-tile-sub"/>').text(o.price_h)).appendTo($c);
-			});
+			var $c = $frame.find('.pd-tiles').empty(), seen = {}, list = inSize().slice().sort(function (a, b) { return (a.frame ? 1 : 0) - (b.frame ? 1 : 0); });
 			var cur = current();
-			$frame.find('.pd-acc-val').text(cur ? cur.frame : '');
-			$frame.prop('hidden', false).toggleClass('is-open', !cur);
-			$frame.find('.pd-acc-body').prop('hidden', !!cur);
-			$frame.find('.pd-acc-head').attr('aria-expanded', cur ? 'false' : 'true');
+			list.forEach(function (o) {
+				if (seen[o.style_k]) { return; } seen[o.style_k] = 1;
+				var $t = $('<button type="button" class="pd-tile"/>').attr('data-frame', o.frame ? o.style_k : '').toggleClass('is-active', !!cur && o.style_k === cur.style_k);
+				$t.append(o.image ? $('<span class="pd-tile-img"/>').append($('<img alt="" loading="lazy"/>').attr('src', o.image)) : $('<span class="pd-tile-img pd-tile-img-empty" aria-hidden="true"><span></span></span>'));
+				$t.append($('<span class="pd-tile-title"/>').text(o.frame || 'No frame')).append($('<span class="pd-tile-sub"/>').text(o.price_h)).appendTo($c);
+			});
+			$frame.find('.pd-acc-val').text(cur ? (cur.frame || 'No frame') : '');
+			var open = !st.frameTouched;
+			$frame.prop('hidden', false).toggleClass('is-open', open);
+			$frame.find('.pd-acc-body').prop('hidden', !open);
+			$frame.find('.pd-acc-head').attr('aria-expanded', open ? 'true' : 'false');
 		}
 		function apply() {
 			var o = current();
@@ -55,12 +57,12 @@
 		}
 		function renderAll() { renderSizes(); renderFrames(); apply(); }
 
-		$picker.on('click', '.pd-card', function () { st.grp = $(this).data('group'); st.size = null; st.frame = null; renderAll(); $size[0].scrollIntoView({ block: 'nearest', behavior: 'smooth' }); });
-		$size.on('click', '.pd-chip', function () { st.size = String($(this).data('size')); st.frame = null; renderAll(); if (framed()) { $frame[0].scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } });
-		$frame.on('click', '.pd-tile', function () { st.frame = $(this).data('frame'); renderAll(); });
+		$picker.on('click', '.pd-card', function () { st.grp = $(this).data('group'); st.size = null; st.frame = null; st.frameTouched = false; renderAll(); $size[0].scrollIntoView({ block: 'nearest', behavior: 'smooth' }); });
+		$size.on('click', '.pd-chip', function () { st.size = String($(this).data('size')); st.frame = null; st.frameTouched = false; renderAll(); if (framed()) { $frame[0].scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } });
+		$frame.on('click', '.pd-tile', function () { st.frame = $(this).data('frame') || null; st.frameTouched = true; renderAll(); });
 		$frame.on('click', '.pd-acc-head', function () { var open = $frame.find('.pd-acc-body').prop('hidden'); $frame.find('.pd-acc-body').prop('hidden', !open); $frame.toggleClass('is-open', open); $(this).attr('aria-expanded', open ? 'true' : 'false'); });
 
-		function selectOption(o) { if (!o) { return; } st.grp = o.grp; st.size = o.size; st.frame = o.frame ? o.style_k : null; renderAll(); }
+		function selectOption(o) { if (!o) { return; } st.grp = o.grp; st.size = o.size; st.frame = o.frame ? o.style_k : null; st.frameTouched = true; renderAll(); }
 		$picker.on('click', '.pd-pick-choose', function () {
 			var id = parseInt($(this).data('id'), 10); selectOption(opts.filter(function (o) { return o.id === id; })[0]);
 			$form.find('.single_variation_wrap')[0].scrollIntoView({ block: 'center', behavior: 'smooth' });
