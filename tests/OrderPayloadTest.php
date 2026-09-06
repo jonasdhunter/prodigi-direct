@@ -43,6 +43,15 @@ final class OrderPayloadTest extends TestCase {
 		$this->assertArrayNotHasKey( 'attributes', $i ); // empty attributes are omitted
 		$this->assertSame( [ 'wc_order' => '1042' ], $p['metadata'] );
 	}
+	public function test_empty_optional_fields_are_omitted(): void {
+		$o = $this->order(); $o['shipping']['address_2'] = ''; $o['shipping']['state'] = ''; $o['phone'] = '';
+		$p = Order_Payload::build( $o, $this->lines(), 'Budget', 'https://x', 'k' );
+		$this->assertArrayNotHasKey( 'line2', $p['recipient']['address'] );
+		$this->assertArrayNotHasKey( 'stateOrCounty', $p['recipient']['address'] );
+		$this->assertArrayNotHasKey( 'phoneNumber', $p['recipient'] );
+		$this->assertSame( 'buyer@example.com', $p['recipient']['email'] );
+	}
+
 	public function test_missing_address_fields_are_reported(): void {
 		$o = $this->order(); $o['shipping']['postcode'] = ''; $o['shipping']['city'] = '';
 		$errors = Order_Payload::validate( $o, $this->lines() );

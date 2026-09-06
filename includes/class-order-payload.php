@@ -32,27 +32,34 @@ final class Order_Payload {
 			}
 			$items[] = $item;
 		}
+		// Prodigi validates optional fields when present ("MustNotBeEmptyOrWhitespace"), so empty ones are omitted.
+		$recipient = self::compact( [
+			'name'        => trim( ( $ship['first_name'] ?? '' ) . ' ' . ( $ship['last_name'] ?? '' ) ),
+			'email'       => trim( (string) ( $order['email'] ?? '' ) ),
+			'phoneNumber' => trim( (string) ( $order['phone'] ?? '' ) ),
+		] );
+		$recipient['address'] = self::compact( [
+			'line1'           => trim( (string) ( $ship['address_1'] ?? '' ) ),
+			'line2'           => trim( (string) ( $ship['address_2'] ?? '' ) ),
+			'postalOrZipCode' => trim( (string) ( $ship['postcode'] ?? '' ) ),
+			'countryCode'     => strtoupper( trim( (string) ( $ship['country'] ?? '' ) ) ),
+			'townOrCity'      => trim( (string) ( $ship['city'] ?? '' ) ),
+			'stateOrCounty'   => trim( (string) ( $ship['state'] ?? '' ) ),
+		] );
 		return [
 			'merchantReference' => (string) $order['number'],
 			'shippingMethod'    => $shipping_method,
 			'idempotencyKey'    => $idempotency_key,
 			'callbackUrl'       => $callback_url,
-			'recipient'         => [
-				'name'        => trim( ( $ship['first_name'] ?? '' ) . ' ' . ( $ship['last_name'] ?? '' ) ),
-				'email'       => (string) ( $order['email'] ?? '' ),
-				'phoneNumber' => (string) ( $order['phone'] ?? '' ),
-				'address'     => [
-					'line1'           => (string) ( $ship['address_1'] ?? '' ),
-					'line2'           => (string) ( $ship['address_2'] ?? '' ),
-					'postalOrZipCode' => (string) ( $ship['postcode'] ?? '' ),
-					'countryCode'     => (string) ( $ship['country'] ?? '' ),
-					'townOrCity'      => (string) ( $ship['city'] ?? '' ),
-					'stateOrCounty'   => (string) ( $ship['state'] ?? '' ),
-				],
-			],
+			'recipient'         => $recipient,
 			'items'             => $items,
 			'metadata'          => [ 'wc_order' => (string) $order['number'] ],
 		];
+	}
+
+	/** Drop empty strings; keep everything else. */
+	private static function compact( array $a ): array {
+		return array_filter( $a, static fn( $v ) => '' !== $v && null !== $v );
 	}
 
 	/** @return string[] machine keys of what is missing; empty when the order can be sent */
