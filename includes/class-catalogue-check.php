@@ -36,7 +36,7 @@ final class Catalogue_Check {
 	/** @return array{checked:int, retired:string[], changed:string[], errors:string[]} */
 	public function run(): array {
 		$plugin  = Plugin::instance();
-		$api     = $plugin->api();
+		$api     = $plugin->readonly_api();
 		$cat     = $plugin->catalogue();
 		$report  = [ 'checked' => 0, 'retired' => [], 'changed' => [], 'errors' => [] ];
 		if ( ! $api->has_key() ) {

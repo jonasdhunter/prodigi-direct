@@ -111,7 +111,7 @@ final class Order_Sender {
 	/** @return array|WP_Error */
 	public function quote( WC_Order $order, array $lines ) {
 		$items = array_map( static fn( $l ) => [ 'sku' => $l['sku'], 'copies' => $l['qty'], 'attributes' => $l['attributes'] ], $lines );
-		return Plugin::instance()->api()->quote( $items, $order->get_shipping_country() ?: $order->get_billing_country(), (string) Plugin::instance()->setting( 'shipping_method' ), $order->get_currency() );
+		return Plugin::instance()->readonly_api()->quote( $items, $order->get_shipping_country() ?: $order->get_billing_country(), (string) Plugin::instance()->setting( 'shipping_method' ), $order->get_currency() );
 	}
 
 	/** Her click (or auto mode): send now, in the background. */

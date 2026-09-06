@@ -72,6 +72,12 @@ final class Plugin {
 		return new Api_Client( $this->api_key(), $this->is_sandbox() );
 	}
 
+	/** For reads that are the same in both environments (products, quotes): the live key when there is one, else the sandbox key. */
+	public function readonly_api(): Api_Client {
+		$live = (string) $this->setting( 'api_key_live' );
+		return $live ? new Api_Client( $live, false ) : $this->api();
+	}
+
 	public function catalogue(): Catalogue {
 		return $this->catalogue ??= Catalogue::load();
 	}
