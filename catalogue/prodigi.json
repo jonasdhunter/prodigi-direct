@@ -593,7 +593,7 @@
     "wrap"
    ],
    "fixed_attributes": {
-    "wrap": "White"
+    "wrap": "MirrorWrap"
    },
    "sizing": "fillPrintArea",
    "print_area": "default",
@@ -870,7 +870,7 @@
     }
    ],
    "url": "https://www.prodigi.com/products/wall-art/canvas/stretched-canvas/",
-   "description": "Stretched on 38 mm (1.5\") wooden bars with white sides, ready to hang.",
+   "description": "Stretched on 38 mm (1.5\") wooden bars with the painting mirrored around the edges, ready to hang.",
    "image": "",
    "medium": "canvas",
    "style": "Gallery wrapped",
@@ -1900,7 +1900,7 @@
     "wrap"
    ],
    "fixed_attributes": {
-    "wrap": "White"
+    "wrap": "MirrorWrap"
    },
    "sizing": "fillPrintArea",
    "print_area": "default",
@@ -2111,7 +2111,7 @@
     }
    ],
    "url": "https://www.prodigi.com/products/wall-art/canvas/framed-canvas/",
-   "description": "Stretched canvas set inside a float frame, ready to hang.",
+   "description": "Stretched canvas with mirrored edges, set inside a float frame, ready to hang.",
    "image": "",
    "medium": "canvas",
    "choice_images": {
@@ -2156,7 +2156,7 @@
   },
   "wrap": {
    "label": "Gallery Wrapped Canvas",
-   "desc": "Stretched on 38 mm (1.5\") wooden bars with white sides, ready to hang. Float frame optional."
+   "desc": "Stretched on 38 mm (1.5\") wooden bars, the painting mirrored around the edges, ready to hang. Float frame optional."
   }
  }
 }

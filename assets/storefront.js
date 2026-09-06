@@ -75,7 +75,7 @@
 		function shade(h, f) { var c = hex2rgb(h).map(function (v) { v = f < 0 ? v * (1 + f) : v + (255 - v) * f; return Math.max(0, Math.min(255, Math.round(v))); }); return 'rgb(' + c.join(',') + ')'; }
 		function buildStage() {
 			if (!useStage || !$gallery.length || $stage) { return; }
-			$stage = $('<div class="pd-stage"><div class="pd-stage-frame"><svg class="pd-stage-moulding" aria-hidden="true"></svg><div class="pd-stage-mat"><div class="pd-stage-paper"><img alt="" /></div></div></div><div class="pd-stage-cap"></div></div>');
+			$stage = $('<div class="pd-stage"><div class="pd-stage-frame"><svg class="pd-stage-moulding" aria-hidden="true"></svg><div class="pd-stage-mat"><div class="pd-stage-paper"><img alt="" /><div class="pd-edge pd-edge-r" aria-hidden="true"><img alt="" /></div><div class="pd-edge pd-edge-b" aria-hidden="true"><img alt="" /></div></div></div></div><div class="pd-stage-cap"></div></div>');
 			$stage.find('img').attr('src', art);
 			$gallery.prepend($stage).addClass('pd-has-stage');
 			$stage.on('click', function () { $gallery.toggleClass('pd-has-stage'); $stage.toggleClass('is-collapsed'); });
@@ -125,7 +125,15 @@
 			var bevel = matIn ? ', inset 0 0 0 1px rgba(0,0,0,.08), inset 0 0 0 3px rgba(255,255,255,.9), inset 0 0 0 4px rgba(0,0,0,.06)' : '';
 			$p.css({ aspectRatio: W + ' / ' + H, padding: pct(matIn), background: matIn ? '#fbfaf7' : '#fff', boxShadow: (frameIn && !gapIn ? innerShadow : (gapIn ? '0 2px 6px rgba(0,0,0,.25)' : 'none')) + (matIn ? bevel : '') });
 			$p.find('img').css({ objectFit: o.sizing === 'fillPrintArea' ? 'cover' : 'contain', boxShadow: matIn ? '0 0 0 1px rgba(0,0,0,.12), inset 0 0 6px rgba(0,0,0,.2)' : 'none' });
-			$stage.find('.pd-stage-cap').text(W + ' × ' + H + '" ' + (groups[o.grp] || {}).label + (o.frame ? ' · ' + o.frame : '') + (matIn ? ' · ' + matIn + '" mat' : ''));
+			// Mirror-wrapped canvas: a 1.5" edge showing the painting's own border, mirrored, on the right and bottom.
+			var edge = (o.kind === 'wrap' || o.kind === 'float') ? 1.5 : 0;
+			$p.find('.pd-edge').toggle(!!edge);
+			if (edge) {
+				var er = (edge / W * 100) + '%', eb = (edge / H * 100) + '%';
+				$p.find('.pd-edge-r').css({ width: er }).find('img').css({ width: (W / edge * 100) + '%' });
+				$p.find('.pd-edge-b').css({ height: eb }).find('img').css({ height: (H / edge * 100) + '%' });
+			}
+			$stage.find('.pd-stage-cap').text(W + ' × ' + H + '" ' + (groups[o.grp] || {}).label + (o.frame ? ' · ' + o.frame : '') + (matIn ? ' · ' + matIn + '" mat' : '') + (edge ? ' · mirrored edges' : ''));
 		}
 		buildStage();
 

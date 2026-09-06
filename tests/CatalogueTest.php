@@ -21,9 +21,9 @@ final class CatalogueTest extends TestCase {
 
 	public function test_attributes_merge_fixed_and_choice(): void {
 		$this->assertSame( [], $this->c->attributes( 'paper', null ) );
-		$this->assertSame( [ 'wrap' => 'White' ], $this->c->attributes( 'canvas-gallery-wrap', null ) );
+		$this->assertSame( [ 'wrap' => 'MirrorWrap' ], $this->c->attributes( 'canvas-gallery-wrap', null ) );
 		$this->assertSame( [ 'color' => 'black' ], $this->c->attributes( 'framed-print-classic', 'black' ) );
-		$this->assertSame( [ 'wrap' => 'White', 'color' => 'natural' ], $this->c->attributes( 'framed-canvas-float', 'natural' ) );
+		$this->assertSame( [ 'wrap' => 'MirrorWrap', 'color' => 'natural' ], $this->c->attributes( 'framed-canvas-float', 'natural' ) );
 	}
 
 	public function test_required_attributes_are_satisfied(): void {

@@ -51,7 +51,7 @@
 .pd-stage-mat,.pd-stage-paper{position:relative;z-index:1}
 .pd-stage-mat{box-sizing:border-box;transition:padding .25s}
 .pd-stage-paper{box-sizing:border-box;position:relative;width:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:padding .25s}
-.pd-stage-paper img{display:block;width:100%;height:100%;object-fit:contain;transition:object-fit 0s}
+.pd-stage-paper>img{display:block;width:100%;height:100%;object-fit:contain;transition:object-fit 0s}
 .pd-stage[data-kind=wrap] .pd-stage-paper{outline:1px solid rgba(0,0,0,.08)}
 .pd-stage-cap{text-align:center;font-size:.8em;opacity:.7;margin-top:.9em}
 
@@ -75,3 +75,13 @@
 .woocommerce div.product form.cart.variations_form .pd-hidden-table{order:0}
 .woocommerce div.product .woocommerce-product-details__short-description{margin-top:1.5em;font-size:.95em;opacity:.85}
 .pd-stage[data-kind=wrap] .pd-stage-paper,.pd-stage[data-kind=rolled] .pd-stage-paper{background:transparent}
+
+/* Mirror-wrapped canvas edges (right + bottom), the painting's border mirrored and shaded like a wrapped side */
+.pd-edge{display:none;position:absolute;overflow:hidden;background:#fff;pointer-events:none}
+.pd-edge img{display:block;object-fit:cover;max-width:none;position:absolute}
+.pd-edge-r{top:0;left:100%;height:100%}.pd-edge-r img{height:100%;right:0;transform:scaleX(-1);transform-origin:center;object-position:right}
+.pd-edge-b{left:0;top:100%;width:100%}.pd-edge-b img{width:100%;bottom:0;transform:scaleY(-1);transform-origin:center;object-position:bottom}
+.pd-edge::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.28)}
+.pd-edge-b::after{background:rgba(0,0,0,.4)}
+.pd-stage[data-kind=wrap] .pd-stage-frame,.pd-stage[data-kind=float] .pd-stage-mat{overflow:visible}
+.pd-stage[data-kind=wrap] .pd-stage-paper{overflow:visible;margin-right:4%;margin-bottom:4%}
