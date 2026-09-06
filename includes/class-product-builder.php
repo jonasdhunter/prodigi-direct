@@ -63,7 +63,7 @@ final class Product_Builder {
 	 * @param array<string, string[]> $choices  family => colours
 	 * @return array{created:int, adopted:int, hidden:int, unpriced:int, low_dpi:int, skipped:string[]}
 	 */
-	public function build( int $product_id, array $families, array $sizes, array $choices ): array {
+	public function build( int $product_id, array $families, array $sizes, array $choices, bool $adopt_only = false ): array {
 		$product = wc_get_product( $product_id );
 		if ( ! $product instanceof WC_Product_Variable ) {
 			throw new \RuntimeException( 'Only variable products can carry prints.' );
@@ -98,6 +98,11 @@ final class Product_Builder {
 			if ( $v ) {
 				$existing[ $this->label_of( $v ) ] = $v;
 			}
+		}
+		if ( $adopt_only ) {
+			// Attach Prodigi data to what is already there; create nothing, hide nothing.
+			$wanted  = array_intersect_key( $wanted, $existing );
+			$skipped = [];
 		}
 
 		// The parent attribute must list every option the variations reference (keep any foreign labels).
@@ -154,7 +159,7 @@ final class Product_Builder {
 
 		// Managed variations no longer wanted are hidden, never deleted.
 		foreach ( $existing as $label => $v ) {
-			if ( isset( $wanted[ $label ] ) ) {
+			if ( isset( $wanted[ $label ] ) || $adopt_only ) {
 				continue;
 			}
 			$is_ours = (bool) $v->get_meta( self::META_SKU ) || null !== $this->catalogue->parse_label( $label );

@@ -96,7 +96,7 @@ final class Commands {
 				'choices'  => (array) json_decode( $assoc['choices'] ?? '{}', true ),
 			];
 		}
-		$stats = $builder->build( $pid, $d['families'], $d['sizes'], $d['choices'] );
+		$stats = $builder->build( $pid, $d['families'], $d['sizes'], $d['choices'], isset( $assoc['detect'] ) );
 		WP_CLI::success( wp_json_encode( $stats ) );
 	}
 
@@ -112,7 +112,7 @@ final class Commands {
 			if ( ! $d['families'] ) {
 				continue;
 			}
-			$stats = $builder->build( $p->get_id(), $d['families'], $d['sizes'], $d['choices'] );
+			$stats = $builder->build( $p->get_id(), $d['families'], $d['sizes'], $d['choices'], true );
 			WP_CLI::log( sprintf( '%s: %s', $p->get_name(), wp_json_encode( $stats ) ) );
 		}
 		WP_CLI::success( 'Done.' );
