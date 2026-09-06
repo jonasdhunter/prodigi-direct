@@ -68,29 +68,62 @@
 			$form.find('.single_variation_wrap')[0].scrollIntoView({ block: 'center', behavior: 'smooth' });
 		});
 
-		/* ---- The stage: the real product photo, framed in CSS to match the choice. ---- */
+		/* ---- The stage: the real product photo, framed in CSS + SVG to match the choice. ---- */
 		var art = $picker.data('art'), useStage = $picker.data('stage') === 'yes' && art, $gallery = $('.woocommerce-product-gallery').first(), $stage = null;
-		var FRAME = { black: '#1c1c1c', white: '#f3f1ec', natural: '#c8a874', brown: '#5b3a22', gold: '#b8912e', silver: '#b4b4b4', 'dark grey': '#4b4b4b', 'light grey': '#c2c2c2' };
+		var FRAME = { black: '#1e1e1e', white: '#f2efe8', natural: '#c9a97a', brown: '#5a3921', gold: '#b9922f', silver: '#b5b5b5', 'dark grey': '#4a4a4a', 'light grey': '#c3c3c3' };
+		function hex2rgb(h) { h = h.replace('#', ''); return [parseInt(h.substr(0, 2), 16), parseInt(h.substr(2, 2), 16), parseInt(h.substr(4, 2), 16)]; }
+		function shade(h, f) { var c = hex2rgb(h).map(function (v) { v = f < 0 ? v * (1 + f) : v + (255 - v) * f; return Math.max(0, Math.min(255, Math.round(v))); }); return 'rgb(' + c.join(',') + ')'; }
 		function buildStage() {
 			if (!useStage || !$gallery.length || $stage) { return; }
-			$stage = $('<div class="pd-stage"><div class="pd-stage-frame"><div class="pd-stage-mat"><div class="pd-stage-paper"><img alt="" /></div></div></div><div class="pd-stage-cap"></div></div>');
+			$stage = $('<div class="pd-stage"><div class="pd-stage-frame"><svg class="pd-stage-moulding" aria-hidden="true"></svg><div class="pd-stage-mat"><div class="pd-stage-paper"><img alt="" /></div></div></div><div class="pd-stage-cap"></div></div>');
 			$stage.find('img').attr('src', art);
 			$gallery.prepend($stage).addClass('pd-has-stage');
 			$stage.on('click', function () { $gallery.toggleClass('pd-has-stage'); $stage.toggleClass('is-collapsed'); });
 		}
+		/* Four mitred sides in inch coordinates; each side gets a profile gradient across its width. */
+		function moulding(W, H, f, colour, kind) {
+			var base = colour, hi = shade(base, kind === 'box' ? 0.18 : 0.42), mid = shade(base, 0.08), lo = shade(base, -0.35), lip = shade(base, -0.55), edge = shade(base, 0.25);
+			var metal = colour === FRAME.gold || colour === FRAME.silver, wood = colour === FRAME.natural || colour === FRAME.brown;
+			var stops = kind === 'box'
+				? [[0, hi], [0.06, base], [0.85, base], [0.93, lo], [1, lip]]
+				: metal
+					? [[0, edge], [0.15, hi], [0.3, base], [0.5, hi], [0.65, base], [0.8, lo], [0.9, mid], [1, lip]]
+					: [[0, edge], [0.12, hi], [0.3, base], [0.55, mid], [0.75, lo], [0.88, base], [1, lip]];
+			function grad(id, x1, y1, x2, y2) {
+				return '<linearGradient id="' + id + '" x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '">' + stops.map(function (st) { return '<stop offset="' + st[0] + '" stop-color="' + st[1] + '"/>'; }).join('') + '</linearGradient>';
+			}
+			var id = 'pdm' + Math.random().toString(36).slice(2, 7);
+			var defs = grad(id + 't', 0, 0, 0, 1) + grad(id + 'l', 0, 0, 1, 0) + grad(id + 'b', 0, 1, 0, 0) + grad(id + 'r', 1, 0, 0, 0);
+			if (wood) {
+				defs += '<pattern id="' + id + 'gh" patternUnits="userSpaceOnUse" width="0.9" height="0.13"><rect width="0.9" height="0.13" fill="none"/><path d="M0 0.03 H0.9 M0 0.09 H0.6" stroke="rgba(0,0,0,.10)" stroke-width="0.012"/></pattern>';
+				defs += '<pattern id="' + id + 'gv" patternUnits="userSpaceOnUse" width="0.13" height="0.9"><path d="M0.03 0 V0.9 M0.09 0 V0.6" stroke="rgba(0,0,0,.10)" stroke-width="0.012"/></pattern>';
+			}
+			var top = '0,0 ' + W + ',0 ' + (W - f) + ',' + f + ' ' + f + ',' + f;
+			var left = '0,0 ' + f + ',' + f + ' ' + f + ',' + (H - f) + ' 0,' + H;
+			var bottom = '0,' + H + ' ' + f + ',' + (H - f) + ' ' + (W - f) + ',' + (H - f) + ' ' + W + ',' + H;
+			var right = W + ',0 ' + W + ',' + H + ' ' + (W - f) + ',' + (H - f) + ' ' + (W - f) + ',' + f;
+			var g = function (pts, gid, pat) { return '<polygon points="' + pts + '" fill="url(#' + gid + ')"/>' + (pat ? '<polygon points="' + pts + '" fill="url(#' + pat + ')"/>' : ''); };
+			return '<defs>' + defs + '</defs>' + g(top, id + 't', wood ? id + 'gh' : '') + g(bottom, id + 'b', wood ? id + 'gh' : '') + g(left, id + 'l', wood ? id + 'gv' : '') + g(right, id + 'r', wood ? id + 'gv' : '') +
+				'<path d="M' + f + ',' + f + ' L' + (W - f) + ',' + f + ' L' + (W - f) + ',' + (H - f) + ' L' + f + ',' + (H - f) + ' Z" fill="none" stroke="rgba(0,0,0,.45)" stroke-width="' + (f * 0.06) + '"/>' +
+				'<path d="M0,0 L' + f + ',' + f + ' M' + W + ',0 L' + (W - f) + ',' + f + ' M0,' + H + ' L' + f + ',' + (H - f) + ' M' + W + ',' + H + ' L' + (W - f) + ',' + (H - f) + '" stroke="rgba(0,0,0,.18)" stroke-width="' + (f * 0.04) + '"/>';
+		}
 		function renderStage(o) {
 			if (!$stage) { return; }
-			var $f = $stage.find('.pd-stage-frame'), $m = $stage.find('.pd-stage-mat'), $p = $stage.find('.pd-stage-paper');
+			var $f = $stage.find('.pd-stage-frame'), $m = $stage.find('.pd-stage-mat'), $p = $stage.find('.pd-stage-paper'), $svg = $stage.find('.pd-stage-moulding');
 			$stage.attr('data-kind', o ? o.kind : 'none');
-			if (!o || !o.w_in) { $f.css({ padding: 0, background: 'transparent', boxShadow: 'none' }); $m.css({ padding: 0 }); $p.css({ aspectRatio: 'auto', padding: 0 }); $stage.find('.pd-stage-cap').text(''); return; }
+			if (!o || !o.w_in) { $f.css({ padding: 0, boxShadow: 'none' }); $svg.hide(); $m.css({ padding: 0, boxShadow: 'none' }); $p.css({ aspectRatio: 'auto', padding: 0, boxShadow: 'none' }); $stage.find('.pd-stage-cap').text(''); return; }
 			var W = o.w_in, H = o.h_in;
-			var frameIn = { classic: 0.75, box: 1.0, float: 0.6 }[o.kind] || 0, matIn = o.mat_in || 0, gapIn = o.kind === 'float' ? 0.3 : 0;
-			var outerW = W + 2 * (frameIn + gapIn), pct = function (inches) { return (inches / outerW * 100) + '%'; };
+			var frameIn = { classic: 0.75, box: 1.0, float: 0.55 }[o.kind] || 0, matIn = o.mat_in || 0, gapIn = o.kind === 'float' ? 0.3 : 0;
+			var outerW = W + 2 * (frameIn + gapIn), outerH = H + 2 * (frameIn + gapIn), pct = function (inches) { return (inches / outerW * 100) + '%'; };
 			var colour = FRAME[o.choice] || '#333';
-			$f.css({ padding: pct(frameIn), background: frameIn ? colour : 'transparent', boxShadow: frameIn ? '0 10px 30px rgba(0,0,0,.25), inset 0 0 0 1px rgba(0,0,0,.15)' : (o.kind === 'wrap' ? '8px 8px 0 rgba(0,0,0,.18), 0 12px 30px rgba(0,0,0,.25)' : '0 8px 24px rgba(0,0,0,.18)') });
-			$f.toggleClass('is-wood', o.choice === 'natural' || o.choice === 'brown').toggleClass('is-metal', o.choice === 'gold' || o.choice === 'silver');
-			$m.css({ padding: pct(gapIn), background: o.kind === 'float' ? '#fff' : 'transparent' });
-			$p.css({ aspectRatio: W + ' / ' + H, padding: pct(matIn), background: '#fff', boxShadow: matIn ? 'inset 0 0 0 1px rgba(0,0,0,.06)' : 'none' });
+			$f.css({ padding: pct(frameIn), boxShadow: frameIn ? '0 18px 40px -12px rgba(0,0,0,.45), 0 4px 10px rgba(0,0,0,.15)' : (o.kind === 'wrap' ? '9px 9px 0 -1px rgba(0,0,0,.16), 0 14px 32px rgba(0,0,0,.28)' : '0 8px 24px rgba(0,0,0,.18)') });
+			if (frameIn) { $svg.show().attr('viewBox', '0 0 ' + outerW + ' ' + outerH).attr('preserveAspectRatio', 'none').html(moulding(outerW, outerH, frameIn, colour, o.kind)); } else { $svg.hide(); }
+			// the frame's rebate casts a soft shadow onto whatever sits inside it
+			var innerShadow = frameIn ? 'inset 0 0 ' + (o.kind === 'box' ? '18px 2px' : '10px 1px') + ' rgba(0,0,0,.28)' : 'none';
+			$m.css({ padding: pct(gapIn), background: o.kind === 'float' ? '#faf9f6' : 'transparent', boxShadow: o.kind === 'float' ? innerShadow : 'none' });
+			var bevel = matIn ? ', inset 0 0 0 1px rgba(0,0,0,.08), inset 0 0 0 3px rgba(255,255,255,.9), inset 0 0 0 4px rgba(0,0,0,.06)' : '';
+			$p.css({ aspectRatio: W + ' / ' + H, padding: pct(matIn), background: matIn ? '#fbfaf7' : '#fff', boxShadow: (frameIn && o.kind !== 'float' ? innerShadow : 'none') + (matIn ? bevel : '') });
+			$p.find('img').css({ boxShadow: matIn ? '0 0 0 1px rgba(0,0,0,.12), inset 0 0 6px rgba(0,0,0,.2)' : 'none' });
 			$stage.find('.pd-stage-cap').text(W + ' × ' + H + '" ' + (groups[o.grp] || {}).label + (o.frame ? ' · ' + o.frame : '') + (matIn ? ' · ' + matIn + '" mat' : ''));
 		}
 		buildStage();
