@@ -83,8 +83,9 @@ final class Orders_UI {
 					<li><?php echo esc_html( $l['qty'] > 1 ? $l['qty'] . ' × ' : '' ); ?><?php echo esc_html( $l['name'] ); ?><?php if ( ! $l['has_master'] ) : ?> <span class="prodigi-warn"><?php esc_html_e( '(no print file)', 'prodigi-direct' ); ?></span><?php endif; ?></li>
 				<?php endforeach; ?>
 			</ul>
-			<?php if ( $quote && isset( $quote['items'] ) ) : ?>
-				<p><?php echo wp_kses_post( sprintf( __( 'Prodigi will charge about <strong>%1$s</strong> (print %2$s + shipping %3$s). This order paid %4$s. You keep about <strong>%5$s</strong>.', 'prodigi-direct' ), wc_price( $quote['items'] + $quote['shipping'] ), wc_price( $quote['items'] ), wc_price( $quote['shipping'] ), wc_price( $order->get_total() ), wc_price( $order->get_total() - $quote['items'] - $quote['shipping'] ) ) ); ?></p>
+			<?php if ( $quote && isset( $quote['items'] ) ) :
+				$paid = array_sum( array_column( $lines, 'line_total' ) ) + (float) $order->get_shipping_total(); ?>
+				<p><?php echo wp_kses_post( sprintf( __( 'Prodigi will charge about <strong>%1$s</strong> (print %2$s + shipping %3$s). The prints on this order paid %4$s. You keep about <strong>%5$s</strong>.', 'prodigi-direct' ), wc_price( $quote['items'] + $quote['shipping'] ), wc_price( $quote['items'] ), wc_price( $quote['shipping'] ), wc_price( $paid ), wc_price( $paid - $quote['items'] - $quote['shipping'] ) ) ); ?></p>
 			<?php endif; ?>
 			<p class="prodigi-state"><?php echo esc_html__( 'Status:', 'prodigi-direct' ) . ' <strong>' . esc_html( Status::label( $state ) ) . '</strong>'; ?>
 				<?php if ( 'live' !== $order->get_meta( Order_Sender::META_MODE ) && $pid ) : ?> <span class="prodigi-tag"><?php esc_html_e( 'test mode', 'prodigi-direct' ); ?></span><?php endif; ?></p>
