@@ -74,3 +74,4 @@
 .woocommerce div.product form.cart.variations_form .pd-picker{order:1}
 .woocommerce div.product form.cart.variations_form .pd-hidden-table{order:0}
 .woocommerce div.product .woocommerce-product-details__short-description{margin-top:1.5em;font-size:.95em;opacity:.85}
+.pd-stage[data-kind=wrap] .pd-stage-paper,.pd-stage[data-kind=rolled] .pd-stage-paper{background:transparent}
