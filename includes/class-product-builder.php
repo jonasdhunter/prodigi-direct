@@ -151,8 +151,8 @@ final class Product_Builder {
 			} elseif ( ! $v->get_id() ) {
 				$v->set_status( 'publish' );
 			}
-			if ( '' === (string) $v->get_regular_price() && ! $v->get_id() ) {
-				$v->set_status( 'private' ); // never sell an unpriced print
+			if ( '' === (string) $v->get_regular_price() ) {
+				$v->set_status( 'private' ); // never sell an unpriced print, new or old
 			}
 			$v->save();
 		}
