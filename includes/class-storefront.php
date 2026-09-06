@@ -135,7 +135,6 @@ final class Storefront {
 				</div>
 			</div>
 			<?php endif; ?>
-			<div class="pd-preview" aria-live="polite"><img src="" alt="" /><div class="pd-preview-cap"></div></div>
 			<?php foreach ( [ 'medium' => __( 'Medium', 'prodigi-direct' ), 'size' => __( 'Size', 'prodigi-direct' ), 'style' => __( 'Style', 'prodigi-direct' ) ] as $i => $label ) : static $n = 0; ++$n; ?>
 			<div class="pd-acc" data-step="<?php echo esc_attr( $i ); ?>">
 				<button type="button" class="pd-acc-head" aria-expanded="false"><span class="pd-acc-num"><?php echo esc_html( $n . ' ' . $label ); ?></span><span class="pd-acc-val"></span><span class="pd-acc-chev" aria-hidden="true"></span></button>

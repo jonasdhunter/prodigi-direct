@@ -25,10 +25,7 @@
 				$acc[k].find('.pd-acc-body').prop('hidden', !on);
 			});
 		}
-		function showPreview(src, cap) {
-			if (!src) { $preview.removeClass('is-on'); return; }
-			$preview.find('img').attr('src', src).attr('alt', cap || ''); $preview.find('.pd-preview-cap').text(cap || ''); $preview.addClass('is-on');
-		}
+		function showPreview() { /* the stage shows the finish on the artwork itself; no separate swatch panel */ }
 		function tile(cls, data, img, title, sub) {
 			var $t = $('<button type="button" class="pd-tile"/>').addClass(cls || '');
 			Object.keys(data).forEach(function (k) { $t.attr('data-' + k, data[k]); });
