@@ -6,6 +6,11 @@
 		$panel.on('change', '.prodigi-family', function () {
 			$panel.find('.prodigi-choices[data-family="' + this.value + '"]').prop('hidden', !this.checked);
 		});
+		$('#prodigi-suggest').on('click', function () {
+			var sizes = ($(this).data('sizes') + '').split(',').filter(Boolean), fams = ($(this).data('families') + '').split(',').filter(Boolean);
+			$panel.find('.prodigi-size').each(function () { this.checked = sizes.indexOf(this.value) !== -1; });
+			if (!$panel.find('.prodigi-family:checked').length) { $panel.find('.prodigi-family').each(function () { this.checked = fams.indexOf(this.value) !== -1; $(this).trigger('change'); }); }
+		});
 		$('#prodigi-build').on('click', function () {
 			var $btn = $(this).prop('disabled', true), choices = {};
 			$panel.find('.prodigi-choice:checked').each(function () { (choices[$(this).data('family')] = choices[$(this).data('family')] || []).push(this.value); });
@@ -17,7 +22,7 @@
 				choices: choices
 			}).done(function (r) {
 				$('#prodigi-build-result').text(r.success ? r.data.message + ' Reloading…' : (r.data && r.data.message) || 'Something went wrong.');
-				if (r.success) { location.href = location.pathname + location.search + '#prodigi'; location.reload(); }
+				if (r.success) { setTimeout(function () { location.href = location.pathname + location.search + '#prodigi'; location.reload(); }, r.data.message.indexOf('Skipped') !== -1 ? 6000 : 800); }
 			}).fail(function () { $('#prodigi-build-result').text('Something went wrong.'); }).always(function () { $btn.prop('disabled', false); });
 		});
 		$panel.on('change', '.prodigi-price', function () {

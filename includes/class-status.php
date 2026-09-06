@@ -1,7 +1,7 @@
 <?php
 namespace ProdigiDirect;
 
-/** Reads a Prodigi order object into the five words she sees, and the problems into sentences. */
+/** Reads a Prodigi order object into the five words the store owner sees, and the problems into sentences. */
 final class Status {
 	public const STATES = [ 'waiting', 'sent', 'printing', 'shipped', 'cancelled', 'problem', 'manual' ];
 
@@ -50,7 +50,7 @@ final class Status {
 		][ $state ] ?? '—';
 	}
 
-	/** One sentence in her words for the first blocking issue. */
+	/** One plain sentence for the first blocking issue. */
 	public static function problem_text( array $order ): string {
 		foreach ( self::blocking_issues( $order ) as $issue ) {
 			$code = self::lc( $issue['errorCode'] ?? '' );
@@ -58,7 +58,7 @@ final class Status {
 				return "Prodigi couldn't charge the card on the account. Check the card in Prodigi, then try again.";
 			}
 			if ( str_contains( $code, 'failedtodownload' ) ) {
-				return "Prodigi couldn't fetch the painting file. Usually a temporary link problem — try again.";
+				return "Prodigi couldn't fetch the print file. Usually a temporary link problem — try again.";
 			}
 			if ( str_contains( $code, 'itemunavailable' ) ) {
 				return "Prodigi can't make one of these prints right now (the size or material is unavailable).";

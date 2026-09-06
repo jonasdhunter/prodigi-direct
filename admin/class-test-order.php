@@ -9,7 +9,7 @@ use ProdigiDirect\Order_Status;
 use ProdigiDirect\Plugin;
 use ProdigiDirect\Product_Builder;
 
-/** A sandbox order for one painting, outside WooCommerce's order flow, to prove the pipe end to end. */
+/** A sandbox order for one product, outside WooCommerce's order flow, to prove the pipe end to end. */
 final class Test_Order {
 	public function send( int $product_id ): string {
 		$plugin = Plugin::instance();
@@ -19,7 +19,7 @@ final class Test_Order {
 		}
 		$product = wc_get_product( $product_id );
 		if ( ! $product || ! Assets::has_master( $product_id ) ) {
-			return __( 'That painting has no print file yet.', 'prodigi-direct' );
+			return __( 'That product has no print file yet.', 'prodigi-direct' );
 		}
 		$line = null;
 		foreach ( $product->get_children() as $vid ) {
@@ -40,7 +40,7 @@ final class Test_Order {
 			}
 		}
 		if ( ! $line ) {
-			return __( 'That painting has no print sizes set up yet.', 'prodigi-direct' );
+			return __( 'That product has no print sizes set up yet.', 'prodigi-direct' );
 		}
 		// Order id 0 links are only valid for previews; mint a real one bound to a fake order id.
 		$line['asset_url'] = Assets::order_url( $product_id, PHP_INT_MAX );

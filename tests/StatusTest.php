@@ -22,7 +22,7 @@ final class StatusTest extends TestCase {
 	public function test_issues_take_precedence_and_translate(): void {
 		$o = $this->order( [ 'status' => [ 'issues' => [ [ 'objectId' => 'ori_1', 'errorCode' => 'order.items.assets.FailedToDownloaded', 'description' => 'x' ] ] ] ] );
 		$this->assertSame( 'problem', Status::state( $o ) );
-		$this->assertStringContainsString( "couldn't fetch the painting file", Status::problem_text( $o ) );
+		$this->assertStringContainsString( "couldn't fetch the print file", Status::problem_text( $o ) );
 		$auth = $this->order( [ 'status' => [ 'issues' => [ [ 'objectId' => 'ord_1', 'errorCode' => 'RequiresPaymentAuthorisation', 'description' => 'x', 'authorisationDetails' => [ 'authorisationUrl' => 'https://pay' ] ] ] ] ] );
 		$this->assertStringContainsString( 'card', Status::problem_text( $auth ) );
 		$this->assertSame( 'https://pay', Status::action_url( $auth ) );

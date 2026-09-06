@@ -13,7 +13,7 @@ final class Pricing {
 		return [ 'cost' => $cost, 'keep' => $keep, 'pct' => $pct, 'loss' => $keep < 0 ];
 	}
 
-	/** A cost move worth telling her about (more than 5% either way). */
+	/** A cost move worth reporting (more than 5% either way). */
 	public static function cost_changed( float $old, float $new, float $threshold = 0.05 ): bool {
 		if ( $old <= 0 ) {
 			return $new > 0;

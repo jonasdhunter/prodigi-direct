@@ -26,4 +26,22 @@ final class DpiTest extends TestCase {
 		$this->assertSame( 0.0, Dpi::effective( 0, 0, 4800, 6000 ) );
 		$this->assertSame( 0.0, Dpi::effective( 100, 100, 0, 0 ) );
 	}
+
+	public function test_border_fraction_for_fit(): void {
+		// Same aspect: no white border.
+		$this->assertEqualsWithDelta( 0.0, Dpi::border( 2400, 3000, 4800, 6000 ), 0.001 );
+		// Square into 4:5 → fills width, leaves 20% of the height white.
+		$this->assertEqualsWithDelta( 0.2, Dpi::border( 3000, 3000, 4800, 6000 ), 0.001 );
+		// Landscape image into portrait area is rotated first.
+		$this->assertEqualsWithDelta( 0.0, Dpi::border( 3000, 2400, 4800, 6000 ), 0.001 );
+	}
+
+	public function test_suggested_sizes_need_fit_and_sharpness(): void {
+		$this->assertTrue( Dpi::suggest( 4800, 6000, 4800, 6000 ) );       // exact, 300 dpi
+		$this->assertTrue( Dpi::suggest( 4800, 6000, 3300, 4200 ) );       // 11x14 from a 16x20 file: 2% border, 300 dpi
+		$this->assertTrue( Dpi::suggest( 4800, 6000, 9000, 12000 ) );      // 30x40 from a 16x20 file: 160 dpi, still offered
+		$this->assertFalse( Dpi::suggest( 4800, 6000, 12000, 16000 ) );    // 40x53: 120 dpi, not offered
+		$this->assertFalse( Dpi::suggest( 3000, 3000, 4800, 6000 ) );      // square into 4:5: 20% border
+		$this->assertFalse( Dpi::suggest( 1000, 1250, 4800, 6000 ) );      // too soft
+	}
 }

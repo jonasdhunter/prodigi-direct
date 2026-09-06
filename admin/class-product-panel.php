@@ -7,7 +7,7 @@ use ProdigiDirect\Plugin;
 use ProdigiDirect\Price_Book;
 use ProdigiDirect\Product_Builder;
 
-/** The "Prints" tab on a variable product: the painting file, what to offer, and the sizes table. */
+/** The "Prints" tab on a variable product: the print file, what to offer, and the sizes table. */
 final class Product_Panel {
 	public function hooks(): void {
 		add_filter( 'woocommerce_product_data_tabs', [ $this, 'tab' ] );
@@ -51,10 +51,17 @@ final class Product_Panel {
 			$sizes   = $d['sizes'];
 			$choices = $d['choices'];
 		}
-		$rows = $builder->rows( $pid );
+		$rows    = $builder->rows( $pid );
+		$suggest = $builder->suggest( $pid );
+		$fresh   = ! $fams && ! $sizes && ! $rows; // nothing chosen yet: pre-tick what the file supports
+		if ( $fresh && $suggest ) {
+			$fams  = $suggest['families'];
+			$sizes = $suggest['suggested'];
+		}
+		$links = $cat->links();
 		?>
 		<div id="prodigi_direct_panel" class="panel woocommerce_options_panel hidden prodigi-panel" data-product="<?php echo esc_attr( $pid ); ?>">
-			<h3><?php esc_html_e( 'The painting file', 'prodigi-direct' ); ?></h3>
+			<h3><?php esc_html_e( 'The print file', 'prodigi-direct' ); ?></h3>
 			<div class="prodigi-block">
 				<?php if ( $master ) : ?>
 					<p class="prodigi-master">
@@ -62,7 +69,7 @@ final class Product_Panel {
 						<strong><?php echo esc_html( $master['name'] ); ?></strong> · <?php echo esc_html( number_format_i18n( $master['w'] ) . ' × ' . number_format_i18n( $master['h'] ) ); ?> px · <?php echo esc_html( size_format( $master['size'] ) ); ?> · <?php echo esc_html( sprintf( __( 'uploaded %s', 'prodigi-direct' ), wp_date( get_option( 'date_format' ), $master['time'] ) ) ); ?>
 					</p>
 				<?php else : ?>
-					<p class="prodigi-warn"><?php esc_html_e( 'No print file yet — Prodigi cannot print this painting until there is one. Upload the full-size JPEG (quality 95, under 200 megapixels).', 'prodigi-direct' ); ?></p>
+					<p class="prodigi-warn"><?php esc_html_e( 'No print file yet — Prodigi cannot print this artwork until there is one. Upload the full-size JPEG (quality 95, under 200 megapixels).', 'prodigi-direct' ); ?></p>
 				<?php endif; ?>
 				<p>
 					<input type="file" name="prodigi_master" accept="image/jpeg" />
@@ -71,12 +78,12 @@ final class Product_Panel {
 				</p>
 			</div>
 
-			<h3><?php esc_html_e( 'What to offer', 'prodigi-direct' ); ?></h3>
+			<h3><?php esc_html_e( 'What to offer', 'prodigi-direct' ); ?> <small class="prodigi-links"><a href="<?php echo esc_url( $links['product_range'] ?? '' ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Prodigi product range ↗', 'prodigi-direct' ); ?></a> · <a href="<?php echo esc_url( $links['portfolio_pdf'] ?? '' ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'portfolio PDF ↗', 'prodigi-direct' ); ?></a></small></h3>
 			<div class="prodigi-block prodigi-offer">
 				<div class="prodigi-col">
 					<strong><?php esc_html_e( 'Materials', 'prodigi-direct' ); ?></strong>
 					<?php foreach ( $cat->families() as $key => $fam ) : ?>
-						<label class="prodigi-check"><input type="checkbox" class="prodigi-family" value="<?php echo esc_attr( $key ); ?>" <?php checked( in_array( $key, $fams, true ) ); ?> /> <?php echo esc_html( $fam['label'] ); ?></label>
+						<label class="prodigi-check"><input type="checkbox" class="prodigi-family" value="<?php echo esc_attr( $key ); ?>" <?php checked( in_array( $key, $fams, true ) ); ?> /> <?php echo esc_html( $fam['label'] ); ?> <a class="prodigi-ext" href="<?php echo esc_url( $cat->url( $key ) ); ?>" target="_blank" rel="noopener" title="<?php esc_attr_e( 'This product at Prodigi', 'prodigi-direct' ); ?>">↗</a></label>
 						<?php if ( $cat->choice_attribute( $key ) ) : ?>
 							<div class="prodigi-choices" data-family="<?php echo esc_attr( $key ); ?>" <?php echo in_array( $key, $fams, true ) ? '' : 'hidden'; ?>>
 								<?php foreach ( $cat->choices( $key ) as $val => $lab ) : ?>
@@ -88,14 +95,21 @@ final class Product_Panel {
 				</div>
 				<div class="prodigi-col">
 					<strong><?php esc_html_e( 'Sizes (inches)', 'prodigi-direct' ); ?></strong>
-					<?php foreach ( $cat->all_size_keys() as $size ) : ?>
-						<label class="prodigi-check"><input type="checkbox" class="prodigi-size" value="<?php echo esc_attr( $size ); ?>" <?php checked( in_array( $size, $sizes, true ) ); ?> /> <?php echo esc_html( str_replace( 'x', ' × ', $size ) ); ?>"</label>
+					<?php if ( $suggest ) : ?>
+						<button type="button" class="button button-small" id="prodigi-suggest" data-sizes="<?php echo esc_attr( implode( ',', $suggest['suggested'] ) ); ?>" data-families="<?php echo esc_attr( implode( ',', $suggest['families'] ) ); ?>"><?php esc_html_e( 'Suggest from the file', 'prodigi-direct' ); ?></button>
+						<span class="description"><?php echo esc_html( sprintf( __( 'Ticks the sizes this %1$d × %2$d px file fills with little or no border at 150 dpi or better.', 'prodigi-direct' ), $master['w'], $master['h'] ) ); ?></span>
+					<?php endif; ?>
+					<?php foreach ( $cat->all_size_keys() as $size ) :
+						$hint = $suggest['sizes'][ $size ] ?? null; ?>
+						<label class="prodigi-check <?php echo $hint && $hint['suggest'] ? 'prodigi-suggested' : ''; ?>"><input type="checkbox" class="prodigi-size" value="<?php echo esc_attr( $size ); ?>" <?php checked( in_array( $size, $sizes, true ) ); ?> /> <?php echo esc_html( str_replace( 'x', ' × ', $size ) ); ?>"
+							<?php if ( $hint ) : ?><small class="prodigi-hint prodigi-hint-<?php echo esc_attr( $hint['band'] ); ?>"><?php echo esc_html( 'low' === $hint['band'] ? __( 'not sharp enough', 'prodigi-direct' ) : $hint['fit'] . ' · ' . round( $hint['dpi'] ) . ' dpi' ); ?></small><?php endif; ?>
+						</label>
 					<?php endforeach; ?>
 				</div>
 			</div>
 			<p>
 				<button type="button" class="button button-primary" id="prodigi-build"><?php esc_html_e( 'Set up print sizes', 'prodigi-direct' ); ?></button>
-				<span class="description"><?php esc_html_e( 'Creates the sizes below, keeps the ones that already exist, and hides any you untick. Prices come from the price book unless already set.', 'prodigi-direct' ); ?></span>
+				<span class="description"><?php esc_html_e( 'Creates the sizes below, keeps the ones that already exist, and hides any you untick. Prices come from the price book unless already set. Sizes marked "wide border" print with white space around the image; sizes that are not sharp enough are hidden from the shop.', 'prodigi-direct' ); ?></span>
 				<span id="prodigi-build-result"></span>
 			</p>
 
@@ -106,7 +120,7 @@ final class Product_Panel {
 			<table class="widefat striped prodigi-table">
 				<thead><tr>
 					<th><?php esc_html_e( 'Size', 'prodigi-direct' ); ?></th>
-					<th><?php esc_html_e( 'Her price', 'prodigi-direct' ); ?></th>
+					<th><?php esc_html_e( 'Your price', 'prodigi-direct' ); ?></th>
 					<th><?php esc_html_e( 'Prodigi cost', 'prodigi-direct' ); ?></th>
 					<th><?php esc_html_e( 'You keep', 'prodigi-direct' ); ?></th>
 					<th><?php esc_html_e( 'File quality', 'prodigi-direct' ); ?></th>
@@ -180,6 +194,9 @@ final class Product_Panel {
 		}
 		if ( $stats['low_dpi'] ) {
 			$msg .= ' ' . sprintf( __( '%d hidden because the file is not sharp enough at that size.', 'prodigi-direct' ), $stats['low_dpi'] );
+		}
+		if ( $stats['skipped'] ) {
+			$msg .= ' ' . __( 'Skipped:', 'prodigi-direct' ) . ' ' . implode( '; ', array_unique( $stats['skipped'] ) ) . '.';
 		}
 		wp_send_json_success( [ 'message' => $msg ] );
 	}

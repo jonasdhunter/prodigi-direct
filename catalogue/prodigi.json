@@ -45,6 +45,21 @@
      }
     },
     {
+     "key": "10x10",
+     "sku": "GLOBAL-FAP-10x10",
+     "width_in": 10,
+     "height_in": 10,
+     "print_area_px": [
+      3000,
+      3000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 13.0,
+      "ship": 6.85
+     }
+    },
+    {
      "key": "12x12",
      "sku": "GLOBAL-FAP-12x12",
      "width_in": 12,
@@ -120,6 +135,21 @@
      }
     },
     {
+     "key": "18x24",
+     "sku": "GLOBAL-FAP-18x24",
+     "width_in": 18,
+     "height_in": 24,
+     "print_area_px": [
+      5400,
+      7200
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 17.0,
+      "ship": 7.1
+     }
+    },
+    {
      "key": "24x24",
      "sku": "GLOBAL-FAP-24x24",
      "width_in": 24,
@@ -132,6 +162,21 @@
      "cost": {
       "print": 20.0,
       "ship": 7.1
+     }
+    },
+    {
+     "key": "20x30",
+     "sku": "GLOBAL-FAP-20x30",
+     "width_in": 20,
+     "height_in": 30,
+     "print_area_px": [
+      6000,
+      9000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 20.0,
+      "ship": 12.65
      }
     },
     {
@@ -150,6 +195,51 @@
      }
     },
     {
+     "key": "24x32",
+     "sku": "GLOBAL-FAP-24x32",
+     "width_in": 24,
+     "height_in": 32,
+     "print_area_px": [
+      7200,
+      9600
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 20.0,
+      "ship": 12.65
+     }
+    },
+    {
+     "key": "28x28",
+     "sku": "GLOBAL-FAP-28x28",
+     "width_in": 28,
+     "height_in": 28,
+     "print_area_px": [
+      8400,
+      8400
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 20.0,
+      "ship": 11.6
+     }
+    },
+    {
+     "key": "24x36",
+     "sku": "GLOBAL-FAP-24x36",
+     "width_in": 24,
+     "height_in": 36,
+     "print_area_px": [
+      7200,
+      10800
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 22.0,
+      "ship": 14.65
+     }
+    },
+    {
      "key": "30x30",
      "sku": "GLOBAL-FAP-30x30",
      "width_in": 30,
@@ -161,6 +251,21 @@
      "orderable": true,
      "cost": {
       "print": 23.0,
+      "ship": 12.65
+     }
+    },
+    {
+     "key": "32x32",
+     "sku": "GLOBAL-FAP-32x32",
+     "width_in": 32,
+     "height_in": 32,
+     "print_area_px": [
+      9600,
+      9600
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 24.0,
       "ship": 12.65
      }
     },
@@ -179,7 +284,8 @@
       "ship": 14.65
      }
     }
-   ]
+   ],
+   "url": "https://www.prodigi.com/products/prints-and-posters/art-prints/"
   },
   {
    "key": "canvas-rolled",
@@ -192,6 +298,51 @@
    "sizing": "fitPrintArea",
    "print_area": "default",
    "sizes": [
+    {
+     "key": "8x8",
+     "sku": "GLOBAL-CAN-ROL-SC-8x8",
+     "width_in": 8,
+     "height_in": 8,
+     "print_area_px": [
+      2400,
+      2400
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 8.0,
+      "ship": 6.85
+     }
+    },
+    {
+     "key": "8x10",
+     "sku": "GLOBAL-CAN-ROL-SC-8x10",
+     "width_in": 8,
+     "height_in": 10,
+     "print_area_px": [
+      2400,
+      3000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 9.0,
+      "ship": 6.85
+     }
+    },
+    {
+     "key": "10x10",
+     "sku": "GLOBAL-CAN-ROL-SC-10x10",
+     "width_in": 10,
+     "height_in": 10,
+     "print_area_px": [
+      3000,
+      3000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 9.0,
+      "ship": 6.85
+     }
+    },
     {
      "key": "12x12",
      "sku": "GLOBAL-CAN-ROL-SC-12x12",
@@ -268,6 +419,21 @@
      }
     },
     {
+     "key": "18x24",
+     "sku": "GLOBAL-CAN-ROL-SC-18x24",
+     "width_in": 18,
+     "height_in": 24,
+     "print_area_px": [
+      5400,
+      7200
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 14.0,
+      "ship": 7.1
+     }
+    },
+    {
      "key": "24x24",
      "sku": "GLOBAL-CAN-ROL-SC-24x24",
      "width_in": 24,
@@ -280,6 +446,21 @@
      "cost": {
       "print": 17.0,
       "ship": 7.1
+     }
+    },
+    {
+     "key": "20x30",
+     "sku": "GLOBAL-CAN-ROL-SC-20x30",
+     "width_in": 20,
+     "height_in": 30,
+     "print_area_px": [
+      6000,
+      9000
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 17.0,
+      "ship": 12.65
      }
     },
     {
@@ -298,6 +479,51 @@
      }
     },
     {
+     "key": "24x32",
+     "sku": "GLOBAL-CAN-ROL-SC-24x32",
+     "width_in": 24,
+     "height_in": 32,
+     "print_area_px": [
+      7200,
+      9600
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 21.0,
+      "ship": 12.65
+     }
+    },
+    {
+     "key": "28x28",
+     "sku": "GLOBAL-CAN-ROL-SC-28x28",
+     "width_in": 28,
+     "height_in": 28,
+     "print_area_px": [
+      8400,
+      8400
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 23.0,
+      "ship": 11.6
+     }
+    },
+    {
+     "key": "24x36",
+     "sku": "GLOBAL-CAN-ROL-SC-24x36",
+     "width_in": 24,
+     "height_in": 36,
+     "print_area_px": [
+      7200,
+      10800
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 24.0,
+      "ship": 14.65
+     }
+    },
+    {
      "key": "30x30",
      "sku": "GLOBAL-CAN-ROL-SC-30x30",
      "width_in": 30,
@@ -309,6 +535,21 @@
      "orderable": true,
      "cost": {
       "print": 26.0,
+      "ship": 12.65
+     }
+    },
+    {
+     "key": "32x32",
+     "sku": "GLOBAL-CAN-ROL-SC-32x32",
+     "width_in": 32,
+     "height_in": 32,
+     "print_area_px": [
+      9600,
+      9600
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 28.0,
       "ship": 12.65
      }
     },
@@ -327,7 +568,8 @@
       "ship": 14.65
      }
     }
-   ]
+   ],
+   "url": "https://www.prodigi.com/products/wall-art/canvas/rolled-canvas/"
   },
   {
    "key": "canvas-gallery-wrap",
@@ -344,6 +586,51 @@
    "sizing": "fitPrintArea",
    "print_area": "default",
    "sizes": [
+    {
+     "key": "8x8",
+     "sku": "GLOBAL-CAN-8x8",
+     "width_in": 8,
+     "height_in": 8,
+     "print_area_px": [
+      2454,
+      2454
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 20.0,
+      "ship": 14.0
+     }
+    },
+    {
+     "key": "8x10",
+     "sku": "GLOBAL-CAN-8x10",
+     "width_in": 8,
+     "height_in": 10,
+     "print_area_px": [
+      2454,
+      3054
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 20.0,
+      "ship": 24.8
+     }
+    },
+    {
+     "key": "10x10",
+     "sku": "GLOBAL-CAN-10x10",
+     "width_in": 10,
+     "height_in": 10,
+     "print_area_px": [
+      3054,
+      3054
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 20.0,
+      "ship": 24.8
+     }
+    },
     {
      "key": "12x12",
      "sku": "GLOBAL-CAN-12x12",
@@ -420,6 +707,21 @@
      }
     },
     {
+     "key": "18x24",
+     "sku": "GLOBAL-CAN-18x24",
+     "width_in": 18,
+     "height_in": 24,
+     "print_area_px": [
+      5454,
+      7254
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 44.0,
+      "ship": 25.9
+     }
+    },
+    {
      "key": "24x24",
      "sku": "GLOBAL-CAN-24x24",
      "width_in": 24,
@@ -432,6 +734,21 @@
      "cost": {
       "print": 48.0,
       "ship": 25.9
+     }
+    },
+    {
+     "key": "20x30",
+     "sku": "GLOBAL-CAN-20x30",
+     "width_in": 20,
+     "height_in": 30,
+     "print_area_px": [
+      6054,
+      9054
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 50.0,
+      "ship": 32.35
      }
     },
     {
@@ -450,6 +767,51 @@
      }
     },
     {
+     "key": "24x32",
+     "sku": "GLOBAL-CAN-24x32",
+     "width_in": 24,
+     "height_in": 32,
+     "print_area_px": [
+      7254,
+      9654
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 52.0,
+      "ship": 32.35
+     }
+    },
+    {
+     "key": "28x28",
+     "sku": "GLOBAL-CAN-28x28",
+     "width_in": 28,
+     "height_in": 28,
+     "print_area_px": [
+      8454,
+      8454
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 54.0,
+      "ship": 32.35
+     }
+    },
+    {
+     "key": "24x36",
+     "sku": "GLOBAL-CAN-24x36",
+     "width_in": 24,
+     "height_in": 36,
+     "print_area_px": [
+      7254,
+      10854
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 60.0,
+      "ship": 34.55
+     }
+    },
+    {
      "key": "30x30",
      "sku": "GLOBAL-CAN-30x30",
      "width_in": 30,
@@ -461,6 +823,21 @@
      "orderable": true,
      "cost": {
       "print": 60.0,
+      "ship": 32.35
+     }
+    },
+    {
+     "key": "32x32",
+     "sku": "GLOBAL-CAN-32x32",
+     "width_in": 32,
+     "height_in": 32,
+     "print_area_px": [
+      9654,
+      9654
+     ],
+     "orderable": true,
+     "cost": {
+      "print": 65.0,
       "ship": 32.35
      }
     },
@@ -479,7 +856,8 @@
       "ship": 50.75
      }
     }
-   ]
+   ],
+   "url": "https://www.prodigi.com/products/wall-art/canvas/stretched-canvas/"
   },
   {
    "key": "framed-print-classic",
@@ -700,7 +1078,8 @@
       "ship": 50.75
      }
     }
-   ]
+   ],
+   "url": "https://www.prodigi.com/products/wall-art/framed-prints/classic-frames/"
   },
   {
    "key": "framed-print-classic-mounted",
@@ -953,7 +1332,8 @@
       "ship": 50.75
      }
     }
-   ]
+   ],
+   "url": "https://www.prodigi.com/products/wall-art/framed-prints/classic-frames/"
   },
   {
    "key": "framed-print-box",
@@ -1169,7 +1549,8 @@
       "ship": 50.75
      }
     }
-   ]
+   ],
+   "url": "https://www.prodigi.com/products/wall-art/framed-prints/box-frames/"
   },
   {
    "key": "framed-print-box-mounted",
@@ -1433,7 +1814,8 @@
       "ship": 50.75
      }
     }
-   ]
+   ],
+   "url": "https://www.prodigi.com/products/wall-art/framed-prints/box-frames/"
   },
   {
    "key": "framed-canvas-float",
@@ -1655,7 +2037,15 @@
       "ship": 50.75
      }
     }
-   ]
+   ],
+   "url": "https://www.prodigi.com/products/wall-art/canvas/framed-canvas/"
   }
- ]
+ ],
+ "links": {
+  "product_range": "https://www.prodigi.com/products/",
+  "portfolio_pdf": "https://www.prodigi.com/download/product-range/prodigi-portfolio.pdf",
+  "api_reference": "https://www.prodigi.com/print-api/docs/reference/",
+  "dashboard": "https://dashboard.prodigi.com/",
+  "sandbox_dashboard": "https://sandbox-beta-dashboard.pwinty.com/"
+ }
 }

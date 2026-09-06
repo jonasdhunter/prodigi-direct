@@ -31,3 +31,9 @@
 .prodigi-activity{margin:0;list-style:none}.prodigi-activity li{padding:3px 0;border-bottom:1px solid #f0f0f0}.prodigi-activity li small{color:#888;margin-right:6px}
 .prodigi-activity li.warning{color:#7a5a00}.prodigi-activity li.error{color:#8a1f1f}
 details.prodigi-card summary{cursor:pointer;list-style:none}details.prodigi-card summary h2{display:inline-block;margin:0}
+
+.prodigi-hint{color:#888;margin-left:4px}.prodigi-hint-low{color:#b32d2e}.prodigi-suggested{font-weight:600!important}
+.prodigi-ext{text-decoration:none;color:#999;margin-left:2px}.prodigi-ext:hover{color:#2271b1}
+.prodigi-links{font-weight:normal;font-size:12px;margin-left:8px}
+.prodigi-reflinks{margin:0;list-style:none}.prodigi-reflinks li{padding:3px 0}.prodigi-reflinks small{color:#888;margin-left:6px}
+#prodigi-suggest{margin:2px 0 6px;align-self:flex-start}

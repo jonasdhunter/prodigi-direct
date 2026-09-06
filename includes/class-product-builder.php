@@ -7,7 +7,7 @@ use WC_Product_Variable;
 use WC_Product_Variation;
 
 /**
- * Creates or adopts the variations of a painting from the artist's choices
+ * Creates or adopts the variations of a product from the store owner's choices
  * (materials, sizes, frame colours). One custom attribute, "Print Options",
  * whose values are the labels the shop already uses ('16x20" Paper').
  */
@@ -32,7 +32,7 @@ final class Product_Builder {
 	 * @param string[] $families
 	 * @param string[] $sizes
 	 * @param array<string, string[]> $choices  family => colours
-	 * @return array{created:int, adopted:int, hidden:int, unpriced:int, low_dpi:int}
+	 * @return array{created:int, adopted:int, hidden:int, unpriced:int, low_dpi:int, skipped:string[]}
 	 */
 	public function build( int $product_id, array $families, array $sizes, array $choices ): array {
 		$product = wc_get_product( $product_id );
@@ -40,14 +40,19 @@ final class Product_Builder {
 			throw new \RuntimeException( 'Only variable products can carry prints.' );
 		}
 		$master = Assets::info( $product_id );
-		$wanted = []; // label => [family, size, choice]
+		$wanted  = []; // label => [family, size, choice]
+		$skipped = []; // plain-language reasons a tick produced nothing
 		foreach ( $families as $family ) {
 			if ( ! $this->catalogue->family( $family ) ) {
 				continue;
 			}
 			$fam_choices = $this->catalogue->choice_attribute( $family ) ? ( $choices[ $family ] ?? [] ) : [ null ];
+			if ( ! $fam_choices ) {
+				$skipped[] = sprintf( '%s: tick at least one frame colour', $this->catalogue->family( $family )['short'] );
+			}
 			foreach ( $sizes as $size ) {
 				if ( ! $this->catalogue->size( $family, $size ) || ! $this->catalogue->orderable( $family, $size ) ) {
+					$skipped[] = sprintf( '%s" is not offered in %s', $size, $this->catalogue->family( $family )['short'] );
 					continue;
 				}
 				foreach ( $fam_choices as $choice ) {
@@ -70,7 +75,7 @@ final class Product_Builder {
 		usort( $all_labels, [ $this, 'sort_labels' ] );
 		$this->set_parent_attribute( $product, $all_labels );
 
-		$stats = [ 'created' => 0, 'adopted' => 0, 'hidden' => 0, 'unpriced' => 0, 'low_dpi' => 0 ];
+		$stats = [ 'created' => 0, 'adopted' => 0, 'hidden' => 0, 'unpriced' => 0, 'low_dpi' => 0, 'skipped' => $skipped ];
 		foreach ( $wanted as $label => [ $family, $size, $choice ] ) {
 			$v = $existing[ $label ] ?? null;
 			if ( ! $v ) {
@@ -140,6 +145,37 @@ final class Product_Builder {
 
 		Activity_Log::add( sprintf( 'Print sizes set up for "%s": %d new, %d kept, %d hidden.', $product->get_name(), $stats['created'], $stats['adopted'], $stats['hidden'] ) );
 		return $stats;
+	}
+
+	/**
+	 * What the file supports: for every family/size, dpi + border, and whether it is a good default.
+	 * @return array{sizes: array<string, array{dpi: float, band: string, border: float, fit: string, suggest: bool}>, suggested: string[], families: string[]}|null
+	 */
+	public function suggest( int $product_id ): ?array {
+		$master = Assets::info( $product_id );
+		if ( ! $master ) {
+			return null;
+		}
+		$sizes     = [];
+		$suggested = [];
+		foreach ( $this->catalogue->all_size_keys() as $size ) {
+			// Print-area pixels are the same shape for every family at a size; use paper's (or the first family that has it).
+			$px = [ 0, 0 ];
+			foreach ( array_keys( $this->catalogue->families() ) as $fam ) {
+				$px = $this->catalogue->print_area_px( $fam, $size );
+				if ( $px[0] ) {
+					break;
+				}
+			}
+			$dpi    = Dpi::effective( $master['w'], $master['h'], $px[0], $px[1] );
+			$border = Dpi::border( $master['w'], $master['h'], $px[0], $px[1] );
+			$ok     = Dpi::suggest( $master['w'], $master['h'], $px[0], $px[1] );
+			$sizes[ $size ] = [ 'dpi' => $dpi, 'band' => Dpi::band( $dpi ), 'border' => $border, 'fit' => Dpi::fit_text( $border ), 'suggest' => $ok ];
+			if ( $ok ) {
+				$suggested[] = $size;
+			}
+		}
+		return [ 'sizes' => $sizes, 'suggested' => $suggested, 'families' => [ 'paper', 'canvas-rolled', 'canvas-gallery-wrap' ] ];
 	}
 
 	/** Adopt what's already there: read families/sizes from existing labels so the tab reflects the shop. */

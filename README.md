@@ -8,7 +8,7 @@ Prodigi's own WooCommerce connector needs each product variant mapped one at a t
 
 ## What it does
 
-- **Product → Prints tab** (variable products only). Upload the painting's print file once (JPEG, stored privately). Tick materials, sizes and frame colours. Press *Set up print sizes*: variations are created or adopted (existing ones are matched by label, never duplicated, never deleted), each carrying the Prodigi SKU and attributes behind the scenes. The sizes table shows her price, Prodigi's cost, what she keeps, and a file-quality light per size (files under 150 dpi are hidden from the shop automatically).
+- **Product → Prints tab** (variable products only). Upload the print file once (JPEG, stored privately). *Suggest from the file* ticks the sizes the file fills with little or no border at 150 dpi or better; every size shows its fit and dpi. Tick materials, sizes and frame colours. Press *Set up print sizes*: variations are created or adopted (existing ones are matched by label, never duplicated, never deleted), each carrying the Prodigi SKU and attributes behind the scenes. The sizes table shows her price, Prodigi's cost, what she keeps, and a file-quality light per size (files under 150 dpi are hidden from the shop automatically).
 - **Orders**: a *Print* column (Waiting for you / Sent / Printing / Shipped / Problem) and a *Print this order* box with the live Prodigi quote and one button, *Approve and send to Prodigi*. Automatic sending on payment is a setting. Problems are one sentence in plain words with a *Try again*.
 - **Tracking**: each shipment becomes a customer note with carrier and tracking link (WooCommerce emails it); the order is marked Completed when everything has shipped.
 - **WooCommerce → Prints**: status checks, a price book (one price per size × material, every painting follows), a sandbox test order, recent activity in sentences, and settings.
@@ -17,7 +17,7 @@ Prodigi's own WooCommerce connector needs each product variant mapped one at a t
 
 ## Catalogue
 
-`catalogue/prodigi.json` holds eight families, verified against Prodigi's API on 2026-09-06 with live US quotes:
+`catalogue/prodigi.json` holds eight families and 124 SKUs, every one verified against Prodigi's API on 2026-09-06 with a live US quote. Each family links to its Prodigi product page, shown in the admin:
 
 | Family | SKU pattern | Attributes the order needs |
 |---|---|---|
@@ -38,7 +38,7 @@ Adding a family or size is a JSON edit plus a run of `wp prodigi-direct check-ca
 
 1. Download the release zip and install it under Plugins → Add New → Upload, or clone this repo into `wp-content/plugins/prodigi-direct`.
 2. Activate. WooCommerce → Prints opens the settings.
-3. **Sandbox first.** Create a sandbox account at https://sandbox-beta.prodigi.com, paste its API key, keep *Mode: Test*. Upload a print file on one painting, set up its sizes, then *Send a test order* on the Prints page. Check it appears at https://sandbox-beta-dashboard.pwinty.com.
+3. **Sandbox first.** Create a sandbox account at https://sandbox-beta-dashboard.pwinty.com, paste its API key, keep *Mode: Test*. Upload a print file on one painting, set up its sizes, then *Send a test order* on the Prints page. Check it appears at https://sandbox-beta-dashboard.pwinty.com.
 4. **Protect the print files.** They live in `wp-content/uploads/prodigi-private/`. The plugin writes an `.htaccess` for Apache. On nginx add, inside the site's `server` block:
    ```nginx
    location ^~ /wp-content/uploads/prodigi-private/ { deny all; return 404; }

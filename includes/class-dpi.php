@@ -27,6 +27,42 @@ final class Dpi {
 		return $dpi >= self::OK ? 'ok' : 'low';
 	}
 
+	/**
+	 * Fraction of the print area left white (along the slack axis) when the image is fitted, best orientation.
+	 * 0 = the image fills the sheet exactly; 0.2 = a fifth of the height (or width) is border.
+	 */
+	public static function border( int $img_w, int $img_h, int $area_w, int $area_h ): float {
+		if ( $img_w <= 0 || $img_h <= 0 || $area_w <= 0 || $area_h <= 0 ) {
+			return 1.0;
+		}
+		$as_is   = self::border_one( $img_w, $img_h, $area_w, $area_h );
+		$rotated = self::border_one( $img_h, $img_w, $area_w, $area_h );
+		return round( min( $as_is, $rotated ), 4 );
+	}
+
+	private static function border_one( int $img_w, int $img_h, int $area_w, int $area_h ): float {
+		$s = min( $area_w / $img_w, $area_h / $img_h );
+		$w = $img_w * $s;
+		$h = $img_h * $s;
+		return max( 1 - $w / $area_w, 1 - $h / $area_h );
+	}
+
+	/** A size worth offering for this file: sharp enough (≥150 dpi) and close to the file's shape (≤ 8% border). */
+	public static function suggest( int $img_w, int $img_h, int $area_w, int $area_h, float $max_border = 0.08 ): bool {
+		return self::band( self::effective( $img_w, $img_h, $area_w, $area_h ) ) !== 'low'
+			&& self::border( $img_w, $img_h, $area_w, $area_h ) <= $max_border;
+	}
+
+	public static function fit_text( float $border ): string {
+		if ( $border <= 0.02 ) {
+			return 'fits';
+		}
+		if ( $border <= 0.08 ) {
+			return 'small border';
+		}
+		return 'wide border';
+	}
+
 	public static function band_text( string $band ): string {
 		return [
 			'clean' => 'Clean',

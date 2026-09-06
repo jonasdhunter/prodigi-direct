@@ -1,7 +1,7 @@
 <?php
 namespace ProdigiDirect;
 
-/** One price per size × material. Set once; every painting follows. Stored as [family][size] => price. */
+/** One price per size × material. Set once; every product follows. Stored as [family][size] => price. */
 final class Price_Book {
 	public const OPTION = 'prodigi_direct_price_book';
 

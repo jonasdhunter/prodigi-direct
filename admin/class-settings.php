@@ -18,7 +18,7 @@ final class Settings {
 	public function hooks(): void {
 		add_action( 'admin_menu', [ $this, 'menu' ], 60 );
 		add_action( 'admin_post_prodigi_direct_settings', [ $this, 'save' ] );
-		add_action( 'admin_notices', [ $this, 'flash' ] );
+		add_action( 'admin_notices', [ $this, 'flash' ], 5 ); // before the sandbox banner
 	}
 
 	public function menu(): void {
@@ -64,7 +64,7 @@ final class Settings {
 
 			<div class="prodigi-card" id="price-book">
 				<h2><?php esc_html_e( 'Price book', 'prodigi-direct' ); ?></h2>
-				<p class="description"><?php esc_html_e( 'One price per size and material. New paintings pick these up when you set up their print sizes; existing prices on a painting are not changed. Under each box: what Prodigi charges (print + US shipping) and what you keep.', 'prodigi-direct' ); ?></p>
+				<p class="description"><?php esc_html_e( 'One price per size and material. New products pick these up when you set up their print sizes; prices already set on a product are not changed. Under each box: what Prodigi charges (print + US shipping) and what you keep.', 'prodigi-direct' ); ?></p>
 				<form method="post" action="<?php echo esc_url( $action ); ?>">
 					<input type="hidden" name="action" value="prodigi_direct_settings" /><input type="hidden" name="do" value="price_book" /><input type="hidden" name="_wpnonce" value="<?php echo esc_attr( $nonce ); ?>" />
 					<div class="prodigi-scroll"><table class="widefat prodigi-book">
@@ -93,13 +93,27 @@ final class Settings {
 
 			<div class="prodigi-card" id="test">
 				<h2><?php esc_html_e( 'Test print', 'prodigi-direct' ); ?></h2>
-				<p class="description"><?php esc_html_e( 'Sends one 8x10 paper print of a painting to a test address through Prodigi’s sandbox — nothing is printed or charged. Use it after installing, and after any change to prints.', 'prodigi-direct' ); ?></p>
+				<p class="description"><?php esc_html_e( 'Sends one paper print of a product to a test address through Prodigi’s sandbox — nothing is printed or charged. Use it after installing, and after any change to prints.', 'prodigi-direct' ); ?></p>
 				<form method="post" action="<?php echo esc_url( $action ); ?>">
 					<input type="hidden" name="action" value="prodigi_direct_settings" /><input type="hidden" name="do" value="test_order" /><input type="hidden" name="_wpnonce" value="<?php echo esc_attr( $nonce ); ?>" />
 					<select name="product"><?php foreach ( wc_get_products( [ 'type' => 'variable', 'limit' => 50, 'status' => 'publish' ] ) as $p ) : ?><option value="<?php echo esc_attr( $p->get_id() ); ?>"><?php echo esc_html( $p->get_name() ); ?></option><?php endforeach; ?></select>
 					<button class="button" <?php disabled( ! $s['api_key_sandbox'] ); ?>><?php esc_html_e( 'Send a test order', 'prodigi-direct' ); ?></button>
 					<?php if ( ! $s['api_key_sandbox'] ) : ?><span class="description"><?php esc_html_e( 'Needs the sandbox API key in settings.', 'prodigi-direct' ); ?></span><?php endif; ?>
 				</form>
+			</div>
+
+			<div class="prodigi-card" id="reference">
+				<h2><?php esc_html_e( 'Prodigi reference', 'prodigi-direct' ); ?></h2>
+				<ul class="prodigi-reflinks">
+					<?php $l = $cat->links(); ?>
+					<li><a href="<?php echo esc_url( $l['product_range'] ?? '' ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Product range', 'prodigi-direct' ); ?></a> — <?php esc_html_e( 'everything Prodigi prints, with photos', 'prodigi-direct' ); ?></li>
+					<li><a href="<?php echo esc_url( $l['portfolio_pdf'] ?? '' ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Portfolio PDF', 'prodigi-direct' ); ?></a> — <?php esc_html_e( 'the printed catalogue', 'prodigi-direct' ); ?></li>
+					<?php foreach ( $cat->families() as $key => $fam ) : ?>
+						<li><a href="<?php echo esc_url( $cat->url( $key ) ); ?>" target="_blank" rel="noopener"><?php echo esc_html( $fam['label'] ); ?></a> <small><?php echo esc_html( $fam['sku_pattern'] ); ?></small></li>
+					<?php endforeach; ?>
+					<li><a href="<?php echo esc_url( $l['dashboard'] ?? '' ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Prodigi dashboard', 'prodigi-direct' ); ?></a> — <?php esc_html_e( 'billing, invoices, order history', 'prodigi-direct' ); ?> · <a href="<?php echo esc_url( $l['sandbox_dashboard'] ?? '' ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'sandbox dashboard', 'prodigi-direct' ); ?></a></li>
+					<li><a href="<?php echo esc_url( $l['api_reference'] ?? '' ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'API reference', 'prodigi-direct' ); ?></a></li>
+				</ul>
 			</div>
 
 			<div class="prodigi-card" id="activity">
@@ -121,7 +135,7 @@ final class Settings {
 							<label><input type="radio" name="mode" value="sandbox" <?php checked( 'sandbox', $s['mode'] ); ?> /> <?php esc_html_e( 'Test (sandbox) — nothing printed or charged', 'prodigi-direct' ); ?></label><br />
 							<label><input type="radio" name="mode" value="live" <?php checked( 'live', $s['mode'] ); ?> /> <?php esc_html_e( 'Live — real orders go to Prodigi', 'prodigi-direct' ); ?></label></td></tr>
 						<tr><th><label for="api_key_live"><?php esc_html_e( 'Live API key', 'prodigi-direct' ); ?></label></th><td><input type="password" id="api_key_live" name="api_key_live" class="regular-text" value="<?php echo esc_attr( $s['api_key_live'] ); ?>" autocomplete="off" /> <span class="description"><?php esc_html_e( 'Prodigi dashboard → Settings → API.', 'prodigi-direct' ); ?></span></td></tr>
-						<tr><th><label for="api_key_sandbox"><?php esc_html_e( 'Sandbox API key', 'prodigi-direct' ); ?></label></th><td><input type="password" id="api_key_sandbox" name="api_key_sandbox" class="regular-text" value="<?php echo esc_attr( $s['api_key_sandbox'] ); ?>" autocomplete="off" /> <span class="description"><?php esc_html_e( 'From sandbox-beta.prodigi.com — a separate account and key.', 'prodigi-direct' ); ?></span></td></tr>
+						<tr><th><label for="api_key_sandbox"><?php esc_html_e( 'Sandbox API key', 'prodigi-direct' ); ?></label></th><td><input type="password" id="api_key_sandbox" name="api_key_sandbox" class="regular-text" value="<?php echo esc_attr( $s['api_key_sandbox'] ); ?>" autocomplete="off" /> <span class="description"><?php esc_html_e( 'From sandbox-beta-dashboard.pwinty.com — a separate account and key.', 'prodigi-direct' ); ?></span></td></tr>
 						<tr><th><?php esc_html_e( 'Who approves', 'prodigi-direct' ); ?></th><td>
 							<label><input type="radio" name="approval" value="manual" <?php checked( 'manual', $s['approval'] ); ?> /> <?php esc_html_e( 'Me — every paid order waits for my "Approve and send"', 'prodigi-direct' ); ?></label><br />
 							<label><input type="radio" name="approval" value="auto" <?php checked( 'auto', $s['approval'] ); ?> /> <?php esc_html_e( 'Automatic — send to Prodigi as soon as an order is paid (live mode only)', 'prodigi-direct' ); ?></label></td></tr>

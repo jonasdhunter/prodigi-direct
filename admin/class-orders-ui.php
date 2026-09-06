@@ -129,7 +129,7 @@ final class Orders_UI {
 		switch ( $do ) {
 			case 'approve':
 				$sender->reset_to_waiting( $order_id );
-				$sender->submit( $order_id ); // run now, so she sees the result on reload
+				$sender->submit( $order_id ); // run now, so the result shows on reload
 				$msg = __( 'Sent.', 'prodigi-direct' );
 				break;
 			case 'manual':

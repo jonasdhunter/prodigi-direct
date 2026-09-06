@@ -21,7 +21,7 @@ final class Api_Client {
 	/** @return array|WP_Error */
 	private function request( string $method, string $path, ?array $body = null, int $timeout = 30 ) {
 		if ( ! $this->has_key() ) {
-			return new WP_Error( 'prodigi_no_key', __( 'No Prodigi API key is set for this mode.', 'prodigi-direct' ) );
+			return new WP_Error( 'prodigi_no_key', __( 'No Prodigi API key is set for this mode. Add it under WooCommerce → Prints → Settings.', 'prodigi-direct' ) );
 		}
 		$args = [
 			'method'  => $method,

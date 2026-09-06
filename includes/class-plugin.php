@@ -29,7 +29,7 @@ final class Plugin {
 			'api_key_live'        => '',
 			'api_key_sandbox'     => '',
 			'shipping_method'     => 'Budget',
-			'approval'            => 'manual',   // manual = she approves each order · auto = send on payment
+			'approval'            => 'manual',   // manual = the store owner approves each order · auto = send on payment
 			'notify_email'        => get_option( 'admin_email' ),
 			'complete_on_ship'    => 'yes',
 			'callback_token'      => '',
