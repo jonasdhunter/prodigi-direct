@@ -301,7 +301,7 @@
    "sku_pattern": "GLOBAL-CAN-ROL-SC-{WxH}",
    "required_attributes": [],
    "fixed_attributes": {},
-   "sizing": "fitPrintArea",
+   "sizing": "fillPrintArea",
    "print_area": "default",
    "sizes": [
     {
@@ -595,7 +595,7 @@
    "fixed_attributes": {
     "wrap": "White"
    },
-   "sizing": "fitPrintArea",
+   "sizing": "fillPrintArea",
    "print_area": "default",
    "sizes": [
     {
@@ -887,7 +887,7 @@
     "color"
    ],
    "fixed_attributes": {},
-   "sizing": "fitPrintArea",
+   "sizing": "fillPrintArea",
    "print_area": "default",
    "choice_attribute": "color",
    "choices": {
@@ -1125,7 +1125,7 @@
     "color"
    ],
    "fixed_attributes": {},
-   "sizing": "fitPrintArea",
+   "sizing": "fillPrintArea",
    "print_area": "default",
    "choice_attribute": "color",
    "choices": {
@@ -1395,7 +1395,7 @@
     "color"
    ],
    "fixed_attributes": {},
-   "sizing": "fitPrintArea",
+   "sizing": "fillPrintArea",
    "print_area": "default",
    "choice_attribute": "color",
    "choices": {
@@ -1623,7 +1623,7 @@
     "color"
    ],
    "fixed_attributes": {},
-   "sizing": "fitPrintArea",
+   "sizing": "fillPrintArea",
    "print_area": "default",
    "choice_attribute": "color",
    "choices": {
@@ -1902,7 +1902,7 @@
    "fixed_attributes": {
     "wrap": "White"
    },
-   "sizing": "fitPrintArea",
+   "sizing": "fillPrintArea",
    "print_area": "default",
    "choice_attribute": "color",
    "choices": {

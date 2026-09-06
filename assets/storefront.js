@@ -123,7 +123,7 @@
 			$m.css({ padding: pct(gapIn), background: o.kind === 'float' ? '#faf9f6' : 'transparent', boxShadow: o.kind === 'float' ? innerShadow : 'none' });
 			var bevel = matIn ? ', inset 0 0 0 1px rgba(0,0,0,.08), inset 0 0 0 3px rgba(255,255,255,.9), inset 0 0 0 4px rgba(0,0,0,.06)' : '';
 			$p.css({ aspectRatio: W + ' / ' + H, padding: pct(matIn), background: matIn ? '#fbfaf7' : '#fff', boxShadow: (frameIn && o.kind !== 'float' ? innerShadow : 'none') + (matIn ? bevel : '') });
-			$p.find('img').css({ boxShadow: matIn ? '0 0 0 1px rgba(0,0,0,.12), inset 0 0 6px rgba(0,0,0,.2)' : 'none' });
+			$p.find('img').css({ objectFit: o.sizing === 'fillPrintArea' ? 'cover' : 'contain', boxShadow: matIn ? '0 0 0 1px rgba(0,0,0,.12), inset 0 0 6px rgba(0,0,0,.2)' : 'none' });
 			$stage.find('.pd-stage-cap').text(W + ' × ' + H + '" ' + (groups[o.grp] || {}).label + (o.frame ? ' · ' + o.frame : '') + (matIn ? ' · ' + matIn + '" mat' : ''));
 		}
 		buildStage();

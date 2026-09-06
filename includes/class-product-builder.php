@@ -271,8 +271,11 @@ final class Product_Builder {
 				[ $aw, $ah ] = $this->catalogue->print_area_px( $family, $size );
 				$dpi         = Dpi::effective( $master['w'], $master['h'], $aw, $ah );
 			}
+			$sizing = (string) ( $v->get_meta( self::META_SIZING ) ?: $this->catalogue->sizing( $family ) );
 			$rows[] = [
 				'variation_id' => $vid,
+				'sizing'       => $sizing,
+				'fit'          => $master ? Dpi::consequence( $master['w'], $master['h'], $this->catalogue->print_area_px( $family, $size )[0], $this->catalogue->print_area_px( $family, $size )[1], $sizing ) : '',
 				'label'        => $label,
 				'family'       => $family,
 				'size'         => $size,

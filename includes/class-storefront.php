@@ -94,6 +94,7 @@ final class Storefront {
 				'w_in'     => $w_in,
 				'h_in'     => $h_in,
 				'kind'     => $kind,
+				'sizing'   => (string) ( $v->get_meta( Product_Builder::META_SIZING ) ?: $cat->sizing( $p['family'] ) ),
 				'mat_in'   => $mat_in,
 				'choice'   => (string) $p['choice'],
 				'choice_l' => $choice_l,

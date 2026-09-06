@@ -53,6 +53,32 @@ final class Dpi {
 			&& self::border( $img_w, $img_h, $area_w, $area_h ) <= $max_border;
 	}
 
+	/**
+	 * What a size does to this file, in words: for fit sizing, the white band it leaves; for fill,
+	 * the slice it crops. $img and $area are [w, h]. Returns e.g. "crops 1% top and bottom".
+	 */
+	public static function consequence( int $img_w, int $img_h, int $area_w, int $area_h, string $sizing ): string {
+		if ( $img_w <= 0 || $img_h <= 0 || $area_w <= 0 || $area_h <= 0 ) {
+			return '';
+		}
+		// Prodigi rotates to the best orientation; compare aspect ratios in that orientation.
+		$img  = $img_w / $img_h;
+		$area = $area_w / $area_h;
+		if ( ( $img > 1 ) !== ( $area > 1 ) ) {
+			$img = 1 / $img;
+		}
+		$diff = abs( $img - $area ) / max( $img, $area );
+		if ( $diff < 0.005 ) {
+			return 'fills the sheet exactly';
+		}
+		$pct  = round( $diff * 100, 1 );
+		$axis = $img > $area ? 'top and bottom' : 'left and right'; // image is wider than the area → slack top/bottom
+		if ( 'fillPrintArea' === $sizing ) {
+			return 'fills — crops ' . $pct . '% ' . ( $img > $area ? 'left and right' : 'top and bottom' );
+		}
+		return 'white margin ' . $pct . '% ' . $axis;
+	}
+
 	public static function fit_text( float $border ): string {
 		if ( $border <= 0.02 ) {
 			return 'fits';

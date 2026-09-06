@@ -44,4 +44,13 @@ final class DpiTest extends TestCase {
 		$this->assertFalse( Dpi::suggest( 3000, 3000, 4800, 6000 ) );      // square into 4:5: 20% border
 		$this->assertFalse( Dpi::suggest( 1000, 1250, 4800, 6000 ) );      // too soft
 	}
+
+	public function test_consequence_words(): void {
+		// 3600x4500 (4:5) on 11x14 (3300x4200): the file is a touch wider → white top and bottom on paper, crop left/right on canvas
+		$this->assertStringContainsString( 'white margin', Dpi::consequence( 3600, 4500, 3300, 4200, 'fitPrintArea' ) );
+		$this->assertStringContainsString( 'top and bottom', Dpi::consequence( 3600, 4500, 3300, 4200, 'fitPrintArea' ) );
+		$this->assertStringContainsString( 'crops', Dpi::consequence( 3600, 4500, 3300, 4200, 'fillPrintArea' ) );
+		$this->assertSame( 'fills the sheet exactly', Dpi::consequence( 4800, 6000, 4800, 6000, 'fitPrintArea' ) );
+		$this->assertStringContainsString( 'top and bottom', Dpi::consequence( 3000, 3000, 4800, 6000, 'fitPrintArea' ) ); // square on 4:5: fills the width, white above and below
+	}
 }

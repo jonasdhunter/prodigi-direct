@@ -125,11 +125,12 @@ final class Product_Panel {
 						<td><?php echo $r['cost'] ? wp_kses_post( wc_price( $r['cost']['print'] + $r['cost']['ship'] ) ) . '<br /><small>' . esc_html( sprintf( __( 'print %1$s + shipping %2$s', 'prodigi-direct' ), wp_strip_all_tags( wc_price( $r['cost']['print'] ) ), wp_strip_all_tags( wc_price( $r['cost']['ship'] ) ) ) ) . '</small>' : '—'; ?></td>
 						<td class="prodigi-keep"><?php echo $r['margin'] && null !== $r['margin']['keep'] ? wp_kses_post( wc_price( $r['margin']['keep'] ) . ' <small>(' . $r['margin']['pct'] . '%)</small>' ) : '<span class="prodigi-warn">' . esc_html__( 'set a price', 'prodigi-direct' ) . '</span>'; ?></td>
 						<td><?php echo null === $r['band'] ? '<span class="description">' . esc_html__( 'no file', 'prodigi-direct' ) . '</span>' : '<span class="prodigi-dot prodigi-' . esc_attr( $r['band'] ) . '"></span> ' . esc_html( Dpi::band_text( $r['band'] ) ) . ' <small>(' . esc_html( (string) round( $r['dpi'] ) ) . ' dpi)</small>'; ?></td>
+						<td class="prodigi-fit"><?php echo esc_html( $r['fit'] ?: '—' ); ?></td>
 						<td><?php echo 'publish' === $r['status'] ? esc_html__( 'Yes', 'prodigi-direct' ) : esc_html__( 'Hidden', 'prodigi-direct' ); ?></td>
 					</tr>
 			<?php };
 			$pick_id = (int) $product->get_meta( \ProdigiDirect\Storefront::META_PICK );
-			$head = '<thead><tr><th class="pd-pick-col" title="' . esc_attr__( 'Artist’s recommendation', 'prodigi-direct' ) . '">★</th><th>' . esc_html__( 'Size', 'prodigi-direct' ) . '</th><th>' . esc_html__( 'Your price', 'prodigi-direct' ) . '</th><th>' . esc_html__( 'Prodigi cost', 'prodigi-direct' ) . '</th><th>' . esc_html__( 'You keep', 'prodigi-direct' ) . '</th><th>' . esc_html__( 'File quality', 'prodigi-direct' ) . '</th><th>' . esc_html__( 'In the shop', 'prodigi-direct' ) . '</th></tr></thead>';
+			$head = '<thead><tr><th class="pd-pick-col" title="' . esc_attr__( 'Artist’s recommendation', 'prodigi-direct' ) . '">★</th><th>' . esc_html__( 'Size', 'prodigi-direct' ) . '</th><th>' . esc_html__( 'Your price', 'prodigi-direct' ) . '</th><th>' . esc_html__( 'Prodigi cost', 'prodigi-direct' ) . '</th><th>' . esc_html__( 'You keep', 'prodigi-direct' ) . '</th><th>' . esc_html__( 'File quality', 'prodigi-direct' ) . '</th><th>' . esc_html__( 'How it prints', 'prodigi-direct' ) . '</th><th>' . esc_html__( 'In the shop', 'prodigi-direct' ) . '</th></tr></thead>';
 			?>
 			<h3><?php echo esc_html( sprintf( __( 'Sizes in the shop (%d)', 'prodigi-direct' ), count( $shown ) ) ); ?></h3>
 			<?php if ( ! $rows ) : ?>
@@ -148,6 +149,7 @@ final class Product_Panel {
 				<textarea id="prodigi-pick-note" rows="2" class="large-text" placeholder="<?php esc_attr_e( 'e.g. Gallery wrapped is how I see this one — the colours carry around the edge.', 'prodigi-direct' ); ?>"><?php echo esc_textarea( (string) $product->get_meta( \ProdigiDirect\Storefront::META_PICK_NOTE ) ); ?></textarea>
 				<span id="prodigi-pick-result" class="description"></span>
 			</div>
+			<p class="description"><?php esc_html_e( 'How it prints: paper prints keep the whole painting and leave a white margin where the size’s shape differs from the file; canvas and framed prints fill the face and crop the difference instead. Anything over about 3% is worth a look before it goes live.', 'prodigi-direct' ); ?></p>
 			<p class="description"><?php esc_html_e( 'Cost = print + shipping to a US address on the shipping level in settings. Change a price here and it saves straight away.', 'prodigi-direct' ); ?></p>
 			<?php endif; ?>
 		</div>
