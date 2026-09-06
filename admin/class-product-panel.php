@@ -113,21 +113,10 @@ final class Product_Panel {
 				<span id="prodigi-build-result"></span>
 			</p>
 
-			<h3><?php esc_html_e( 'Sizes in the shop', 'prodigi-direct' ); ?></h3>
-			<?php if ( ! $rows ) : ?>
-				<p class="description"><?php esc_html_e( 'No print sizes yet. Tick materials and sizes above, then press Set up print sizes.', 'prodigi-direct' ); ?></p>
-			<?php else : ?>
-			<table class="widefat striped prodigi-table">
-				<thead><tr>
-					<th><?php esc_html_e( 'Size', 'prodigi-direct' ); ?></th>
-					<th><?php esc_html_e( 'Your price', 'prodigi-direct' ); ?></th>
-					<th><?php esc_html_e( 'Prodigi cost', 'prodigi-direct' ); ?></th>
-					<th><?php esc_html_e( 'You keep', 'prodigi-direct' ); ?></th>
-					<th><?php esc_html_e( 'File quality', 'prodigi-direct' ); ?></th>
-					<th><?php esc_html_e( 'In the shop', 'prodigi-direct' ); ?></th>
-				</tr></thead>
-				<tbody>
-				<?php foreach ( $rows as $r ) : ?>
+			<?php
+			$shown  = array_filter( $rows, static fn( $r ) => 'publish' === $r['status'] );
+			$hidden = array_filter( $rows, static fn( $r ) => 'publish' !== $r['status'] );
+			$row_html = function ( array $r ): void { ?>
 					<tr class="<?php echo $r['margin'] && $r['margin']['loss'] ? 'prodigi-loss' : ''; ?>">
 						<td><?php echo esc_html( $r['label'] ); ?><?php if ( ! $r['mapped'] ) : ?> <span class="prodigi-tag"><?php esc_html_e( 'not set up', 'prodigi-direct' ); ?></span><?php endif; ?><br /><small class="prodigi-details"><?php echo esc_html( $r['sku'] ); ?></small></td>
 						<td><input type="number" step="0.01" min="0" class="prodigi-price small-text" data-variation="<?php echo esc_attr( $r['variation_id'] ); ?>" value="<?php echo esc_attr( null === $r['price'] ? '' : $r['price'] ); ?>" /></td>
@@ -136,9 +125,20 @@ final class Product_Panel {
 						<td><?php echo null === $r['band'] ? '<span class="description">' . esc_html__( 'no file', 'prodigi-direct' ) . '</span>' : '<span class="prodigi-dot prodigi-' . esc_attr( $r['band'] ) . '"></span> ' . esc_html( Dpi::band_text( $r['band'] ) ) . ' <small>(' . esc_html( (string) round( $r['dpi'] ) ) . ' dpi)</small>'; ?></td>
 						<td><?php echo 'publish' === $r['status'] ? esc_html__( 'Yes', 'prodigi-direct' ) : esc_html__( 'Hidden', 'prodigi-direct' ); ?></td>
 					</tr>
-				<?php endforeach; ?>
-				</tbody>
-			</table>
+			<?php };
+			$head = '<thead><tr><th>' . esc_html__( 'Size', 'prodigi-direct' ) . '</th><th>' . esc_html__( 'Your price', 'prodigi-direct' ) . '</th><th>' . esc_html__( 'Prodigi cost', 'prodigi-direct' ) . '</th><th>' . esc_html__( 'You keep', 'prodigi-direct' ) . '</th><th>' . esc_html__( 'File quality', 'prodigi-direct' ) . '</th><th>' . esc_html__( 'In the shop', 'prodigi-direct' ) . '</th></tr></thead>';
+			?>
+			<h3><?php echo esc_html( sprintf( __( 'Sizes in the shop (%d)', 'prodigi-direct' ), count( $shown ) ) ); ?></h3>
+			<?php if ( ! $rows ) : ?>
+				<p class="description"><?php esc_html_e( 'No print sizes yet. Tick materials and sizes above, then press Set up print sizes.', 'prodigi-direct' ); ?></p>
+			<?php else : ?>
+			<table class="widefat striped prodigi-table"><?php echo $head; // phpcs:ignore ?><tbody><?php array_map( $row_html, $shown ); ?></tbody></table>
+			<?php if ( $hidden ) : ?>
+			<details class="prodigi-hidden-sizes">
+				<summary><?php echo esc_html( sprintf( __( 'Hidden sizes (%d) — not sharp enough, no price, or unticked', 'prodigi-direct' ), count( $hidden ) ) ); ?></summary>
+				<table class="widefat striped prodigi-table"><?php echo $head; // phpcs:ignore ?><tbody><?php array_map( $row_html, $hidden ); ?></tbody></table>
+			</details>
+			<?php endif; ?>
 			<p class="description"><?php esc_html_e( 'Cost = print + shipping to a US address on the shipping level in settings. Change a price here and it saves straight away.', 'prodigi-direct' ); ?></p>
 			<?php endif; ?>
 		</div>

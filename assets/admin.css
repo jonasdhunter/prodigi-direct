@@ -37,3 +37,4 @@ details.prodigi-card summary{cursor:pointer;list-style:none}details.prodigi-card
 .prodigi-links{font-weight:normal;font-size:12px;margin-left:8px}
 .prodigi-reflinks{margin:0;list-style:none}.prodigi-reflinks li{padding:3px 0}.prodigi-reflinks small{color:#888;margin-left:6px}
 #prodigi-suggest{margin:2px 0 6px;align-self:flex-start}
+.prodigi-hidden-sizes{margin:6px 12px}.prodigi-hidden-sizes summary{cursor:pointer;color:#666;padding:4px 0}.prodigi-hidden-sizes .prodigi-table{margin:6px 0 0;width:100%;opacity:.85}
