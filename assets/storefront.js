@@ -148,4 +148,17 @@
 		var start = opts.filter(function (o) { return o.id === pick; })[0];
 		if (start) { selectOption(start); } else { renderAll(); openOnly('material'); }
 	});
+
+	/* Story + details: collapsed by default (Tiffany wants the page quiet), one click reveals them in place. Independent of the picker above so it still runs on a plain product with no picker. */
+	$(function () {
+		var $story = $('.pd-story-section');
+		if (!$story.length) { return; }
+		var $toggle = $('<button type="button" class="pd-story-toggle"><span class="pd-story-toggle-chev" aria-hidden="true"></span><span class="pd-story-toggle-label">Story &amp; details</span></button>');
+		$story.before($toggle);
+		$toggle.on('click', function () {
+			var open = $story.toggleClass('is-open').hasClass('is-open');
+			$toggle.toggleClass('is-open', open).attr('aria-expanded', open ? 'true' : 'false');
+			if (open) { $story[0].scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }
+		});
+	});
 })(jQuery);
