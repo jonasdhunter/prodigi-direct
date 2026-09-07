@@ -145,11 +145,11 @@ final class Storefront {
 			</div>
 			<?php endif; ?>
 			<?php
-			// Art-free line icons for the media (a sheet, a rolled tube, a wrapped canvas corner).
+			// Art-free line icons for the media (a sheet, a rolled tube, a wrapped canvas corner) -- quiet single-tone marks, not illustrations.
 			$icons = [
-				'paper'  => '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M14 10h26l10 10v34H14z"/><path d="M40 10v10h10"/><path d="M20 30h24M20 38h24M20 46h16" stroke-opacity=".5"/></svg>',
-				'rolled' => '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M10 24c0-4 3-7 7-7h30a7 7 0 0 1 0 14H17c-4 0-7-3-7-7z"/><ellipse cx="47" cy="24" rx="7" ry="7"/><path d="M17 31v18c0 3 2 5 5 5h26" stroke-opacity=".6"/><path d="M47 24c-2 0-3 3-3 7" stroke-opacity=".5"/></svg>',
-				'wrap'   => '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 16h34v34H12z"/><path d="M46 16l6 6v34l-6-6"/><path d="M12 50l6 6h34"/><path d="M46 50l6 6"/></svg>',
+				'paper'  => '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"><path d="M16 8h22l10 10v38H16z" fill="currentColor" fill-opacity=".04"/><path d="M38 8v10h10"/><rect x="23" y="26" width="18" height="22" stroke-opacity=".4"/></svg>',
+				'rolled' => '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"><path d="M14 20c0-5 4-9 9-9h19a9 9 0 0 1 0 18H23c-5 0-9-4-9-9z" fill="currentColor" fill-opacity=".04"/><ellipse cx="42" cy="20" rx="9" ry="9"/><ellipse cx="42" cy="20" rx="3.5" ry="9" stroke-opacity=".4"/><path d="M23 29v19c0 3 2 5 5 5h19" stroke-opacity=".5"/></svg>',
+				'wrap'   => '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"><path d="M14 14h30v30H14z" fill="currentColor" fill-opacity=".04"/><path d="M44 14l6 6v30l-6-6" stroke-opacity=".5"/><path d="M14 44l6 6h30" stroke-opacity=".5"/></svg>',
 			];
 			$steps = [ 'material' => __( 'Medium', 'prodigi-direct' ), 'size' => __( 'Size', 'prodigi-direct' ), 'frame' => __( 'Frame', 'prodigi-direct' ) ];
 			$n = 0;

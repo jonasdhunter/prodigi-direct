@@ -100,8 +100,8 @@
 
 /* Numbered rows for all three steps; medium icon tiles; frame groups */
 .pd-acc[hidden]{display:none}
-.pd-tiles-media .pd-tile{width:112px}
-.pd-tile-icon{display:flex;align-items:center;justify-content:center;color:currentColor;opacity:.85;padding:14%}
+.pd-tiles-media .pd-tile{width:80px}
+.pd-tile-icon{display:flex;align-items:center;justify-content:center;color:currentColor;opacity:.65;padding:28%}
 .pd-tile-icon svg{width:100%;height:100%}
 .pd-medium-desc{display:none}
 .pd-step-hint{display:none}
