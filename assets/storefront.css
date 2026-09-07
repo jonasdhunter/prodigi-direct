@@ -51,7 +51,8 @@
 .pd-stage-mat,.pd-stage-paper{position:relative;z-index:1}
 .pd-stage-mat{box-sizing:border-box;transition:padding .25s}
 .pd-stage-paper{box-sizing:border-box;position:relative;width:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:padding .25s}
-.pd-stage-paper>img{display:block;width:100%;height:100%;object-fit:contain;transition:object-fit 0s}
+/* !important: WooCommerce's ".woocommerce div.product div.images img{height:auto}" outranks this on specificity alone (0,3,3 vs 0,1,1) and silently wins, so the image falls back to its own aspect ratio instead of filling the box -- on any size whose ratio isn't a near-exact match for the painting's own, that leaves a sliver of .pd-stage-paper's white background showing on two sides. */
+.pd-stage-paper>img{display:block;width:100%!important;height:100%!important;object-fit:contain;transition:object-fit 0s}
 .pd-stage[data-kind=wrap] .pd-stage-paper{outline:1px solid rgba(0,0,0,.08)}
 .pd-stage-cap{display:none}
 
@@ -79,8 +80,8 @@
 /* Mirror-wrapped canvas edges (right + bottom), the painting's border mirrored and shaded like a wrapped side */
 .pd-edge{display:none;position:absolute;overflow:hidden;background:#fff;pointer-events:none}
 .pd-edge img{display:block;object-fit:cover;max-width:none;position:absolute}
-.pd-edge-r{top:0;left:100%;height:100%}.pd-edge-r img{height:100%;right:0;transform:scaleX(-1);transform-origin:center;object-position:right}
-.pd-edge-b{left:0;top:100%;width:100%}.pd-edge-b img{width:100%;bottom:0;transform:scaleY(-1);transform-origin:center;object-position:bottom}
+.pd-edge-r{top:0;left:100%;height:100%}.pd-edge-r img{height:100%!important;right:0;transform:scaleX(-1);transform-origin:center;object-position:right}
+.pd-edge-b{left:0;top:100%;width:100%}.pd-edge-b img{width:100%!important;bottom:0;transform:scaleY(-1);transform-origin:center;object-position:bottom}
 .pd-edge::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.22),rgba(0,0,0,.42))}
 .pd-edge-b::after{background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.55))}
 .pd-edge-r{transform:skewY(0deg)}
