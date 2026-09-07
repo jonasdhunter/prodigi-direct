@@ -140,8 +140,10 @@
 			var edge = (o.kind === 'wrap') ? 1.5 : 0, seen = 0.36;
 			$p.find('.pd-edge').toggle(!!edge);
 			if (edge) {
-				$p.find('.pd-edge-r').css({ width: (edge * seen / W * 100) + '%' }).find('img').css({ width: (W / (edge * seen) * 100) + '%' });
-				$p.find('.pd-edge-b').css({ height: (edge * seen / H * 100) + '%' }).find('img').css({ height: (H / (edge * seen) * 100) + '%' });
+				var edgePctW = (edge * seen / W * 100), edgePctH = (edge * seen / H * 100);
+				/* The bottom strip's width is extended past 100% by the right strip's own thickness (in the same W-relative % it already uses) so it reaches into the bottom-right corner too -- otherwise that little square belongs to neither strip and shows the stage's bare background through a visible notch. */
+				$p.find('.pd-edge-r').css({ width: edgePctW + '%' }).find('img').css({ width: (W / (edge * seen) * 100) + '%' });
+				$p.find('.pd-edge-b').css({ height: edgePctH + '%', width: 'calc(100% + ' + edgePctW + '%)' }).find('img').css({ height: (H / (edge * seen) * 100) + '%' });
 			}
 			$stage.find('.pd-stage-cap').text(W + ' × ' + H + '" ' + (groups[o.grp] || {}).label + (o.frame ? ' · ' + o.frame : '') + (matIn ? ' · ' + matIn + '" mat' : '') + (edge ? ' · mirrored edges' : ''));
 		}
