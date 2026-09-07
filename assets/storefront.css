@@ -51,9 +51,12 @@
 
 /* The stage */
 .pd-has-stage .woocommerce-product-gallery__wrapper,.pd-has-stage .flex-control-thumbs,.pd-has-stage .woocommerce-product-gallery__trigger{display:none!important}
-.pd-stage{margin:0 0 1em;padding:8% 10%;box-sizing:border-box;width:100%;background:linear-gradient(180deg,#f7f5f0 0%,#ece9e2 100%);cursor:zoom-in}
+.pd-stage{margin:0 0 1em;padding:8% 10%;box-sizing:border-box;width:100%;background:linear-gradient(180deg,#f7f5f0 0%,#ece9e2 100%)}
 .pd-stage.is-collapsed{padding:0;background:transparent}.pd-stage.is-collapsed .pd-stage-frame{display:none}
-.pd-stage-frame{box-sizing:border-box;position:relative;transition:padding .25s}
+.pd-stage-frame{box-sizing:border-box;position:relative;transition:padding .25s;cursor:zoom-in}
+.pd-stage-back{display:none}
+.pd-stage.is-collapsed .pd-stage-back{display:block;width:100%;background:transparent;border:0;margin:0;padding:.75em 0;cursor:pointer;color:inherit;font:inherit;font-size:13px;letter-spacing:.08em;text-transform:uppercase;opacity:.65;text-align:center}
+.pd-stage.is-collapsed .pd-stage-back:hover{opacity:1}
 .pd-stage-moulding{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
 .pd-stage-mat,.pd-stage-paper{position:relative;z-index:1}
 .pd-stage-mat{box-sizing:border-box;transition:padding .25s}

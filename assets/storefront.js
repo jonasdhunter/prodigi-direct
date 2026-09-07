@@ -88,10 +88,12 @@
 		function shade(h, f) { var c = hex2rgb(h).map(function (v) { v = f < 0 ? v * (1 + f) : v + (255 - v) * f; return Math.max(0, Math.min(255, Math.round(v))); }); return 'rgb(' + c.join(',') + ')'; }
 		function buildStage() {
 			if (!useStage || !$gallery.length || $stage) { return; }
-			$stage = $('<div class="pd-stage"><div class="pd-stage-frame"><svg class="pd-stage-moulding" aria-hidden="true"></svg><div class="pd-stage-mat"><div class="pd-stage-paper"><img alt="" /><div class="pd-edge pd-edge-r" aria-hidden="true"><img alt="" /></div><div class="pd-edge pd-edge-b" aria-hidden="true"><img alt="" /></div></div></div></div><div class="pd-stage-cap"></div></div>');
+			$stage = $('<div class="pd-stage"><div class="pd-stage-frame"><svg class="pd-stage-moulding" aria-hidden="true"></svg><div class="pd-stage-mat"><div class="pd-stage-paper"><img alt="" /><div class="pd-edge pd-edge-r" aria-hidden="true"><img alt="" /></div><div class="pd-edge pd-edge-b" aria-hidden="true"><img alt="" /></div></div></div></div><div class="pd-stage-cap"></div><button type="button" class="pd-stage-back">&lsaquo; Back to frame preview</button></div>');
 			$stage.find('img').attr('src', art);
 			$gallery.prepend($stage).addClass('pd-has-stage');
-			$stage.on('click', function () { $gallery.toggleClass('pd-has-stage'); $stage.toggleClass('is-collapsed'); });
+			/* Collapsing the frame view to zero height (the old behaviour) left nothing on screen to click back with -- .pd-stage-back stays real, visible and clickable the whole time it's needed, instead of relying on the now-empty stage itself. */
+			$stage.on('click', '.pd-stage-frame', function () { $gallery.removeClass('pd-has-stage'); $stage.addClass('is-collapsed'); });
+			$stage.on('click', '.pd-stage-back', function (e) { e.stopPropagation(); $gallery.addClass('pd-has-stage'); $stage.removeClass('is-collapsed'); });
 		}
 		function moulding(W, H, f, colour, kind) {
 			var base = colour, flat = kind === 'float';
