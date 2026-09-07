@@ -3,7 +3,7 @@
  * Plugin Name:       Prodigi Direct for WooCommerce
  * Plugin URI:        https://github.com/jonasdhunter/prodigi-direct
  * Description:       Sell fine-art prints fulfilled by Prodigi without mapping variants by hand. Sizes, materials and frames are generated from a built-in catalogue; paid orders go straight to Prodigi's API; tracking comes back onto the order.
- * Version:           0.6.6
+ * Version:           0.6.7
  * Requires at least: 6.6
  * Requires PHP:      8.1
  * Requires Plugins:  woocommerce
@@ -16,7 +16,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'PRODIGI_DIRECT_VERSION', '0.6.6' );
+define( 'PRODIGI_DIRECT_VERSION', '0.6.7' );
 define( 'PRODIGI_DIRECT_FILE', __FILE__ );
 define( 'PRODIGI_DIRECT_DIR', plugin_dir_path( __FILE__ ) );
 define( 'PRODIGI_DIRECT_URL', plugin_dir_url( __FILE__ ) );
